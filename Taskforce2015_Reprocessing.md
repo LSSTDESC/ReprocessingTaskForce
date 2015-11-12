@@ -29,7 +29,7 @@ Several physicists at IN2P3 and members of the DESC have a deep knowledge of the
 
 Within the LSST DM stack, the package specific to the CFHT / Megacam instrument (obs_cfht) has been developped during the past year and is now at a level suitable for the proposed task force.
 
-The cluster working group is interrested to have some of their pipelines ported within the LSST software framework. This provides a very interresting use case on relatively small amounts of data and with well debugged pipelines serving as a comparison point. The cluster analyses are combining data coming from various instruments (CFHT/Megacam, Subaru/SuprimeCam), the LSST DM stack offers the possibility to develop a common pipeline which is supporting all the input datasets in a coherent way.
+The cluster working group is interested to have some of their pipelines ported within the LSST software framework. This provides a very interesting use case on relatively small amounts of data and with well debugged pipelines serving as a comparison point. The cluster analyses are combining data coming from various instruments (CFHT/Megacam, Subaru/SuprimeCam), the LSST DM stack offers the possibility to develop a common pipeline which is supporting all the input datasets in a coherent way.
 
 Finally the work can be extended to other precursor datasets. The Hyper Suprime Cam (HSC) instrument is already supported in the LSST DM Stack and several DESC members have expressed interest for a reprocessing of the Deep Lens Survey (DLS) dataset. Tony Tyson has confirmed that access to the DLS pre-processed images (after instrument signature removal) is possible.
 
