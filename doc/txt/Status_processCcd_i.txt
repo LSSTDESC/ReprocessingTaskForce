@@ -1,0 +1,10 @@
+Number of events processed:  25668 / 25668  Nimages=  713
+Number of events ok :  25440 frac =  0.991
+Number of events not ok :  228 frac =  0.009
+Fatal errors :  228
+std::bad_alloc : 4 event(s)
+Unable to match sources : 2 event(s)
+Unknown : 57 event(s)
+No viable PSF candidates survive : 1 event(s)
+Problem : 160 event(s)
+Unable to find andConfig.py in astrometry_net_data : 4 event(s)

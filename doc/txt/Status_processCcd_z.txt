@@ -1,0 +1,10 @@
+Number of events processed:  24552 / 24552  Nimages=  682
+Number of events ok :  24409 frac =  0.994
+Number of events not ok :  143 frac =  0.006
+Fatal errors :  143
+std::bad_alloc : 3 event(s)
+All matches eliminated by source flags : 2 event(s)
+Unknown : 25 event(s)
+No input matches : 33 event(s)
+Problem : 79 event(s)
+Unable to find andConfig.py in astrometry_net_data : 1 event(s)

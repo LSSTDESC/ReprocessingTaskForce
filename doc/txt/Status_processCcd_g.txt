@@ -1,0 +1,12 @@
+Number of events processed:  19512 / 19512  Nimages=  542
+Number of events ok :  19440 frac =  0.996
+Number of events not ok :  72 frac =  0.004
+Fatal errors :  72
+std::bad_alloc : 2 event(s)
+cannot convert float NaN to integer : 1 event(s)
+Unable to match sources : 1 event(s)
+Unknown : 15 event(s)
+No sources remaining in match list after magnitude : 1 event(s)
+output stream error : 6 event(s)
+Problem : 42 event(s)
+Unable to find andConfig.py in astrometry_net_data : 1 event(s)

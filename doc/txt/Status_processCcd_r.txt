@@ -1,0 +1,11 @@
+Number of events processed:  23220 / 23220  Nimages=  645
+Number of events ok :  23005 frac =  0.991
+Number of events not ok :  215 frac =  0.009
+Fatal errors :  215
+std::bad_alloc : 7 event(s)
+Fit failed: median scatter on sky = 68.163 arcsec  : 1 event(s)
+Unable to match sources : 31 event(s)
+Unknown : 43 event(s)
+output stream error : 9 event(s)
+Problem : 123 event(s)
+Unable to find andConfig.py in astrometry_net_data : 1 event(s)
