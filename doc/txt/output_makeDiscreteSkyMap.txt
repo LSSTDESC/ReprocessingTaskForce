@@ -1,0 +1,16 @@
+: Config override file does not exist: '/sps/lsst/dev/lsstprod/clusters/my_packages/obs_cfht/config/makeDiscreteSkyMap.py'
+: Config override file does not exist: '/sps/lsst/dev/lsstprod/clusters/my_packages/obs_cfht/config/megacam/makeDiscreteSkyMap.py'
+: input=/sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output
+: calib=None
+: output=/sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir
+CameraMapper: Loading registry registry from /sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir/_parent/_parent/registry.sqlite3
+CameraMapper: Unable to locate calibRegistry registry in root: /sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir/calibRegistry.sqlite3
+CameraMapper: Unable to locate calibRegistry registry in current dir: ./calibRegistry.sqlite3
+CameraMapper: Loading Posix registry from /sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir
+CameraMapper: Loading registry registry from /sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir/_parent/_parent/registry.sqlite3
+CameraMapper: Unable to locate calibRegistry registry in root: /sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir/calibRegistry.sqlite3
+CameraMapper: Unable to locate calibRegistry registry in current dir: ./calibRegistry.sqlite3
+CameraMapper: Loading Posix registry from /sps/lsst/dev/lsstprod/CFHT/D3/utils/makeDiscreteSkyMap/_parent/output/coadd_dir
+makeDiscreteSkyMap: Extracting bounding boxes of 23135 images
+makeDiscreteSkyMap: Computing spherical convex hull
+makeDiscreteSkyMap: tract 0 has corners (217.295, 50.839), (212.090, 50.839), (211.888, 54.123), (217.497, 54.123) (RA, Dec deg) and 16 x 16 patches
