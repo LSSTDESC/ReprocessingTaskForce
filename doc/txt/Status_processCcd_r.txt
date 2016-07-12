@@ -1,10 +1,9 @@
 Number of events processed:  23220 / 23220  Nimages=  645
-Number of events ok :  23126 frac =  0.996
-Number of events not ok :  94 frac =  0.004
-Fatal errors :  94
-std::bad_alloc : 23 event(s)
-Fit failed: median scatter on sky = 68.163 arcsec  : 1 event(s)
+Number of events ok :  23135 frac =  0.996
+Number of events not ok :  85 frac =  0.004
+Fatal errors :  85
+std::bad_alloc : 5 event(s)
+Unknown : 1 event(s)
+Problem : 46 event(s)
+Fit failed: median scatter on sky = 68.760 arcsec  : 1 event(s)
 Unable to match sources : 32 event(s)
-Unknown : 20 event(s)
-output stream error : 9 event(s)
-Problem : 9 event(s)

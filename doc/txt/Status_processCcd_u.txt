@@ -1,10 +1,8 @@
 Number of events processed:  5508 / 5508  Nimages=  153
-Number of events ok :  5484 frac =  0.996
-Number of events not ok :  24 frac =  0.004
-Fatal errors :  24
-cannot convert float NaN to integer : 5 event(s)
-Unable to match sources : 8 event(s)
-Unknown : 1 event(s)
-No viable PSF candidates survive : 2 event(s)
-No sources remaining in match list after magnitude : 6 event(s)
+Number of events ok :  5499 frac =  0.998
+Number of events not ok :  9 frac =  0.002
+Fatal errors :  9
+Problem : 1 event(s)
 No input matches : 2 event(s)
+Unable to match sources : 4 event(s)
+No sources remaining in match list after magnitude : 2 event(s)

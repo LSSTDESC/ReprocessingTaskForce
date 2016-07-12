@@ -1,9 +1,8 @@
 Number of events processed:  25668 / 25668  Nimages=  713
-Number of events ok :  25613 frac =  0.998
-Number of events not ok :  55 frac =  0.002
-Fatal errors :  55
-std::bad_alloc : 24 event(s)
-Unknown : 9 event(s)
-Problem : 19 event(s)
-No viable PSF candidates survive : 1 event(s)
+Number of events ok :  25612 frac =  0.998
+Number of events not ok :  56 frac =  0.002
+Fatal errors :  56
+std::bad_alloc : 2 event(s)
+Problem : 51 event(s)
+float division by zero : 1 event(s)
 Unable to match sources : 2 event(s)
