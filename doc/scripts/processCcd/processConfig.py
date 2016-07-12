@@ -43,6 +43,8 @@ config.charImage.detectAndMeasure.detection.background.binSize = 128
 config.charImage.detectAndMeasure.detection.background.undersampleStyle = 'REDUCE_INTERP_ORDER'
 
 # Select and configure psfex PSF solver
-#import lsst.meas.extensions.psfex.psfexPsfDeterminer
+import lsst.meas.extensions.psfex.psfexPsfDeterminer
 #print "==== Using psfex PSF solver ====="
-#config.charImage.measurePsf.psfDeterminer.name = "psfex"
+config.charImage.measurePsf.psfDeterminer.name = "psfex"
+
+ 
