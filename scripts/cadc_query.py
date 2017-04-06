@@ -7,24 +7,24 @@ Tools to run cluster analysis
 =============================
 """
 
+import os
 import warnings
 from cStringIO import StringIO
 from optparse import OptionParser
 from astroquery.ned import Ned
 from astropy.io import votable
 from astropy.table import Table
-from astropy.time import Time
+from datetime import datetime
 import requests
 
 
-def cfht_megacam_tap_query(ra_deg=180.0, dec_deg=0.0, radius=0.01666666, date=None):
+def cfht_megacam_tap_query(ra_deg=180.0, dec_deg=0.0, radius=0.01666666):
     """Do a query of the CADC Megacam table.
     Get all observations inside a radius around a target
     @rtype : Table
     @param ra_deg: center of search region, in degrees
     @param dec_deg: center of search region in degrees
     @param radius: : radisu in degree, from the center
-    @param date: ISO format date string.  Query will be +/- 0.5 days from date given.
     """
 
     query = ("SELECT "
@@ -39,19 +39,15 @@ def cfht_megacam_tap_query(ra_deg=180.0, dec_deg=0.0, radius=0.01666666, date=No
              "AND Plane.dataProductType = 'image' "
              "AND Plane.calibrationLevel = '2' "
              "AND Plane.energy_emBand = 'Optical' "
-             "AND Plane.time_exposure >= '200' "
+             "AND Plane.time_exposure >= '180' "
              "AND o.instrument_name = 'MegaPrime' "
              "AND o.type = 'OBJECT' "
-             "AND INTERSECTS( CIRCLE('ICRS', %f, %f, %f), Plane.position_bounds ) = 1"
-             "AND  ( Plane.quality_flag IS NULL OR Plane.quality_flag != 'junk' )")
+             "AND INTERSECTS( CIRCLE('ICRS', %f, %f, %f), Plane.position_bounds ) = 1 "
+             "AND ( Plane.quality_flag IS NULL OR Plane.quality_flag != 'junk' ) ")
 
     query = query % (ra_deg, dec_deg, radius)
-
-    if date is not None:
-        mjd = Time(date, scale='utc').mjd
-        dates = " AND Plane.time_bounds_cval1 <= {} AND {} <= Plane.time_bounds_cval2 "
-        query += dates.format(mjd + 0.5, mjd - 0.5)
-
+    query += "AND Plane.dataRelease <= '%s' " % datetime.now().isoformat().split("T")[0]
+    query += "AND Plane.energy_bandpassName LIKE '_.MP%' "
     data = {"QUERY": query,
             "REQUEST": "doQuery",
             "LANG": "ADQL",
@@ -74,15 +70,14 @@ if __name__ == '__main__':
                       help="RA (in degrees) of the centre of the search area.")
     parser.add_option('--dec', type=float,
                       help="DEC (in degrees) of the centre of the search area.")
-    parser.add_option('--radius', type=float, default=0.0166666,
+    parser.add_option('--radius', type=float, default=0.4,
                       help="radius (in degrees) of the search area. [%default-")
     parser.add_option('-o', '--output', type='string', default='cadcUrlList.txt',
                       help="Name of the output file which will contain the list"
                       " of fits to download [%default]")
     parser.add_option('-d', '--download', action='store_true', default=False,
                       help="Automatic download of the fits files found (could take a while...)")
-    
-    
+
     opts, args = parser.parse_args()
 
     if opts.target is not None:
@@ -100,10 +95,11 @@ if __name__ == '__main__':
     elif opts.ra is None or opts.dec is None:
         raise IOError("You must give a target name (--target) or its coordinates (--ra, --dec)")
 
-    for obj, ra, dec in zip(objs, ras, decs):
+    for obj, ra, dec in zip(objs, ras, decs)[:4]:
         table = cfht_megacam_tap_query(ra, dec, opts.radius)
         assert isinstance(table, Table)
         if not len(table):
+            print "WARNING: No data for\n", obj
             continue
         print "INFO: Target info"
         print " - Name: ", obj
@@ -112,19 +108,16 @@ if __name__ == '__main__':
         print "INFO: Found %i files" % len(table)
         webpath = 'http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/data/pub/CFHT/'
 
-        urls = []
-        for i, pid in enumerate(table['ProductID']):
-            if i > 10:
-                print " - ..."
-                break
-            print " -", webpath+pid
-            urls = webpath+pid
+        urls = [webpath+pid for pid in table['ProductID']]
 
+        if not os.path.exists(obj):
+            os.mkdir(obj)
+        os.chdir(obj)
         outfile = open(opts.output, 'w')
-        for pid in urls:
-            outfile.write("%s\n" % urls)
+        for pid in urls[::-1]:
+            outfile.write("%s\n" % pid)
         outfile.close()
-        print "INFO: list of files saved in " + opts.output
+        print "INFO: list of files saved in %s/%s" % (obj, opts.output)
         if not opts.download:
             print "Run the follwing command to download them:"
             print "\n   wget --content-disposition -N -i %s\n" % opts.output
@@ -135,5 +128,7 @@ if __name__ == '__main__':
             except:
                 print "WARNING: Install the 'wget' package (will use the wget system for now)"
                 wget = lambda url: os.system("wget -N %s" % url)
-            for url in urls:
+            for url in urls[::-1]:
+                print "\nDownloading", url
                 wget(url)
+        os.chdir("..")
