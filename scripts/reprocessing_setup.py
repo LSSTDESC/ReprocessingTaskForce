@@ -113,7 +113,7 @@ source $LSSTSW/bin/setup.sh
 
 # Run basic LSST setup for analysis
 setup pipe_tasks
-setup -k jointcal -t lsstprod
+setup -k jointcal
 setup -k obs_cfht
 setup -k pex_logging
 setup galsim
@@ -122,9 +122,9 @@ setup display_ds9
 setup shapelet
 setup astrometry_net_data %s
 setup meas_astrom
-setup meas_base -t lsstprod
-setup meas_extensions_shapeHSM -t lsstprod
-setup meas_modelfit -t lsstprod
+setup meas_base
+setup meas_extensions_shapeHSM
+setup meas_modelfit
 
 """
 
