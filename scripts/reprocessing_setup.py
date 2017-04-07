@@ -1,27 +1,24 @@
 #!/usr/bin/env python
 
 """
-.. _prepare_cluster_analysis:
+.. _reprocessing_setup:
 
-Prepare the cluster analysis
-============================
+Setup direcotries for data reprocessing
+=======================================
 """
 
-import pyfits
-import subprocess
-import re
-import glob
 import os
-import numpy as N
 from optparse import OptionParser
+
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
-README = """This README will guide you through the different steps of the data processing using the 
-LSST stack. It has been built to work on a input target, which in our case will be a cluster.
 
-### Very first step, that has to be done onece in the current shell
+README = """This README will guide you through the different steps of the data processing using the 
+LSST stack. It has been built to work on an input target, which in our case will be a cluster.
+
+### Very first step, that has to be done once in the current shell
 ### Change the setup.sh file according to your system
 
 source setup.sh 
@@ -35,7 +32,7 @@ cd _parent
 ### Re-organize the data
 ingestImages.py input CalibratedData/*.fz --mode link
 
-### Get the astromery catalog: 01-AstrometryData
+### Get the astrometry catalog: 01-AstrometryData
 cd 01-AstrometryData
 get_astrometry _parent/00-CalibratedData/cadcUrlList.txt
 cd _parent
@@ -105,29 +102,30 @@ run_detectCoaddSources.py -c detectCoaddConfig.py -a
 
 """
 
-SETUP = """export PATH="/opt/rh/devtoolset-3/root/usr/bin":${PATH}    
-export PATH=$PATH:/sps/lsst/dev/nchotard/scripts
-
-# Some shortcuts 
-export LSSTDEV=/sps/lsst/dev/nchotard  
-export LSSTDATA=/sps/lsst/data/nchotard     
+SETUP = """export LD_LIBRARY_PATH=/usr/lib64:${LD_LIBRARY_PATH}
+export PATH="/opt/rh/devtoolset-3/root/usr/bin":${PATH}    
+export PATH=$PATH:/sps/lsst/dev/lsstprod/ReprocessingTaskForce/scripts
 
 # Lsst stack environement   
-export LSSTSW=$LSSTDEV/stack/lsstsw      
+export LSSTSW=/sps/lsst/Library/clusters/lsstsw
 export EUPS_PATH=$LSSTSW/stack   
-. $LSSTSW/bin/setup.sh     
+source $LSSTSW/bin/setup.sh     
 
 # Run basic LSST setup for analysis
 setup pipe_tasks
-setup obs_cfht
+setup -k jointcal -t lsstprod
+setup -k obs_cfht
+setup -k pex_logging
 setup galsim
-setup meas_extensions_shapeHSM
 setup meas_extensions_psfex
 setup display_ds9
-setup meas_modelfit
 setup shapelet
-setup astrometry_net_data 3C295
-setup meas_astrom -t nchotard
+setup astrometry_net_data %s
+setup meas_astrom
+setup meas_base -t lsstprod
+setup meas_extensions_shapeHSM -t lsstprod
+setup meas_modelfit -t lsstprod
+
 """
 
 DIRS = ['00-CalibratedData',
@@ -166,7 +164,10 @@ CTEMPLATES = "/sps/lsst/dev/nchotard/stack/configs/"
 
 if __name__ == "__main__":
 
-    description = """Prepare the cluster analysis. Create all needed subdirectories for each step of the procedure including the config file and a readme."""
+    description = """
+Setup for data reprocessing. Create all needed subdirectories for each step of the 
+procedure including the config file and a readme.
+"""
     usage = """usage: %prog [options] CLUSTERNAME
 
     CLUSTERNAME: The name of the cluster you want to work on
@@ -176,7 +177,7 @@ if __name__ == "__main__":
     parser.add_option("-t", "--target", type='string', help="Name of the cluster to work on")
     parser.add_option("-d", "--datadir", type='string',
                       help="Main directory where inputs and outputs will be saved")
-    
+
     opts, args = parser.parse_args()
 
     # Create the directories
@@ -211,7 +212,7 @@ if __name__ == "__main__":
 
     # Create the setup
     setup = open("setup.sh", 'w')
-    setup.write(SETUP)
+    setup.write(SETUP % opts.target)
     setup.close()
 
     # Create the README
