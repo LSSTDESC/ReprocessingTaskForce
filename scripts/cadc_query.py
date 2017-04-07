@@ -133,5 +133,5 @@ if __name__ == '__main__':
             for url in urls[::-1]:
                 print "\nDownloading", url
                 wget(url)
-        if opts.dir in None:
+        if opts.dir is None:
             os.chdir("..")
