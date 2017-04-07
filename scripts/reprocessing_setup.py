@@ -26,7 +26,8 @@ source setup.sh
 ### Get the data: 00-CalibratedData
 
 cd 00-CalibratedData
-cadc_query.py -t %s 
+cadc_query.py -T %s     # to check the available data  
+cadc_query.py -T %s -d  # to download them
 cd _parent
 
 ### Re-organize the data
@@ -107,7 +108,7 @@ export PATH="/opt/rh/devtoolset-3/root/usr/bin":${PATH}
 export PATH=$PATH:/sps/lsst/dev/lsstprod/ReprocessingTaskForce/scripts
 
 # Lsst stack environement   
-export LSSTSW=/sps/lsst/Library/clusters/lsstsw
+export LSSTSW=%s
 export EUPS_PATH=$LSSTSW/stack   
 source $LSSTSW/bin/setup.sh     
 
@@ -120,11 +121,11 @@ setup galsim
 setup meas_extensions_psfex
 setup display_ds9
 setup shapelet
-setup astrometry_net_data %s
 setup meas_astrom
 setup meas_base
 setup meas_extensions_shapeHSM
 setup meas_modelfit
+setup astrometry_net_data %s
 
 """
 
@@ -175,8 +176,10 @@ procedure including the config file and a readme.
 
     parser = OptionParser(usage=usage, description=description)
     parser.add_option("-t", "--target", type='string', help="Name of the cluster to work on")
-    parser.add_option("-d", "--datadir", type='string',
+    parser.add_option("--datadir", type='string',
                       help="Main directory where inputs and outputs will be saved")
+    parser.add_option("--lsstsw", type='string', default='/sps/lsst/Library/clusters/lsstsw',
+                      help="Pointer to the lsstsw directory [%default]")
 
     opts, args = parser.parse_args()
 
@@ -212,7 +215,7 @@ procedure including the config file and a readme.
 
     # Create the setup
     setup = open("setup.sh", 'w')
-    setup.write(SETUP % opts.target)
+    setup.write(SETUP % (opts.lsstsw, opts.target))
     setup.close()
 
     # Create the README
