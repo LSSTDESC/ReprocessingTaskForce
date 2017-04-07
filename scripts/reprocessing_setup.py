@@ -220,5 +220,5 @@ procedure including the config file and a readme.
 
     # Create the README
     readme = open("README", 'w')
-    readme.write(README % (opts.target))
+    readme.write(README % (opts.target, opts.target))
     readme.close()
