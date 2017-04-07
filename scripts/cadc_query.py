@@ -75,7 +75,7 @@ if __name__ == '__main__':
     parser.add_option('-o', '--output', type='string', default='cadcUrlList.txt',
                       help="Name of the output file which will contain the list"
                       " of fits to download [%default]")
-    parser.add_option('-d', '--dir', type='string', defaul=None,
+    parser.add_option('-d', '--dir', type='string', default=None,
                       help="Directory where data will be downloaded. Default is target name."
     parser.add_option('-D', '--download', action='store_true', default=False,
                       help="Automatic download of the fits files found (could take a while...)")
