@@ -9,6 +9,7 @@ Setup direcotries for data reprocessing
 
 import os
 from optparse import OptionParser
+import numpy as np
 
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
@@ -178,7 +179,7 @@ procedure including the config file and a readme.
     parser.add_option("-t", "--target", type='string', help="Name of the cluster to work on")
     parser.add_option("--datadir", type='string',
                       help="Main directory where inputs and outputs will be saved")
-    parser.add_option("--lsstsw", type='string', default='/sps/lsst/Library/clusters/lsstsw',
+    parser.add_option("--lsstsw", type='string', default='latest-weekly',
                       help="Pointer to the lsstsw directory [%default]")
 
     opts, args = parser.parse_args()
@@ -216,6 +217,13 @@ procedure including the config file and a readme.
     # Copy the config files
     for c in CONFIGS:
         os.system("cp -v %s %s-*/" % (CTEMPLATES+c.split('-')[1], c.split('-')[0]))
+
+    # lsstsw version
+    if opts.lsstsw == 'latest-weekly':
+        p = "/sps/lsst/software/lsst_distrib/"
+        paths = np.array([p + cp for cp in os.listdir(p)])
+        dates = np.array([os.path.getmtime(cp) for cp in paths])
+        opts.lsstsw = paths[np.argsort(dates)][-1]
 
     # Create the setup
     setup = open("setup.sh", 'w')
