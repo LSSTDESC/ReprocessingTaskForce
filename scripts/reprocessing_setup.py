@@ -192,9 +192,11 @@ procedure including the config file and a readme.
         if opts.datadir is not None and d in ['00-CalibratedData', 'output', 'input']:
             if not opts.datadir.endswith('/'):
                 opts.datadir += '/'
-            if not os.path.isdir(opts.datadir+d):
-                os.mkdir(opts.datadir+d)
-                os.symlink(opts.datadir+d, d)
+            if not opts.datadir.endswith('%s/' % opts.target):
+                opts.datadir += '%s/' % opts.target
+            if not os.path.isdir(opts.datadir + d):
+                os.mkdir(opts.datadir + d)
+                os.symlink(opts.datadir + d, d)
         else:
             if not os.path.isdir(d):
                 os.mkdir(d)
