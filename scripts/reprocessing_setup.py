@@ -147,22 +147,21 @@ DIRS = ['00-CalibratedData',
         'input']
 FILES = ['setup.sh',
          'README']
-CONFIGS = ['01-andConfig.py',
-           '02-processConfig.py',
-           '02-processConfig_u.py',
-           '03-makeSkyMapConfig.py',
+CONFIGS = ['02-processCcdConfig.py',
+           '02-processCcdConfig_u.py',
+           '03-makeDiscreteSkyMapConfig.py',
            '04-jointcalConfig.py',
-           '05-makeCoaddTempExpConfig.py',
-           '06-assembleConfig.py',
+           '05-makeCoaddTemExpConfig.py',
+           '06-assembleCoaddConfig.py',
            '07-detectCoaddConfig.py',
-           '08-mergeCoaddDetections.py',
-           '09-measureCoaddSources.py',
-           '10-mergeCoaddMeasurements.py',
-           '11-forcedPhotCcd.py',
-           '12-forcedPhotCoadd.py']
+           '08-mergeCoaddDetectionsConfig.py',
+           '09-measureCoaddSourcesConfig.py',
+           '10-mergeCoaddMeasurementsConfig.py',
+           '11-forcedPhotCcdConfig.py',
+           '12-forcedPhotCoaddConfig.py']
 
 # Where the config file templates are stored
-CTEMPLATES = "/sps/lsst/dev/nchotard/stack/configs/"
+CTEMPLATES = os.getenv("RTF") + "/config/"
 
 if __name__ == "__main__":
 
@@ -216,7 +215,7 @@ procedure including the config file and a readme.
 
     # Copy the config files
     for c in CONFIGS:
-        os.system("cp -v %s %s-*/" % (CTEMPLATES+c.split('-')[1], c.split('-')[0]))
+        os.system("cp -v %s %s-*/" % (CTEMPLATES + c.split('-')[1], c.split('-')[0]))
 
     # lsstsw version
     if opts.lsstsw == 'latest-weekly':
