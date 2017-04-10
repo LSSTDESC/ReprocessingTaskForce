@@ -194,6 +194,8 @@ procedure including the config file and a readme.
                 opts.datadir += '/'
             if not opts.datadir.endswith('%s/' % opts.target):
                 opts.datadir += '%s/' % opts.target
+            if not os.path.isdir(opts.datadir):
+                os.mkdir(opts.datadir)
             if not os.path.isdir(opts.datadir + d):
                 os.mkdir(opts.datadir + d)
                 os.symlink(opts.datadir + d, d)
