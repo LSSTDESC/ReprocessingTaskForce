@@ -24,20 +24,15 @@ LSST stack. It has been built to work on an input target, which in our case will
 
 source setup.sh 
 
-### Get the data: 00-CalibratedData
+### Get the data: 01-CalibratedData
 
-cd 00-CalibratedData
+cd 01-CalibratedData
 cadc_query.py -T %s -d .     # to check the available data  
 cadc_query.py -T %s -d . -D  # to download them
 cd _parent
 
 ### Re-organize the data
-ingestImages.py input 00-CalibratedData/*.fz --mode link
-
-### Get the astrometry catalog: 01-AstrometryData
-cd 01-AstrometryData
-get_astrometry.py _parent/00-CalibratedData/cadcUrlList.txt
-cd _parent
+ingestImages.py input 01-CalibratedData/*.fz --mode link
 
 ### 02-processCcd
 
@@ -126,12 +121,10 @@ setup meas_astrom
 setup meas_base
 setup meas_extensions_shapeHSM
 setup meas_modelfit
-setup astrometry_net_data %s
 
 """
 
-DIRS = ['00-CalibratedData',
-        '01-AstrometryData',
+DIRS = ['01-CalibratedData',
         '02-processCcd',
         '03-makeDiscreteSkyMap',
         '04-jointcal',
@@ -161,7 +154,12 @@ CONFIGS = ['02-processCcdConfig.py',
            '12-forcedPhotCoaddConfig.py']
 
 # Where the config file templates are stored
+if os.getenv("RTF") is None:
+    raise "ERROR: You must setup the ReprocessingTaskForce project first: 'source rtf_setup.sh'"
 CTEMPLATES = os.getenv("RTF") + "/config/"
+
+# Reference catalgos
+REFCATS = "/sps/lsst/data/refcats/htm/htm_baseline"
 
 if __name__ == "__main__":
 
@@ -189,7 +187,7 @@ procedure including the config file and a readme.
     os.chdir(opts.target)
     current_dir = os.path.abspath('./') + '/'
     for d in DIRS:
-        if opts.datadir is not None and d in ['00-CalibratedData', 'output', 'input']:
+        if opts.datadir is not None and d in ['01-CalibratedData', 'output', 'input']:
             if not opts.datadir.endswith('/'):
                 opts.datadir += '/'
             if not opts.datadir.endswith('%s/' % opts.target):
@@ -204,9 +202,11 @@ procedure including the config file and a readme.
                 os.mkdir(d)
         if not os.path.exists(d + '/_parent'):
             os.symlink(current_dir, d + '/_parent')
-        if not d.startswith(('00', '01')):
+        if not d.startswith('01'):
             os.mkdir(current_dir + d + '/log')
             os.mkdir(current_dir + d + '/scripts')
+        if d == 'output':
+            os.symlink(REFCATS, d + '/ref_cats')
 
     # Declare an instrument mapper for the DM butler
     mapper = open("input/_mapper", 'w')
@@ -226,7 +226,7 @@ procedure including the config file and a readme.
 
     # Create the setup
     setup = open("setup.sh", 'w')
-    setup.write(SETUP % (opts.lsstsw, opts.target))
+    setup.write(SETUP % opts.lsstsw)
     setup.close()
 
     # Create the README
