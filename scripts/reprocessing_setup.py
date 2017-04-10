@@ -101,12 +101,10 @@ run_detectCoaddSources.py -c detectCoaddConfig.py -a
 
 SETUP = """export LD_LIBRARY_PATH=/usr/lib64:${LD_LIBRARY_PATH}
 export PATH="/opt/rh/devtoolset-3/root/usr/bin":${PATH}    
-export PATH=$PATH:/sps/lsst/dev/lsstprod/ReprocessingTaskForce/scripts
 
 # Lsst stack environement   
 export LSSTSW=%s
-export EUPS_PATH=$LSSTSW/stack   
-source $LSSTSW/bin/setup.sh     
+%s
 
 # Run basic LSST setup for analysis
 setup pipe_tasks
@@ -223,10 +221,17 @@ procedure including the config file and a readme.
         paths = np.array([p + cp for cp in os.listdir(p)])
         dates = np.array([os.path.getmtime(cp) for cp in paths])
         opts.lsstsw = paths[np.argsort(dates)][-1]
+        stack = """source $LSSTSW/loadLSST.bash
+setup lsst_distrib"""
+    elif 'setup.py' in os.listdir(opts.lsstsw + "/bin"):
+        stack = """export EUPS_PATH=$LSSTSW/stack
+source $LSSTSW/bin/setup.sh"""
+    else:
+        raise "No loadLSST.bash not bin/setup.sh in LSSTSW"
 
     # Create the setup
     setup = open("setup.sh", 'w')
-    setup.write(SETUP % opts.lsstsw)
+    setup.write(SETUP % (opts.lsstsw, stack))
     setup.close()
 
     # Create the README
