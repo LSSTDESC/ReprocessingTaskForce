@@ -153,7 +153,7 @@ if __name__ == "__main__":
                 ccd = "^".join(str(i) for i in range(36) if i not in rejected[f][int(v)]
                                and str(i) not in exclude[v])
             else:
-                ccd = "^".join(str(i) for i in range(36) str(i) not in exclude[v])
+                ccd = "^".join(str(i) for i in range(36) if str(i) not in exclude[v])
             if len(ccd):
                 ff.write("--%s visit=%s ccd=%s\n" % (options.idopt, v, ccd))
             else:
