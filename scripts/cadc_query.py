@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
         outfile = open(opts.output, 'w')
         for pid in urls[::-1]:
-            outfile.write("%s.fits.fz\n" % pid)
+            outfile.write("%s\n" % pid)
         outfile.close()
         print "INFO: list of files saved in %s/%s" % (obj, opts.output)
         if not opts.download:
@@ -136,8 +136,9 @@ if __name__ == '__main__':
             except:
                 print "WARNING: Install the 'wget' package (will use the wget system for now)"
                 wget = lambda url: os.system("wget -N %s" % url)
-            for url in urls[::-1]:
+            for url in urls:
                 print "\nDownloading", url
                 wget(url)
+                os.rename(url.split('/')[-1], url.split('/')[-1] + '.fits.fz')
         if opts.dir not in [None, '.', './']:
             os.chdir("..")
