@@ -117,7 +117,7 @@ if __name__ == "__main__":
     
     # Print some info on what to do next (or do it) to declare the package in eups and run the setup
     declare = "eups declare -m none -r . astrometry_net_data CLUSTERNAME"
-    setup = "setup astrometry_net_data CLUSTERNAME" % user
+    setup = "setup astrometry_net_data CLUSTERNAME"
     if options.setup:
         print "\nINFO: Running '%s'"
         subprocess.call(declare, shell=True)

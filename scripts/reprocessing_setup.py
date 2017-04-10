@@ -32,11 +32,11 @@ cadc_query.py -T %s -d . -D  # to download them
 cd _parent
 
 ### Re-organize the data
-ingestImages.py input CalibratedData/*.fz --mode link
+ingestImages.py input 00-CalibratedData/*.fz --mode link
 
 ### Get the astrometry catalog: 01-AstrometryData
 cd 01-AstrometryData
-get_astrometry _parent/00-CalibratedData/cadcUrlList.txt
+get_astrometry.py _parent/00-CalibratedData/cadcUrlList.txt
 cd _parent
 
 ### 02-processCcd
