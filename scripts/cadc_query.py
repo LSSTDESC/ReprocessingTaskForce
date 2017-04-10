@@ -112,12 +112,18 @@ if __name__ == '__main__':
 
         urls = [webpath+pid for pid in table['ProductID']]
 
-        if not os.path.exists(obj) and opts.dir is None:
-            os.mkdir(obj)
-        os.chdir(obj)
+        if opts.dir is None:
+            if not os.path.exists(obj):
+                os.mkdir(obj)
+            opts.dir = obj
+        else:
+            if not os.path.exists(opts.dir):
+                os.mkdir(opts.dir)
+        os.chdir(opts.dir)
+
         outfile = open(opts.output, 'w')
         for pid in urls[::-1]:
-            outfile.write("%s\n" % pid)
+            outfile.write("%s.fits.fz\n" % pid)
         outfile.close()
         print "INFO: list of files saved in %s/%s" % (obj, opts.output)
         if not opts.download:
@@ -133,5 +139,5 @@ if __name__ == '__main__':
             for url in urls[::-1]:
                 print "\nDownloading", url
                 wget(url)
-        if opts.dir is None:
+        if opts.dir not in [None, '.', './']:
             os.chdir("..")
