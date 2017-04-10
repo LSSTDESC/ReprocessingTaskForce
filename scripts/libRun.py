@@ -117,6 +117,8 @@ def standard_options(usage=None, description=None, filters='ugriz'):
                       help="Max nbr of jobs to be submitted [%default]")
     parser.add_option("-a", "--autosubmit", action='store_true', default=False,
                       help="Submit the jobs automatically")
+    parser.add_option("-s", "--system", type="string", default="sl7",
+                      help="System used to run the jobs")
     parser.add_option("--vmem", type="string", default='4G', help="Job memory [%default]")
     parser.add_option("--ct", type="int", default='60000', help="Job cpu time [%default]")
     parser.add_option("--queue", type="string", help="Job queue [%default]")

@@ -105,13 +105,6 @@ export PATH="/opt/rh/devtoolset-3/root/usr/bin":${PATH}
 # Lsst stack environement   
 export LSSTSW=%s
 %s
-"""
-
-WEEKLY_SETUP = """source $LSSTSW/loadLSST.bash
-setup lsst_distrib"""
-
-OLD_SETUP = """export EUPS_PATH=$LSSTSW/stack
-source $LSSTSW/bin/setup.sh
 
 # Run basic LSST setup for analysis
 setup pipe_tasks
@@ -126,6 +119,13 @@ setup meas_astrom
 setup meas_base
 setup meas_extensions_shapeHSM
 setup meas_modelfit
+"""
+
+WEEKLY_SETUP = """source $LSSTSW/loadLSST.bash
+setup lsst_distrib"""
+
+OLD_SETUP = """export EUPS_PATH=$LSSTSW/stack
+source $LSSTSW/bin/setup.sh
 
 """
 

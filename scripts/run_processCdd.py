@@ -68,7 +68,8 @@ if __name__ == "__main__":
             # Only submit the job if asked
             prefix = "_".join(vs)
             LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit,
-                      ct=opts.ct, vmem=opts.vmem, queue=opts.queue)
+                      ct=opts.ct, vmem=opts.vmem, queue=opts.queue,
+                      system=opts.system)
 
     if not opts.autosubmit:
         print "\nINFO: Use option --autosubmit to submit the jobs"
