@@ -1,2 +1,2 @@
-export RTF=$(pwd)
+RTF=$(pwd)
 export PATH=$PATH:$RTF/scripts
