@@ -27,8 +27,8 @@ source setup.sh
 ### Get the data: 00-CalibratedData
 
 cd 00-CalibratedData
-cadc_query.py -T %s             # to check the available data  
-cadc_query.py -T %s -d "./" -D  # to download them
+cadc_query.py -T %s -d .     # to check the available data  
+cadc_query.py -T %s -d . -D  # to download them
 cd _parent
 
 ### Re-organize the data
