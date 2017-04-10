@@ -45,18 +45,17 @@ if __name__ == "__main__":
         options.astromdir += '/'
     if not len(glob.glob(options.astromdir + '*.fits')):
         raise IOError("No fits file found in the given astrometry directory")
-        
+
     datadir = args[0]
-    
-    
+
     # Get the list of input files
     fits_files = glob.glob(datadir + '*.fits.fz')
-    
+
     # Loop on the file to get their corresponding astrometry reference file
     healpixes, ras, decs = [], [], []
     print " %16s %11s %10s %8s" % ("Name", "RA", "DEC", "HEALPIX")
     for i, f in enumerate(fits_files):
-    
+
         # Open the fits file to get the coordinates
         ff = pyfits.open(f)
         ra, dec = ff[0].header['RA_DEG'], ff[0].header['DEC_DEG']
@@ -70,10 +69,10 @@ if __name__ == "__main__":
         healpixes.append(healpix)
         ras.append(ra)
         decs.append(dec)
-        
+
     print "INFO: %i reference numbers found:" % len(set(healpixes)), \
         ','.join(sorted(set(healpixes)))
-    
+
     # Get the corresponding absloute path (at CC in2p3)
     astrometry = []
     for hp in set(healpixes):
