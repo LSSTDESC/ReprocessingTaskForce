@@ -134,6 +134,8 @@ if __name__ == "__main__":
             print sum([len(rejected[f][v]) for v in rejected[f]]), \
                 "/ %i CCDs rejected for filter %s (actually %i ccds)\n" % \
                 (sum([36*len(d[f])]), f, sum([len(d[f][v]) for v in d[f]]))
+    else:
+        rejected = None
 
     # Do we have an input exlcude list?
     exclude = {v: [] for f in f_visits for v in f_visits[f]}
@@ -147,8 +149,11 @@ if __name__ == "__main__":
         vf = "%s.list" % f
         ff = open(vf, 'w')
         for v in f_visits[f]:
-            ccd = "^".join(str(i) for i in range(36) if i not in rejected[f][int(v)]
-                           and str(i) not in exclude[v])
+            if rejected is not None:
+                ccd = "^".join(str(i) for i in range(36) if i not in rejected[f][int(v)]
+                               and str(i) not in exclude[v])
+            else:
+                ccd = "^".join(str(i) for i in range(36) str(i) not in exclude[v])
             if len(ccd):
                 ff.write("--%s visit=%s ccd=%s\n" % (options.idopt, v, ccd))
             else:
