@@ -143,10 +143,10 @@ if __name__ == "__main__":
         el = N.loadtxt(options.exclude, dtype='str', unpack=True)
         for v, ccds in zip(el[0], el[1]):
             exclude[v.split('=')[1]] = ccds.split('=')[1].split('^')
-            
+
     # Write and save the list, including the ccd selection if needed
     for f in f_visits:
-        vf = "%s.list" % f
+        vf = "%s.list" % f if f != 'i2' else 'i'
         ff = open(vf, 'w')
         for v in f_visits[f]:
             if rejected is not None:
