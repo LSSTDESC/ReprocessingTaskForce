@@ -11,7 +11,7 @@ import lsst.meas.extensions.psfex.psfexPsfDeterminer
 config.charImage.measurePsf.psfDeterminer.name='psfex'
 
 # The following should be included for u filter in order to lower the source detection threshold
-config.charImage.detectAndMeasure.detection.includeThresholdMultiplier=1.0
+config.charImage.detection.includeThresholdMultiplier=1.0
 
 # Run CModel
 import lsst.meas.modelfit
@@ -74,7 +74,7 @@ config.calibrate.photoRefObjLoader.filterMap = {
 #    'y': 'Z',
 #}
 
-config.charImage.astrometry.refObjLoader.filterMap = { 'i2': 'i'}
+config.calibrate.astromRefObjLoader.filterMap = { 'i2': 'i'}
 
 import lsst.pipe.tasks.colorterms
 config.calibrate.photoCal.colorterms.data['e2v'].data['i2']=lsst.pipe.tasks.colorterms.Colorterm()
@@ -86,11 +86,11 @@ config.calibrate.photoCal.colorterms.data['e2v'].data['i2'].secondary='r'
 
 # use Chebyshev background estimation
 config.charImage.background.useApprox=True
-config.charImage.detectAndMeasure.detection.background.binSize=128
-config.charImage.detectAndMeasure.detection.background.useApprox=True
+config.charImage.detection.background.binSize=128
+config.charImage.detection.background.useApprox=True
 config.charImage.background.binSize = 128
 config.charImage.background.undersampleStyle = 'REDUCE_INTERP_ORDER'
-config.charImage.detectAndMeasure.detection.background.binSize = 128
-config.charImage.detectAndMeasure.detection.background.undersampleStyle='REDUCE_INTERP_ORDER'
-config.charImage.detectAndMeasure.detection.background.binSize = 128
-config.charImage.detectAndMeasure.detection.background.undersampleStyle = 'REDUCE_INTERP_ORDER'
+config.charImage.detection.background.binSize = 128
+config.charImage.detection.background.undersampleStyle='REDUCE_INTERP_ORDER'
+config.charImage.detection.background.binSize = 128
+config.charImage.detection.background.undersampleStyle = 'REDUCE_INTERP_ORDER'
