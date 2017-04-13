@@ -54,7 +54,7 @@ cd _parent
 
 cd 04-jointcal
 build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log
-jointcal.py _parent/output --output _parent/output/co @r.list --configfile jointcalConfig.py
+jointcal.py _parent/output --output _parent/output @r.list --configfile jointcalConfig.py
 same for other filters
 
 ### 05-makeCoaddTempExp
@@ -206,7 +206,10 @@ procedure including the config file and a readme.
             if not os.path.isdir(d):
                 os.mkdir(d)
         if not os.path.exists(d + '/_parent'):
-            os.symlink(current_dir, d + '/_parent')
+            if d == 'output':
+                os.symlink(current_dir + "input", d + '/_parent')
+            else:
+                os.symlink(current_dir, d + '/_parent')
         if not d.startswith('01'):
             os.mkdir(current_dir + d + '/log')
             os.mkdir(current_dir + d + '/scripts')
