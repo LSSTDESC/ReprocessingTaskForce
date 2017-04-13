@@ -38,7 +38,7 @@ ingestImages.py input 01-CalibratedData/*.fz --mode link
 
 cd 02-processCcd
 build_visit_lists.py -i _parent/input
-run_processCdd.py -c processConfig.py,processConfig_u.py -a
+run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py -a
 # and wait for the job to finish
 cd _parent
 

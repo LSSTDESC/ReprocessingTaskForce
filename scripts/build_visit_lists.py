@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
     # Write and save the list, including the ccd selection if needed
     for f in f_visits:
-        vf = "%s.list" % f if f != 'i2' else 'i'
+        vf = "%s.list" % (f if f != 'i2' else 'i')
         ff = open(vf, 'w')
         for v in f_visits[f]:
             if rejected is not None:
