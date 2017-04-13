@@ -7,46 +7,45 @@ Check the wcs scatter
 =====================
 """
 
-import os
-import numpy as N
-import pylab as P
 from glob import glob
-import seaborn
-from ToolBox import Statistics
 from optparse import OptionParser
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
+
 RERUN = []
 
+
 def read_log(log):
+    """Read the logs."""
     complete_log = False
-    f = open(log, 'r')
-    d = {}
-    for l in f:
-        if l.startswith("processCcd: Processing"):
-            sd = eval(l.split("processCcd: Processing ")[1])
-            if not len(d):
-                d[sd['visit']] = {}
-            d[sd['visit']][sd['ccd']] = sd
-        if l.startswith("processCcd.calibrate.astrometry: Matched and fit WCS"):
-            ll=l.split()
-            ast={'iterations': ll[6], 'matches': ll[9],
-                'scatter': ll[14], 'scatter_sgm': ll[16], 'unit': ll[17]}
-            d[sd['visit']][sd['ccd']].update(ast)
+    cfile = open(log, 'r')
+    data = {}
+    for line in cfile:
+        if line.startswith("processCcd: Processing"):
+            sd = eval(line.split("processCcd: Processing ")[1])
+            if not len(data):
+                data[sd['visit']] = {}
+            data[sd['visit']][sd['ccd']] = sd
+        if line.startswith("processCcd.calibrate.astrometry: Matched and fit WCS"):
+            ll = line.split()
+            ast = {'iterations': ll[6], 'matches': ll[9],
+                   'scatter': ll[14], 'scatter_sgm': ll[16], 'unit': ll[17]}
+            data[sd['visit']][sd['ccd']].update(ast)
             if float(ast['scatter']) == 0:
                 print "WARNING: WSC scatter is 0 for visit %s, ccd %s" % (sd['visit'], sd['ccd'])
-        elif l.startswith("processCcd.calibrate.astrometry: Astrometric scatter"):
-            ll=l.split()
-            ast={'matches': ll[8], 'scatter': ll[3], 'unit': ll[4], 'rejected': ll[10]}
-            d[sd['visit']][sd['ccd']].update(ast)
-        if l.startswith("*   maxvmem:"):
+        elif line.startswith("processCcd.calibrate.astrometry: Astrometric scatter"):
+            ll = line.split()
+            ast = {'matches': ll[8], 'scatter': ll[3], 'unit': ll[4], 'rejected': ll[10]}
+            data[sd['visit']][sd['ccd']].update(ast)
+        if line.startswith("*   maxvmem:"):
             complete_log = True
+    cfile.close()
     if not complete_log:
         print "WARNING: The following log is not complete:", log
         RERUN.append(". %s" % log.replace("log/", "scripts/").replace('.log', '.sh'))
-    return d
+    return data
 
 def get_logs(logdir, filt):
     logs = glob(logdir+'/%s/*.log' % filt)
@@ -64,16 +63,16 @@ def create_list(f, d, r):
     
 if __name__ == "__main__":
 
-
     parser = OptionParser()
     parser.add_option("-l", "--logdir", type="string", help="Log directory")
-    parser.add_option("-f", "--filters", type="string", help="Filter set [%default]", default="ugriz")
+    parser.add_option("-f", "--filters", type="string",
+                      help="Filter set [%default]", default="ugriz")
     parser.add_option("-r", "--scatter_range", type="string",
                       help="The scatter range to keep [%default]", default="0.02,0.1")
     opts, args = parser.parse_args()
 
     min_scatter, max_scatter = map(float, opts.scatter_range.split(','))
-    
+
     # Read the logs, get the data
     d = {f: get_logs(opts.logdir, f) for f in opts.filters}
     rejected = {f: {v: [] for v in d[f]} for f in opts.filters}
@@ -94,4 +93,3 @@ if __name__ == "__main__":
                     ii += 1
         create_list(f, d, rejected)
         print ii, "/ %i CCDs rejected for filter %s" % (sum([36*len(d[f])]), f)
-        
