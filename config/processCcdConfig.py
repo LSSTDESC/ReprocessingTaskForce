@@ -42,6 +42,7 @@ config.calibrate.astromRefObjLoader.filterMap = {
     'g':'g',
     'r':'r',
     'i':'i',
+    'i2': 'i',
     'z':'z',
     'y':'y',
 }
@@ -73,8 +74,6 @@ config.calibrate.photoRefObjLoader.filterMap = {
 #    'z': 'Z',
 #    'y': 'Z',
 #}
-
-config.calibrate.astromRefObjLoader.filterMap = { 'i2': 'i'}
 
 import lsst.pipe.tasks.colorterms
 config.calibrate.photoCal.colorterms.data['e2v'].data['i2']=lsst.pipe.tasks.colorterms.Colorterm()
