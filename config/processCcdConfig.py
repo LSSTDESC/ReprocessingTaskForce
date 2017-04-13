@@ -33,7 +33,7 @@ config.calibrate.astrometry.matcher.maxMatchDistArcSec=5
 # Select external catalogs for Astrometry and Photometry
 config.calibrate.photoRefObjLoader.ref_dataset_name='sdss'
 #config.calibrate.astromRefObjLoader.ref_dataset_name='gaia'
-config.calibrate.astromRefObjLoader.ref_dataset_name='panstarrs'
+config.calibrate.astromRefObjLoader.ref_dataset_name='pan-starrs'
 #config.calibrate.astromRefObjLoader.ref_dataset_name='sdss'
 
 # Astrometry with panstarrs

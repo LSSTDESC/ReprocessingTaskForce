@@ -208,6 +208,8 @@ procedure including the config file and a readme.
         if not os.path.exists(d + '/_parent'):
             if d == 'output':
                 os.symlink(current_dir + "input", d + '/_parent')
+            elif d == 'input':
+                pass
             else:
                 os.symlink(current_dir, d + '/_parent')
         if not d.startswith('01'):
