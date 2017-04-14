@@ -15,7 +15,7 @@ config.charImage.detection.includeThresholdMultiplier=1.0
 
 # Run CModel
 import lsst.meas.modelfit
-config.charImage.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox", "modelfit_CModel"
+config.charImage.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox", "modelfit_CModel"]
 
 # Run astrometry using the new htm reference catalog format
 # The following retargets are necessary until the new scheme becomes standard
