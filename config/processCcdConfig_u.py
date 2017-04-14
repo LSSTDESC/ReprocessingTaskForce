@@ -42,7 +42,7 @@ config.calibrate.astromRefObjLoader.filterMap = {
     'g':'g',
     'r':'r',
     'i':'i',
-    'i2': 'i',
+    'i2':'i',
     'z':'z',
     'y':'y',
 }
@@ -61,6 +61,7 @@ config.calibrate.photoRefObjLoader.filterMap = {
     'g': 'G',
     'r': 'R',
     'i': 'I',
+    'i2': 'I',
     'z': 'Z',
     'y': 'Z',
 }
