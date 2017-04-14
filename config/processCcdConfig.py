@@ -61,6 +61,7 @@ config.calibrate.photoRefObjLoader.filterMap = {
     'g': 'G',
     'r': 'R',
     'i': 'I',
+    'i2': 'I',
     'z': 'Z',
     'y': 'Z',
 }
