@@ -14,18 +14,18 @@ import libRun as LR
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
-def build_cmd(vs, config, filt, input='_parent/input', output='_parent/output'):
+def build_cmd(visits, config, filt, input='_parent/input', output='_parent/output'):
 
     if not os.path.isdir("scripts/" + filt):
         os.makedirs("scripts/" + filt)
     
     # Create and save a sub list of visit
-    filename = "scripts/" + filt + "/" + "_".join(vs) + ".list"
-    N.savetxt(filename, ["--id visit=%s ccd=0..35"%v for v in vs], fmt="%s")
+    filename = "scripts/" + filt + "/" + "_".join(visits) + ".list"
+    N.savetxt(filename, ["--id visit=%s ccd=0..35" % visit for visit in visits], fmt="%s")
 
     # Create the command line
     cmd = "processCcd.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config"
+          filename + " --configfile " + config + " --clobber-config -j 8 --timeout 999999999"
     print "\nCMD: ", cmd
 
     return cmd
@@ -59,6 +59,12 @@ if __name__ == "__main__":
         # Reorganize the visit list in consequence
         visits = LR.organize_items(visits, njobs)
 
+        # specific options for processCcd
+        opts.ct = None
+        opts.vmem = None
+        opts.queue = "mc_huge"
+        opts.otheroptions = "-pe multicores 8"
+
         # Loop over the visit sub lists
         for vs in visits:
 
@@ -69,7 +75,7 @@ if __name__ == "__main__":
             prefix = "_".join(vs)
             LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit,
                       ct=opts.ct, vmem=opts.vmem, queue=opts.queue,
-                      system=opts.system)
+                      system=opts.system, otheroptions=opts.otheroptions)
 
     if not opts.autosubmit:
         print "\nINFO: Use option --autosubmit to submit the jobs"

@@ -29,7 +29,8 @@ def makeFileName(patchList) :
         name = name + field[0] + "_" + field[1] + "_" + field[2]
     return name.replace(",","-")
     
-def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G', system=None, queue=None):
+def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
+           system=None, queue=None, otheroptions=None):
     """
     cmd: command line to run
     prefix: used for the .log and .sh file names
@@ -45,11 +46,17 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G', system
         os.makedirs(dirLog)
     log = dirLog + "/" + prefix + ".log"
     print "LOG:", log
-    options = "sps=1,ct=%i,h_vmem=%s" % (ct, vmem)
+    options = "sps=1"
+    if ct is not None:
+        options += ",ct=%i" % ct
+    if vmem is not None:
+        options += ",h_vmem=%s" % vmem
     if system is not None:
         options += ",os=" + system
     if queue is not None:
         options += " -q " + queue
+    if otheroptions is not None:
+        options += " %s" % otheroptions
     qsub = "qsub -P P_lsst -l %s -j y -o " % options + log + " <<EOF"
     scriptname = script_path + "/" + prefix + ".sh"
     script = open(scriptname, "w")
@@ -122,6 +129,7 @@ def standard_options(usage=None, description=None, filters='ugriz'):
     parser.add_option("--vmem", type="string", default='4G', help="Job memory [%default]")
     parser.add_option("--ct", type="int", default='60000', help="Job cpu time [%default]")
     parser.add_option("--queue", type="string", help="Job queue [%default]")
+    parser.add_option("--otheroptions", type="string", help="Other options [%default]")
     opts, args = parser.parse_args()
 
     keepf = ''

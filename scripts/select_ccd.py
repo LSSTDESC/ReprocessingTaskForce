@@ -25,7 +25,7 @@ def read_log(log):
     for line in cfile:
         if line.startswith("processCcd INFO: Processing"):
             sd = eval(line.split("processCcd INFO: Processing ")[1])
-            if not len(data):
+            if sd['visit'] not in data:
                 data[sd['visit']] = {}
             data[sd['visit']][sd['ccd']] = sd
         if line.startswith("processCcd.calibrate.astrometry INFO: Matched and fit WCS"):
