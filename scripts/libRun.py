@@ -105,7 +105,7 @@ def select_config(configs, filt):
     return config
 
 def standard_options(usage=None, description=None, filters='ugriz'):
-    
+
     parser = OptionParser(description=description, usage=usage)
     parser.add_option("-f", "--filters", type="string", default="ugriz",
                       help="Filter(s) [%default]. Can also be a ist of filter ('ugriz')")
@@ -130,6 +130,8 @@ def standard_options(usage=None, description=None, filters='ugriz'):
     parser.add_option("--ct", type="int", default='60000', help="Job cpu time [%default]")
     parser.add_option("--queue", type="string", help="Job queue [%default]")
     parser.add_option("--otheroptions", type="string", help="Other options [%default]")
+    parser.add_option("--multicore", action='store_true', default=False,
+                      help="Multicore jobs (mostly for processCcd)")
     opts, args = parser.parse_args()
 
     keepf = ''

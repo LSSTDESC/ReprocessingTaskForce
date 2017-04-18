@@ -18,14 +18,16 @@ def build_cmd(visits, config, filt, input='_parent/input', output='_parent/outpu
 
     if not os.path.isdir("scripts/" + filt):
         os.makedirs("scripts/" + filt)
-    
+
     # Create and save a sub list of visit
     filename = "scripts/" + filt + "/" + "_".join(visits) + ".list"
     N.savetxt(filename, ["--id visit=%s ccd=0..35" % visit for visit in visits], fmt="%s")
 
     # Create the command line
     cmd = "processCcd.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config" # -j 8 --timeout 999999999"
+          filename + " --configfile " + config + " --clobber-config"
+    if opts.multicore:
+        cmd += " -j 8 --timeout 999999999"
     print "\nCMD: ", cmd
 
     return cmd
@@ -62,8 +64,10 @@ if __name__ == "__main__":
         # specific options for processCcd
         opts.ct = None
         opts.vmem = None
-        opts.queue = "mc_huge"
-        #opts.otheroptions = "-pe multicores 8"
+        opts.queue = "long"
+        if opts.multicore:
+            opts.queue = "mc_huge"
+            opts.otheroptions = "-pe multicores 8"
 
         # Loop over the visit sub lists
         for vs in visits:
