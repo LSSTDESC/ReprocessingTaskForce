@@ -25,7 +25,7 @@ def build_cmd(visits, config, filt, input='_parent/input', output='_parent/outpu
 
     # Create the command line
     cmd = "processCcd.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config -j 8 --timeout 999999999"
+          filename + " --configfile " + config + " --clobber-config" # -j 8 --timeout 999999999"
     print "\nCMD: ", cmd
 
     return cmd
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         opts.ct = None
         opts.vmem = None
         opts.queue = "mc_huge"
-        opts.otheroptions = "-pe multicores 8"
+        #opts.otheroptions = "-pe multicores 8"
 
         # Loop over the visit sub lists
         for vs in visits:
