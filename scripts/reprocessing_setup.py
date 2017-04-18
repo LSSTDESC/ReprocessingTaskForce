@@ -234,6 +234,8 @@ procedure including the config file and a readme.
         dates = np.array([os.path.getmtime(cp) for cp in paths])
         opts.lsstsw = paths[np.argsort(dates)][-1]
         stack = WEEKLY_SETUP
+    elif opts.lsstsw.startswith("/sps/lsst/software/lsst_distrib/"):
+        stack = WEEKLY_SETUP
     elif 'setup.py' in os.listdir(opts.lsstsw + "/bin"):
         stack = OLD_SETUP
     else:
