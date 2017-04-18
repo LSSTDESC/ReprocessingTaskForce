@@ -28,10 +28,10 @@ def read_log(log):
             if not len(data):
                 data[sd['visit']] = {}
             data[sd['visit']][sd['ccd']] = sd
-        if line.startswith("processCcd.calibrate.astrometry: Matched and fit WCS"):
+        if line.startswith("processCcd.calibrate.astrometry INFO: Matched and fit WCS"):
             ll = line.split()
-            ast = {'iterations': ll[6], 'matches': ll[9],
-                   'scatter': ll[14], 'scatter_sgm': ll[16], 'unit': ll[17]}
+            ast = {'iterations': ll[7], 'matches': ll[10],
+                   'scatter': ll[15], 'scatter_sgm': ll[17], 'unit': ll[18]}
             data[sd['visit']][sd['ccd']].update(ast)
             if float(ast['scatter']) == 0:
                 print "WARNING: WSC scatter is 0 for visit %s, ccd %s" % (sd['visit'], sd['ccd'])
