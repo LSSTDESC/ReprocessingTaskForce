@@ -23,7 +23,7 @@ def read_log(log):
     cfile = open(log, 'r')
     data = {}
     for line in cfile:
-        if line.startswith("processCcd: Processing"):
+        if line.startswith("processCcd INFO: Processing"):
             sd = eval(line.split("processCcd: Processing ")[1])
             if not len(data):
                 data[sd['visit']] = {}
@@ -35,7 +35,7 @@ def read_log(log):
             data[sd['visit']][sd['ccd']].update(ast)
             if float(ast['scatter']) == 0:
                 print "WARNING: WSC scatter is 0 for visit %s, ccd %s" % (sd['visit'], sd['ccd'])
-        elif line.startswith("processCcd.calibrate.astrometry: Astrometric scatter"):
+        elif line.startswith("processCcd.calibrate.astrometry INFO: Astrometric scatter"):
             ll = line.split()
             ast = {'matches': ll[8], 'scatter': ll[3], 'unit': ll[4], 'rejected': ll[10]}
             data[sd['visit']][sd['ccd']].update(ast)
