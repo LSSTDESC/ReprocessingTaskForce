@@ -62,8 +62,8 @@ if __name__ == "__main__":
         visits = LR.organize_items(visits, njobs)
 
         # specific options for processCcd
-        opts.ct = None
-        opts.vmem = None
+        opts.ct = "170000"
+        opts.vmem = "16G"
         opts.queue = "long"
         if opts.multicore:
             opts.queue = "mc_huge"
