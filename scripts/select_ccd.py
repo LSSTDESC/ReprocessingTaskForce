@@ -24,7 +24,7 @@ def read_log(log):
     data = {}
     for line in cfile:
         if line.startswith("processCcd INFO: Processing"):
-            sd = eval(line.split("processCcd: Processing ")[1])
+            sd = eval(line.split("processCcd INFO: Processing ")[1])
             if not len(data):
                 data[sd['visit']] = {}
             data[sd['visit']][sd['ccd']] = sd
