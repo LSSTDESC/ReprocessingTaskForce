@@ -110,7 +110,6 @@ export LSSTSW=%s
 setup pipe_tasks
 setup -k jointcal
 setup -k obs_cfht
-setup -k pex_logging
 setup galsim
 setup meas_extensions_psfex
 setup display_ds9
