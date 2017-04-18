@@ -38,9 +38,12 @@ ingestImages.py input 01-CalibratedData/*.fz --mode link
 
 cd 02-processCcd
 build_visit_lists.py -i _parent/input
-run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py -a --vmem 8G
+run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py -a
 # and wait for the job to finish
+# check for failure and for bad astrometry measurements
+select_ccd.py -l log
 cd _parent
+
 
 ### 03-makeDiscreteSkyMap
 
