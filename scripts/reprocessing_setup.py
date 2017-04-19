@@ -37,10 +37,12 @@ ingestImages.py input 01-CalibratedData/*.fz --mode link
 ### 02-processCcd
 
 cd 02-processCcd
+checkRaw.py # add the options
 build_visit_lists.py -i _parent/input
 run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py -a
 # and wait for the job to finish
-# check for failure and for bad astrometry measurements
+# check for failure and for bad astrometry measurements # to be replaced by a single script
+rerun_locked.py
 select_ccd.py -l log
 cd _parent
 
@@ -48,8 +50,8 @@ cd _parent
 ### 03-makeDiscreteSkyMap
 
 cd 03-makeDiscreteSkyMap
-build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log,_parent/02-processCcd/rerun_std_astro/\*.log
-build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log
+# build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log,_parent/02-processCcd/rerun_std_astro/\*.log
+build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log
 build_patch_lists.py
 cd _parent
 

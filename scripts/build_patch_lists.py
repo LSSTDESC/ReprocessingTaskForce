@@ -37,7 +37,7 @@ if __name__ == "__main__":
     parser = OptionParser(description=description, usage=usage)
     parser.add_option("-f", "--filters", type="string", default="ugriz",
                       help="Filter(s) [%default]. Can also be a ist of filter ('ugriz')")
-    parser.add_option("-c", "--config", type="string", default="makeSkyMapConfig.py",
+    parser.add_option("-c", "--config", type="string", default="makeDiscreteSkyMapConfig.py",
                       help="If not given or present in the local dir, a standard one will be created.")
     parser.add_option("--input", type="string", default='_parent/output',
                       help='input directory [%default]')
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     opts, args = parser.parse_args()
 
     filters = "ugriz"
-    
+
     if not os.path.exists(opts.config):
         print "WARNING: The given (or default) configuration file does not exists."
         print "INFO: Building a new configuration file"
