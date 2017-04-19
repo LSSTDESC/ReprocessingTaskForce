@@ -60,13 +60,13 @@ cd _parent
 
 cd 04-jointcal
 build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/*/*.log
-jointcal.py _parent/output --output _parent/output/coadd_dir @r.list
-# same for other filters
+run_jointcal.py -a
+cd _parent
 
 ### 05-makeCoaddTempExp
 
 cd 05-makeCoaddTempExp
-build_visit_lists.py -i _parent/input/ -l _parent/02-processCcd/log --idopt selectId
+build_visit_lists.py -i _parent/input/ -l _parent/02-processCcd/log/*/*.log --idopt selectId
 cp _parent/03-makeDiscreteSkyMap/patches* .
 run_makeCoaddTempExp.py -c makeCoaddTempExpConfig.py -a
 cd _parent
@@ -154,7 +154,7 @@ CONFIGS = ['02-processCcdConfig.py',
            '02-processCcdConfig_u.py',
            '03-makeDiscreteSkyMapConfig.py',
            '04-jointcalConfig.py',
-           '05-makeCoaddTemExpConfig.py',
+           '05-makeCoaddTempExpConfig.py',
            '06-assembleCoaddConfig.py',
            '07-detectCoaddConfig.py',
            '08-mergeCoaddDetectionsConfig.py',
