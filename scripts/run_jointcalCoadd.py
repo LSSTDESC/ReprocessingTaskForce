@@ -37,6 +37,10 @@ if __name__ == "__main__":
         # Reorganize the visit list in consequence
         patches = LR.organize_items(patches, njobs)
 
+        # default options
+        opts.input = "_parent/output"
+        opts.output = "_parent/output/coadd_dir"
+        
         # Loop over the patches sub lists
         for ps in patches:
 
