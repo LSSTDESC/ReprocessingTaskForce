@@ -49,6 +49,7 @@ cd _parent
 
 ### 03-makeDiscreteSkyMap
 
+source setup.sh # if not done already
 cd 03-makeDiscreteSkyMap
 # build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log,_parent/02-processCcd/rerun_std_astro/\*.log
 build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log
@@ -58,9 +59,9 @@ cd _parent
 ### 04-jointcal
 
 cd 04-jointcal
-build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log
-jointcal.py _parent/output --output _parent/output @r.list --configfile jointcalConfig.py
-same for other filters
+build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/*/*.log
+jointcal.py _parent/output --output _parent/output/coadd_dir @r.list
+# same for other filters
 
 ### 05-makeCoaddTempExp
 
