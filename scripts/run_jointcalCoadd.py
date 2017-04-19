@@ -38,7 +38,7 @@ if __name__ == "__main__":
         patches = LR.organize_items(patches, njobs)
 
         # default options
-        opts.input = "_parent/output"
+        opts.input = "_parent/output/coadd_dir"
         opts.output = "_parent/output/coadd_dir"
         
         # Loop over the patches sub lists
