@@ -40,7 +40,7 @@ if __name__ == "__main__":
         # default options
         opts.input = "_parent/output/coadd_dir"
         opts.output = "_parent/output/coadd_dir"
-        
+
         # Loop over the patches sub lists
         for ps in patches:
 

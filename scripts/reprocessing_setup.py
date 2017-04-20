@@ -117,15 +117,9 @@ export LSSTSW=%s
 
 # Run basic LSST setup for analysis
 setup pipe_tasks
-setup -k jointcal
-setup -k obs_cfht
 setup galsim
 setup meas_extensions_psfex
 setup display_ds9
-setup shapelet
-setup meas_astrom
-setup meas_base
-setup meas_extensions_shapeHSM
 setup meas_modelfit
 """
 
