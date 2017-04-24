@@ -25,7 +25,7 @@ def setupVisits():
 
 def setupEimageVisits():
    vars = HashMap()
-   f = open(SLAC_SCRIPT_LOCATION+"/"+VISIT_FILE)
+   f = open(SCRIPT_LOCATION+"/"+VISIT_FILE)
    for line in f.readlines():
       dir,visit,f = line.split()
       vars.put("FILTER",f)
