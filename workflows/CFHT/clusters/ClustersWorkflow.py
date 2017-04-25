@@ -3,7 +3,7 @@ from java.util import HashMap
 def runscripts():
     import glob, os
     stream = os.getenv("PIPELINE_STREAMPATH")[0]
-    WORK_DIR = OUTPUT_DATA_DIR + "/work/" _ str(stream)
+    WORK_DIR = OUTPUT_DATA_DIR + "/work/" + str(stream)
     scripts = glob.glob(WORK_DIR + "/02-processccd/scripts/*/*.sh")
     if not len(scripts):
         raise("ERROR: no file found")
