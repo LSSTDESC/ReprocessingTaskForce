@@ -3,20 +3,21 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
           xs:schemaLocation="http://glast-ground.slac.stanford.edu/pipeline 
           http://srs.slac.stanford.edu/Pipeline-II/schemas/2.1/pipeline.xsd">
-    <task name="ClustersDM" type="LSST" version="1.0">
+    <task name="ClustersDM" type="LSST" version="1.7">
         <notation>A simple task for running the DM for reprocessing Clusters</notation>
         <variables>
             <var name="SITE">IN2P3</var>
             <var name="MAXCPU">${100000 / (SITE=="IN2P3" ? 10 : 1)}</var>
             <var name="MAXCPULONG">${100000 / (SITE=="IN2P3" ? 10 : 1)}</var>
             <var name="SLAC_BATCH_OPTIONS">-R rhel60</var>
-            <var name="IN2P3_BATCH_OPTIONS"></var>
+            <var name="IN2P3_BATCH_OPTIONS">-l sps=1,os=cl7</var>
             <var name="BATCH_OPTIONS">${SITE=="IN2P3" ? IN2P3_BATCH_OPTIONS : SLAC_BATCH_OPTIONS}</var>
+	    <var name="DM_RELEASE">w_2017_14</var>
             <!-- Default location from which to setup DM -->
             <var name="SLAC_DM_DIR">/nfs/farm/g/desc/u1/Twinkles</var>
-            <var name="IN2P3_DM_DIR">/sps/lsst/dev/lsstprod/clusters/CL0016+16</var>
+            <var name="IN2P3_DM_DIR">/sps/lsst/software/lsst_distrib/${DM_RELEASE}</var>
             <var name="DM_DIR">${SITE=="IN2P3" ? IN2P3_DM_DIR : SLAC_DM_DIR}</var>
-            <var name="DM_SETUP">setup.sh</var>
+            <var name="DM_SETUP">loadLSST.bash</var>
             <!-- Base directory where work files will be placed -->
             <var name="SLAC_OUTPUT_DATA_DIR">/nfs/farm/g/lsst/u1/users/tonyj</var>
             <var name="IN2P3_OUTPUT_DATA_DIR">/sps/lsst/dev/lsstprod/clusters/workflows</var>
@@ -37,5 +38,40 @@
             <notation>Ingest the input data serially</notation>
             <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
         </process>
+	<process name="setup_processccd" site="${JOBSITE}">
+            <notation>Setup for processCcd</notation>
+            <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+	    <depends>
+                <after process="ingest"/>
+            </depends>
+        </process>
+
+	<process name="processccd" site="${JOBSITE}">
+	  <script>
+	    <![CDATA[
+		     from java.util import MashMap
+		     import glob, os
+		     workdir = os.getenv("WORK_DIR") + "02-processccd/"
+		     files = glob.glob(workdir + "scripts/*/*.sh")
+		     for f in files:
+		         pipeline.createSubstream("processFilter"; f)
+	    ]]>
+	  </script>
+	  <createSubtasks>
+	    <subtask>processFilter</subtask>
+	  </createSubtasks>
+	</process>
+	
+	<task name="processFilter" type="LSST">
+            <notation>Sub-task that runs per filter processing</notation>
+            <process name="processfilter" site="${JOBSITE}">
+	      <variables>
+		<var name="filename">${format(pipeline.stream, "%s")}</var>
+	      </variables>
+                <notation>Process ccd by filter</notation>
+                <job maxCPU="${MAXCPULONG}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+            </process>                
+        </task> 
+	
     </task>
 </pipeline>

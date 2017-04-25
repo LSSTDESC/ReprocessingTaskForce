@@ -1,0 +1,5 @@
+mkdir -p ${WORK_DIR}/02-processccd
+cd ${WORK_DIR}/02-processccd
+cp -n $RTF/config/processCcdConfig* .
+build_visit_lists.py -i ${WORK_DIR}/input
+run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py
