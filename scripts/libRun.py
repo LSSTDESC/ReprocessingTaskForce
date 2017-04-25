@@ -30,7 +30,7 @@ def makeFileName(patchList) :
     return name.replace(",","-")
     
 def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
-           system=None, queue=None, otheroptions=None):
+           system=None, queue=None, otheroptions=None, from_slac=False):
     """
     cmd: command line to run
     prefix: used for the .log and .sh file names
@@ -53,23 +53,40 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
         options += ",h_vmem=%s" % vmem
     if system is not None:
         options += ",os=" + system
+
+    qsub = "qsub -P P_lsst -l %s -j y -o " % options + log
     if queue is not None:
-        options += " -q " + queue
+        qsub += " -q " + queue
     if otheroptions is not None:
-        options += " %s" % otheroptions
-    qsub = "qsub -P P_lsst -l %s -j y -o " % options + log + " <<EOF"
+        qsub += " %s" % otheroptions 
+    qsub += " <<EOF"
     scriptname = script_path + "/" + prefix + ".sh"
     script = open(scriptname, "w")
-    script.write(qsub + "\n")
-    script.write("#!/usr/local/bin/bash\n")
-    script.write(" cd " + cwd + "\n")
-    script.write(" source _parent/setup.sh\n")
-    script.write(" " + cmd + "\n")
-    script.write("EOF" + "\n")
+    if not from_slac:
+        script.write(qsub + "\n")
+        script.write("#!/usr/local/bin/bash\n")
+        script.write(" cd " + cwd + "\n")
+        script.write(" source _parent/setup.sh\n")
+        script.write(" " + cmd + "\n")
+        script.write("EOF" + "\n")
+    else:
+        script.write("#!/usr/local/bin/bash\n")
+        script.write("#$ -P P_lsst" + "\n")
+        for opt in options.split(","):
+            script.write("#$ -l %s\n" % opt)
+        if queue is not None:
+            script.write("#$ -q %s\n" % queue)
+        if otheroptions is not None:
+            script.write("#$ %s\n" % otheroptions)
+        script.write("#$ -j y\n")
+        script.write("#$ -o %s\n" % log)
+        script.write("cd " + cwd + "\n")
+        script.write("source _parent/setup.sh\n")
+        script.write(cmd + "\n")
     script.close()
     os.system("chmod +x " + scriptname)
     print "SCRIPT:", cwd + "/" + scriptname
-    if autosubmit:
+    if autosubmit and not from_slac:
         os.system("./"+scriptname)
         time.sleep(0.2)
 
@@ -132,6 +149,8 @@ def standard_options(usage=None, description=None, filters='ugriz'):
     parser.add_option("--otheroptions", type="string", help="Other options [%default]")
     parser.add_option("--multicore", action='store_true', default=False,
                       help="Multicore jobs (mostly for processCcd)")
+    parser.add_option("--fromslac", action='store_true', default=False,
+                      help="Run job from slac workflow interface")
     opts, args = parser.parse_args()
 
     keepf = ''
