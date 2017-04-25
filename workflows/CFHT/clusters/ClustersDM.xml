@@ -3,7 +3,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
           xs:schemaLocation="http://glast-ground.slac.stanford.edu/pipeline 
           http://srs.slac.stanford.edu/Pipeline-II/schemas/2.1/pipeline.xsd">
-    <task name="ClustersDM" type="LSST" version="1.7">
+    <task name="ClustersDM" type="LSST" version="1.13">
         <notation>A simple task for running the DM for reprocessing Clusters</notation>
         <variables>
             <var name="SITE">IN2P3</var>
@@ -26,7 +26,7 @@
             <var name="SLAC_SCRIPT_LOCATION">/nfs/farm/g/lsst/u1/users/tonyj</var>
             <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/dev/lsstprod/clusters/workflows/scripts</var>
             <var name="SCRIPT_LOCATION">${SITE=="IN2P3" ? IN2P3_SCRIPT_LOCATION : SLAC_SCRIPT_LOCATION}</var>
-            <!-- astrometry_net files -->
+            <!-- Script name sand job site -->
             <var name="AND_DIR">${SCRIPT_LOCATION}/and_files_0229</var>
             <var name="SCRIPT_NAME">ClustersWorkflow.py</var>
             <var name="BATCH_NAME">ClustersBatch.sh</var>
@@ -39,37 +39,35 @@
             <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
         </process>
 	<process name="setup_processccd" site="${JOBSITE}">
-            <notation>Setup for processCcd</notation>
-            <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
-	    <depends>
-                <after process="ingest"/>
-            </depends>
+          <notation>Setup for processCcd</notation>
+          <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+	  <depends>
+            <after process="ingest"/>
+          </depends>
         </process>
-
 	<process name="processccd" site="${JOBSITE}">
-	  <script>
-	    <![CDATA[
-		     from java.util import MashMap
-		     import glob, os
-		     workdir = os.getenv("WORK_DIR") + "02-processccd/"
-		     files = glob.glob(workdir + "scripts/*/*.sh")
-		     for f in files:
-		         pipeline.createSubstream("processFilter"; f)
-	    ]]>
-	  </script>
-	  <createSubtasks>
+	  <notation>Run process ccd for all filter and visits</notation>
+	  <script><![CDATA[ 
+          import os
+	  import glob
+	  scripts =os.getenv("WORK_DIR")[0] + "/02-processccd/scripts/*/*.sh"
+	  for f in glob.glob(scripts):
+	      pipeline.createSubstream("processFilter"; f)
+	  ]]>
+          </script>
+	  <depends>
+            <after process="setup_processccd"/>
+          </depends>
+	  <createsSubtasks>
 	    <subtask>processFilter</subtask>
-	  </createSubtasks>
+	  </createsSubtasks>	
 	</process>
-	
 	<task name="processFilter" type="LSST">
-            <notation>Sub-task that runs per filter processing</notation>
             <process name="processfilter" site="${JOBSITE}">
 	      <variables>
 		<var name="filename">${format(pipeline.stream, "%s")}</var>
 	      </variables>
-                <notation>Process ccd by filter</notation>
-                <job maxCPU="${MAXCPULONG}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+              <job executable="${filename}"/>
             </process>                
         </task> 
 	
