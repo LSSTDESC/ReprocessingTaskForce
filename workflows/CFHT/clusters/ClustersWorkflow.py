@@ -2,8 +2,7 @@ from java.util import HashMap
 
 def runscripts():
     import glob, os
-    workdir = os.getenv("WORK_DIR")[0] + "/02-processccd/"
-    scripts = glob.glob(workdir + "scripts/*/*.sh")
+    scripts = glob.glob(WORK_DIR + "/02-processccd/scripts/*/*.sh")
     if not len(scripts):
         raise("ERROR: no file found")
     else:
