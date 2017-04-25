@@ -1,4 +1,4 @@
-from java.util import MashMap
+from java.util import HashMap
 
 def runscripts():
     import glob, os
