@@ -4,6 +4,7 @@ def runscripts():
     import glob, os
     process = pipeline.getProcessInstance("setup_processccd")
     vars = HashMap(process.getVariables())
+    raise vars
     scripts = glob.glob(vars["WORK_DIR"] + "/02-processccd/scripts/*/*.sh")
     if not len(scripts):
         raise "ERROR: no file found"
