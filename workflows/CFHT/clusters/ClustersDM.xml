@@ -64,7 +64,7 @@
 	      <variables>
 		<var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	      </variables>
-              <job executable="${CUR_SCRIPT}"/>
+              <job batchOptions="" executable="${CUR_SCRIPT}"/>
             </process>                
         </task> 
 	
