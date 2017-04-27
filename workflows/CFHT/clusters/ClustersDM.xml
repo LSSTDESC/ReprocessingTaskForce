@@ -20,7 +20,7 @@
             <var name="DM_SETUP">loadLSST.bash</var>
             <!-- Base directory where work files will be placed -->
             <var name="SLAC_OUTPUT_DATA_DIR">/nfs/farm/g/lsst/u1/users/tonyj</var>
-            <var name="IN2P3_OUTPUT_DATA_DIR">/sps/lsst/dev/lsstprod/clusters/workflows</var>
+            <var name="IN2P3_OUTPUT_DATA_DIR">/sps/lsst/data/clusters/workflow</var>
             <var name="OUTPUT_DATA_DIR">${SITE=="IN2P3" ? IN2P3_OUTPUT_DATA_DIR : SLAC_OUTPUT_DATA_DIR}</var>
             <!-- Base directory where script files will be placed -->
             <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/ReprocessingTaskForce/workflows/CFHT/clusters</var>
