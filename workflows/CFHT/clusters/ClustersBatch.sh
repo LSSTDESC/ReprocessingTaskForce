@@ -23,15 +23,7 @@ export SCRIPT=${SCRIPT_LOCATION}/${PIPELINE_PROCESS:-$1}
 #then
 #scl enable devtoolset-3 'source ${DM_DIR}/${DM_SETUP}; set -xe; export SHELLOPTS; source ${SCRIPT}'
 #else
-source ${DM_DIR}/${DM_SETUP}
-#fi
-
-# Setup for the stack
-setup obs_cfht
-setup pipe_tasks
-setup galsim
-setup meas_extensions_psfex
-setup meas_modelfit
+source ${SCRIPT_LOCATION}/DMsetup.sh
 
 cd /sps/lsst/dev/lsstprod/ReprocessingTaskForce
 source rtf_setup.sh

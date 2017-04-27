@@ -83,7 +83,7 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
         script.write("#$ -j y\n")
         script.write("#$ -o %s\n" % log)
         script.write("cd " + cwd + "\n")
-        script.write("source _parent/setup.sh\n")
+        script.write("source ${SCRIPT_LOCATION}/DMsetup.sh")
         script.write(cmd + "\n")
     script.close()
     os.system("chmod +x " + scriptname)
