@@ -3,7 +3,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
           xs:schemaLocation="http://glast-ground.slac.stanford.edu/pipeline 
           http://srs.slac.stanford.edu/Pipeline-II/schemas/2.1/pipeline.xsd">
-    <task name="ClustersDM" type="LSST" version="1.16">
+    <task name="ClustersDM" type="LSST" version="1.17">
         <notation>A simple task for running the DM for reprocessing Clusters</notation>
         <variables>
             <var name="SITE">IN2P3</var>
