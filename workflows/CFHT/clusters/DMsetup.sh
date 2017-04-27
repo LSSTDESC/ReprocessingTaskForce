@@ -1,3 +1,6 @@
+# Workaround for EUPS trying to write to home directory
+export HOME=`pwd`
+
 # Setup for the stack
 source ${DM_DIR}/${DM_SETUP}
 setup obs_cfht
