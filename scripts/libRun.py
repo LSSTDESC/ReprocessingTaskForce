@@ -10,25 +10,27 @@ Tools to run cluster analysis
 import os
 import re
 import time
-import numpy as np
 from optparse import OptionParser
+import numpy as np
+
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
+
 def makeFileName(patchList) :
     s = re.split('--', patchList)
     name = ""
-    for i in range(1,len(s)) :
+    for i in range(1, len(s)) :
         field = []
         t = re.split(" ", s[i])
-        for j in range(1,4) :
-            field.append(re.split("=",t[j])[1])
-        if i > 1 :
+        for j in range(1, 4):
+            field.append(re.split("=", t[j])[1])
+        if i > 1:
             name = name + "_"
         name = name + field[0] + "_" + field[1] + "_" + field[2]
-    return name.replace(",","-")
-    
+    return name.replace(", ", "-")
+
 def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
            system=None, queue=None, otheroptions=None, from_slac=False):
     """

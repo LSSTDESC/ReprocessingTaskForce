@@ -70,13 +70,14 @@ if __name__ == "__main__":
             opts.otheroptions = "-pe multicores 8"
 
         # Loop over the visit sub lists
-        for vs in visits:
+        for i, vs in enumerate(visits):
 
             # Build the command line and other things
             cmd = build_cmd(vs, config, filt, opts.input, opts.output)
 
             # Only submit the job if asked
-            prefix = "_".join(vs)
+            prefix = "visit_%03d_script" % (i + 1)
+            #prefix = "%i_" % (i + 1) + "_".join(vs)
             LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit,
                       ct=opts.ct, vmem=opts.vmem, queue=opts.queue,
                       system=opts.system, otheroptions=opts.otheroptions,
