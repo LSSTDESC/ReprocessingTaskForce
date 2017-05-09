@@ -16,7 +16,7 @@ config.astrometryRefObjLoader.filterMap = {
 }
 
 # Select external catalogs for Photometry
-config.doPhotometry = False  # comment out to run the photometric calibration
+config.doPhotometry = True  # comment out to run the photometric calibration
 config.photometryRefObjLoader.retarget(LoadIndexedReferenceObjectsTask)
 config.photometryRefObjLoader.ref_dataset_name='sdss'
 config.photometryRefObjLoader.filterMap = {
