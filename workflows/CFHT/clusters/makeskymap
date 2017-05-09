@@ -1,3 +1,4 @@
+# Make sur the work directory exists
 mkdir -p ${WORK_DIR}/03-makeDiscreteSkyMap
 cd ${WORK_DIR}/03-makeDiscreteSkyMap
 ln -s ${WORK_DIR} _parent
