@@ -66,20 +66,14 @@
 	<subtask>processFilter</subtask>
       </createsSubtasks>	
     </process>
-    <!--   run jobs -->
-    <task name="processFilter" type="LSST">
-      <process name="processfilter" site="${JOBSITE}">
-	<variables>
-	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
-	</variables>
-        <job batchOptions="-l sps=1,ct=259200,h_vmem=32G,os=cl7 -q huge" executable="${CUR_SCRIPT}"/>
-      </process>                
-    </task>
 
     <!-- makeDiscreteSkyMap -->
     <process name="makeskymap" site="${JOBSITE}">
-      <notation>Make the sky maply</notation>
+      <notation>Make the sky map</notation>
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="processFilter.processfilter"/>
+      </depends>
     </process>
 
     <!-- jointcal -->
@@ -88,7 +82,7 @@
       <notation>Setup for jointcal</notation>
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
-        <after task="processFilter"/>
+        <after process="makeskymap"/>
       </depends>
     </process>
     <!--   launch jobs -->
@@ -106,7 +100,17 @@
 	<subtask>jointcalFilter</subtask>
       </createsSubtasks>	
     </process>
-    <!--   run jobs -->
+
+    <!--   Subtask to run processCcd -->
+    <task name="processFilter" type="LSST">
+      <process name="processfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="-l sps=1,ct=259200,h_vmem=32G,os=cl7 -q huge" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run jointcal -->
     <task name="jointcalFilter" type="LSST">
       <process name="jointcalfilter" site="${JOBSITE}">
 	<variables>
