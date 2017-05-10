@@ -34,7 +34,8 @@ if __name__ == "__main__":
         prefix = "jointcal_%s" % filt
         LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit,
                   ct=opts.ct, vmem=opts.vmem, queue=opts.queue,
-                  system=opts.system, otheroptions=opts.otheroptions)
+                  system=opts.system, otheroptions=opts.otheroptions,
+                  from_slac=opts.fromslac)
 
     if not opts.autosubmit:
         print "\nINFO: Use option --autosubmit to submit the jobs"

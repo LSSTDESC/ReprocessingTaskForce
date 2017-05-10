@@ -19,8 +19,8 @@ if __name__ == "__main__":
 
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
-    # overwrite the -m option to force it to be 1
-    opts.mod = 1
+    # overwrite the -m option to force it to be 5
+    opts.mod = 5
 
     # Loop over filters
     for filt in opts.filters:
@@ -31,10 +31,10 @@ if __name__ == "__main__":
         patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='string')]
         print "INFO: %i patches loaded: " % len(patches)
 
-        # How many jobs should we be running (and how many visit in each?)?
+        # How many jobs should we be running (and how many visit/patch in each?)?
         njobs = LR.job_number(patches, opts.mod, opts.max)
 
-        # Reorganize the visit list in consequence
+        # Reorganize the visit/patch list in consequence
         patches = LR.organize_items(patches, njobs)
 
         # default options
