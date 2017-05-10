@@ -143,7 +143,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="-l sps=1,ct=60000,h_vmem=4G,os=cl7" executable="${CUR_SCRIPT}"/>
+        <job batchOptions="-l sps=1,ct=60000,h_vmem=16G,os=cl7" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run jointcalCoadd -->
