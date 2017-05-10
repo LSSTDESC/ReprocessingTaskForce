@@ -101,6 +101,8 @@
       </createsSubtasks>	
     </process>
 
+    
+    <!--   Subtasks -->
     <!--   Subtask to run processCcd -->
     <task name="processFilter" type="LSST">
       <process name="processfilter" site="${JOBSITE}">

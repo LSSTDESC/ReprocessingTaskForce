@@ -24,5 +24,5 @@ def run_jointcal():
     for num, filt in enumerate(FILTERS):
         script = workdir + "/04-jointcal/scripts/%s/jointcal_%s.sh" % (filt, filt)
         vars.put("CUR_SCRIPT", script)
-        pipeline.createSubstream("processFilter", num, vars)
+        pipeline.createSubstream("jointcalFilter", num, vars)
 
