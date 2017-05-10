@@ -26,3 +26,13 @@ def run_jointcal():
         vars.put("CUR_SCRIPT", script)
         pipeline.createSubstream("jointcalFilter", num, vars)
 
+
+def run_jointcalCoadd():
+    process = pipeline.getProcessInstance("setup_jointcalCoadd")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    for num, filt in enumerate(FILTERS):
+        script = workdir + "/05-jointcal/scripts/%s/jointcal_%s.sh" % (filt, filt)
+        vars.put("CUR_SCRIPT", script)
+        pipeline.createSubstream("jointcalFilter", num, vars)
+

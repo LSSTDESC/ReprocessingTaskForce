@@ -42,16 +42,17 @@ if __name__ == "__main__":
         opts.output = "_parent/output/coadd_dir"
 
         # Loop over the patches sub lists
-        for ps in patches:
+        for i, ps in enumerate(patches):
 
             # Build the command line and other things
-            cmd = build_cmd(ps[0], config, filt, opts.input, opts.output)
+            cmd = build_cmd(ps, config, filt, opts.input, opts.output)
 
             # Only submit the job if asked
-            prefix = LR.makeFileName(ps[0])
+            prefix = "patches_%03d_script" % (i + 1)
+            #prefix = LR.makeFileName(ps[0])
             LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit, queue=opts.queue,
-                      ct=6000, vmem=opts.vmem, system=opts.system)
-        
+                      ct=6000, vmem=opts.vmem, system=opts.system, from_slac=opts.fromslac)
+
     if not opts.autosubmit:
         print "\nINFO: Use option --autosubmit to submit the jobs"
 
