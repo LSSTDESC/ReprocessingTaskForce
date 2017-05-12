@@ -1,6 +1,6 @@
 mkdir -p ${WORK_DIR}/04-jointcal
 cd ${WORK_DIR}/04-jointcal
-ln -s ${WORK_DIR} _parent
+ln -sfn ${WORK_DIR} _parent
 cp -n $RTF/config/jointcalConfig.py .
 build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/*/*.log
 run_jointcal.py --fromslac

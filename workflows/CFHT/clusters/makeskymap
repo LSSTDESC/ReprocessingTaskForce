@@ -1,7 +1,7 @@
 # Make sur the work directory exists
 mkdir -p ${WORK_DIR}/03-makeDiscreteSkyMap
 cd ${WORK_DIR}/03-makeDiscreteSkyMap
-ln -s ${WORK_DIR} _parent
+ln -sfn ${WORK_DIR} _parent
 
 build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log
 build_patch_lists.py
