@@ -7,46 +7,40 @@
   <task name="ClustersDM" type="LSST" version="1.21">
     <notation>A simple task for running the DM for reprocessing Clusters</notation>
     <variables>
-      <var name="SITE">IN2P3</var>
-      <var name="MAXCPU">${100000 / (SITE=="IN2P3" ? 10 : 1)}</var>
-      <var name="MAXCPULONG">${100000 / (SITE=="IN2P3" ? 10 : 1)}</var>
-      <var name="SLAC_BATCH_OPTIONS">-R rhel60</var>
-      <var name="IN2P3_BATCH_OPTIONS">-l os=cl7</var>
-      <var name="BATCH_OPTIONS">${SITE=="IN2P3" ? IN2P3_BATCH_OPTIONS : SLAC_BATCH_OPTIONS}</var>
-      <var name="DM_RELEASE">w_2017_18</var>
+      <!-- Job site and configuration-->
+      <var name="JOBSITE">IN2P3</var>
+      <var name="MAXCPU">10000</var>
+      <var name="MAXCPULONG">10000</var>
+      <var name="BATCH_OPTIONS">-l os=cl7</var>
       <!-- Default location from which to setup DM -->
-      <var name="SLAC_DM_DIR">/nfs/farm/g/desc/u1/Twinkles</var>
-      <var name="IN2P3_DM_DIR">/sps/lsst/software/lsst_distrib/${DM_RELEASE}</var>
-      <var name="DM_DIR">${SITE=="IN2P3" ? IN2P3_DM_DIR : SLAC_DM_DIR}</var>
+      <var name="DM_RELEASE">w_2017_18</var>
+      <var name="DM_DIR">/sps/lsst/software/lsst_distrib/${DM_RELEASE}</var>
       <var name="DM_SETUP">loadLSST.bash</var>
-      <!-- Base directory where work files will be placed -->
-      <var name="SLAC_OUTPUT_DATA_DIR">/nfs/farm/g/lsst/u1/users/tonyj</var>
-      <var name="IN2P3_OUTPUT_DATA_DIR">/sps/lsst/data/clusters/workflow</var>
-      <var name="OUTPUT_DATA_DIR">${SITE=="IN2P3" ? IN2P3_OUTPUT_DATA_DIR : SLAC_OUTPUT_DATA_DIR}</var>
       <!-- Base directory where script files will be placed -->
-      <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/ReprocessingTaskForce/workflows/CFHT/clusters</var>
-      <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/dev/lsstprod/ReprocessingTaskForce/workflows/CFHT/clusters</var>
-      <var name="SCRIPT_LOCATION">${SITE=="IN2P3" ? IN2P3_SCRIPT_LOCATION : SLAC_SCRIPT_LOCATION}</var>
-      <!-- Script name sand job site -->
-      <var name="AND_DIR">${SCRIPT_LOCATION}/and_files_0229</var>
+      <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/CFHT/clusters</var>
+      <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/${SCRIPT_LOCATION}</var>
+      <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/dev/lsstprod/${SCRIPT_LOCATION}</var>
+      <!-- Script names -->
       <var name="SCRIPT_NAME">ClustersWorkflow.py</var>
       <var name="BATCH_NAME">ClustersBatch.sh</var>
-      <var name="VISIT_FILE">visit.txt</var>
+      <!-- Base directory for input and output data -->
       <var name="VISIT_DIR">/sps/lsst/data/clusters/MACSJ2243.3-0935/rawDownload</var>
-      <var name="JOBSITE">${SITE=="IN2P3" ? "LSST-IN2P3" : "SLAC"}</var>
+      <var name="OUTPUT_DATA_DIR">/sps/lsst/data/clusters/workflow</var>
     </variables>
 
     <!-- ingest images -->
     <process name="ingest" site="${JOBSITE}">
       <notation>Ingest the input data serially</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
     </process>
 
     <!-- processCcd -->
     <!--   setup -->
     <process name="setup_processccd" site="${JOBSITE}">
       <notation>Setup for processCcd</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="ingest"/>
       </depends>
@@ -70,7 +64,8 @@
     <!-- makeDiscreteSkyMap -->
     <process name="makeskymap" site="${JOBSITE}">
       <notation>Make the sky map</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="processFilter.processfilter"/>
       </depends>
@@ -80,7 +75,8 @@
     <!--   setup -->
     <process name="setup_jointcal" site="${JOBSITE}">
       <notation>Setup for jointcal</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="makeskymap"/>
       </depends>
@@ -105,7 +101,8 @@
     <!--   setup -->
     <process name="setup_jointcalCoadd" site="${JOBSITE}">
       <notation>Setup for jointcalCoadd</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="jointcalFilter.jointcalfilter"/>
       </depends>
@@ -123,6 +120,32 @@
       </depends>
       <createsSubtasks>
 	<subtask>jointcalCoaddFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- assembleCoadd -->
+    <!--   setup -->
+    <process name="setup_assembleCoadd" site="${JOBSITE}">
+      <notation>Setup for assembleCoadd</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="assembleCoaddFilter.assembleCoaddfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="assembleCoadd" site="${JOBSITE}">
+      <notation>Run assembleCoadd for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_assembleCoadd()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_assembleCoadd"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>assembleCoaddFilter</subtask>
       </createsSubtasks>	
     </process>
 
@@ -153,6 +176,15 @@
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
         <job batchOptions="-l sps=1,ct=60000,h_vmem=4G,os=cl7" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run assembleCoadd -->
+    <task name="assembleCoaddFilter" type="LSST">
+      <process name="assembleCoaddfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="-l sps=1,ct=10000,h_vmem=8G,os=cl7" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     

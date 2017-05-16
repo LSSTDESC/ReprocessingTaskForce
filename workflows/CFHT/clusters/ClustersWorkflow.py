@@ -36,3 +36,16 @@ def run_jointcalCoadd():
         vars.put("CUR_SCRIPT", script)
         pipeline.createSubstream("jointcalCoaddFilter", num, vars)
 
+
+def run_assembleCoadd():
+    process = pipeline.getProcessInstance("setup_assembleCoadd")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    num = 0
+    for filt in FILTERS:
+        nscript = vars.remove('n' + filt + 'scripts')
+        for i in range(1, int(nscript) + 1):
+            script = workdir + "/06-assembleCoadd/scripts/%s/patches_%03d.sh" % (filt, i)
+            vars.put("CUR_SCRIPT", script)
+            pipeline.createSubstream("assembleCoaddFilter", num, vars)
+            num += 1

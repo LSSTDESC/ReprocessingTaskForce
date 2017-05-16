@@ -26,32 +26,18 @@ if __name__ == "__main__":
     for filt in opts.filters:
 
         config = LR.select_config(opts.configs, filt)
-        
+
         # Get the list of patches
-        #patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='string')]
-        #patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='string')]
-        #print patches
-        #print "INFO: %i patches loaded: " % len(patches)
-
-        # How many jobs should we be running (and how many visit/patch in each?)?
-        #njobs = LR.job_number(patches, opts.mod, opts.max)
-
-        # Reorganize the visit/patch list in consequence
-        #patches = LR.organize_items(patches, njobs)
 
         # default options
         opts.input = "_parent/output/coadd_dir"
         opts.output = "_parent/output/coadd_dir"
 
-        # Loop over the patches sub lists
-        #for i, ps in enumerate(patches):
-
-            # Build the command line and other things
+        # Build the command line and other things
         cmd = build_cmd("patches_" + filt + ".txt", config, filt, opts.input, opts.output)
 
         # Only submit the job if asked
         prefix = "patches_%s_script" % filt
-        #prefix = LR.makeFileName(ps[0])
         LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit, queue=opts.queue,
                   ct=6000, vmem=opts.vmem, system=opts.system, from_slac=opts.fromslac)
 

@@ -1,6 +1,6 @@
 # Make sure the output directory exists
 mkdir -p ${IN_DIR}
 # If the output directory does not contain a mapper file, create one
-cp -n ${SCRIPT_LOCATION}/_mapper ${IN_DIR}/
+cp -n ${RTF}/config/_mapper ${IN_DIR}/
 # Ready to go!
 ingestImages.py ${IN_DIR} ${VISIT_DIR}/*.fz --mode link --output ${IN_DIR} --doraise --clobber-config
