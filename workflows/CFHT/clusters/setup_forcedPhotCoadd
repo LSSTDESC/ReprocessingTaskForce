@@ -1,0 +1,12 @@
+mkdir -p ${WORK_DIR}/12-forcedPhotCoadd
+cd ${WORK_DIR}/12-forcedPhotCoadd
+ln -sfn ${WORK_DIR} _parent
+cp -n $RTF/config/forcedPhotCoaddConfig.py .
+cp _parent/03-makeDiscreteSkyMap/patches* .
+run_forcedPhotCoadd.py -c forcedPhotCoaddConfig.py --fromslac
+pipelineSet nuscripts `ls scripts/u/*.sh 2>/dev/null | wc -l`
+pipelineSet ngscripts `ls scripts/g/*.sh 2>/dev/null | wc -l`
+pipelineSet nrscripts `ls scripts/r/*.sh 2>/dev/null | wc -l`
+pipelineSet niscripts `ls scripts/i/*.sh 2>/dev/null | wc -l`
+pipelineSet nzscripts `ls scripts/z/*.sh 2>/dev/null | wc -l`
+pipelineSet WORK_DIR ${WORK_DIR}

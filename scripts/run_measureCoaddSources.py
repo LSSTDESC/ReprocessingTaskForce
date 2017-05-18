@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
 import os
-import time
-import re
 import glob
-from optparse import OptionParser
 import libRun as LR
+
 
 def build_cmd(patch, configFile, filt, input, output):
     if not os.path.isdir("scripts/" + filt):

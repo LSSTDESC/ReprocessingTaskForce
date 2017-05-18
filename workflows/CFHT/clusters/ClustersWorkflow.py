@@ -110,3 +110,18 @@ def run_forcedPhotCcd():
             vars.put("CUR_SCRIPT", script)
             pipeline.createSubstream("forcedPhotCcdFilter", num, vars)
             num += 1
+
+
+def run_forcedPhotCoadd():
+    process = pipeline.getProcessInstance("setup_forcedPhotCoadd")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    num = 0
+    for filt in FILTERS:
+        nscript = vars.remove('n' + filt + 'scripts')
+        for i in range(int(nscript)):
+            script = workdir + "/12-forcedPhotCoadd/scripts/%s/patches_%s.txt_%02d.sh" % \
+                     (filt, filt, i)
+            vars.put("CUR_SCRIPT", script)
+            pipeline.createSubstream("forcedPhotCoaddFilter", num, vars)
+            num += 1
