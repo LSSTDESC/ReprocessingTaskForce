@@ -201,6 +201,32 @@
       </createsSubtasks>	
     </process>
 
+    <!-- measureCoaddSources -->
+    <!--   setup -->
+    <process name="setup_measureCoaddSources" site="${JOBSITE}">
+      <notation>Setup for measureCoaddSources</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="measureCoaddSourcesFilter.measureCoaddSourcesfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="measureCoaddSources" site="${JOBSITE}">
+      <notation>Run measureCoaddSources for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_measureCoaddSources()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_measureCoaddSources"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>measureCoaddSourcesFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
     
     <!--   Subtasks -->
     <!--   Subtask to run processCcd -->
@@ -251,6 +277,15 @@
     <!--   Subtask to run mergeCoaddDetections -->
     <task name="mergeCoaddDetectionsFilter" type="LSST">
       <process name="mergeCoaddDetectionsfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="-l sps=1,ct=10000,h_vmem=4G,os=cl7" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run measureCoaddSources -->
+    <task name="measureCoaddSourcesFilter" type="LSST">
+      <process name="measureCoaddSourcesfilter" site="${JOBSITE}">
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>

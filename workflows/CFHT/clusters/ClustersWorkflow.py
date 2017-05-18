@@ -70,3 +70,18 @@ def run_mergeCoaddDetections():
         script = workdir + "/08-mergeCoaddDetections/scripts/patches_all.txt_%02d.sh" % num
         vars.put("CUR_SCRIPT", script)
         pipeline.createSubstream("mergeCoaddDetectionsFilter", num, vars)
+
+
+def run_measureCoaddSources():
+    process = pipeline.getProcessInstance("setup_measureCoaddSources")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    num = 0
+    for filt in FILTERS:
+        nscript = vars.remove('n' + filt + 'scripts')
+        for i in range(int(nscript)):
+            script = workdir + "/09-measureCoaddSources/scripts/%s/patches_%s.txt_%02d.sh" % \
+                     (filt, filt, i)
+            vars.put("CUR_SCRIPT", script)
+            pipeline.createSubstream("measureCoaddSourcesFilter", num, vars)
+            num += 1
