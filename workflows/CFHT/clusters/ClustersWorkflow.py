@@ -85,3 +85,14 @@ def run_measureCoaddSources():
             vars.put("CUR_SCRIPT", script)
             pipeline.createSubstream("measureCoaddSourcesFilter", num, vars)
             num += 1
+
+
+def run_mergeCoaddMeasurements():
+    process = pipeline.getProcessInstance("setup_mergeCoaddMeasurements")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    nscript = vars.remove('nscripts')
+    for num in range(int(nscript)):
+        script = workdir + "/10-mergeCoaddMeasurements/scripts/patches_all.txt_%02d.sh" % num
+        vars.put("CUR_SCRIPT", script)
+        pipeline.createSubstream("mergeCoaddMeasurementsFilter", num, vars)

@@ -6,22 +6,19 @@ import libRun as LR
 
 def build_cmd(patch, configFile, input, output) :
 
-    if not os.path.isdir("scripts") :
+    if not os.path.isdir("scripts"):
         os.makedirs("scripts")
-        
+
     cmd = "mv "+ patch + " scripts"
     os.system(cmd)
 
-    cmd = "mergeCoaddMeasurements.py %s --output %s"  % (input, output) + " @scripts/" + \
-          patch + " --configfile " + configFile + " --clobber-config --clobber-versions"
-    print cmd
+    cmd = "mergeCoaddMeasurements.py %s --output %s"  % (input, output) + \
+          " @scripts/" + patch + " --configfile " + configFile
 
     return cmd
 
 if __name__ == "__main__":
-    
-    filters = "ugriz"
-    
+        
     usage = """%prog [option]"""
     
     description = """This script will run detectCoadSources for a given list of filters and patches. 
@@ -30,22 +27,19 @@ if __name__ == "__main__":
     to make it work. To run all  filters, you can do something like 
     %prog -f ugriz -m 1 -c detectCoaddSources.py -a"""
     
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
-    configFile = opts.configs
-
-    filePatch = "patches.txt"
-
-    modularity = opts.mod
-    maxPatch = opts.max 
+    opts.mod = 10
+    opts.input = "_parent/output/coadd_dir"
+    opts.output = "_parent/output/coadd_dir"
+    file_patch = "patches_all.txt"
     
-    cmd = "split -l " + str(modularity) + " -d " + filePatch + " _" + filePatch
-    print cmd
+    cmd = "split -l " + str(opts.mod) + " -d " + file_patch + " " + file_patch + "_"
     os.system(cmd)
-
-    patchList = glob.glob("_patches*")
+    patch_list = sorted(glob.glob(file_patch + "_*"))
     
-    for patch in sorted(patchList):
-        print patch
-        cmd = build_cmd(patch, configFile, opts.input, opts.output)
-        LR.submit(cmd, patch, autosubmit=opts.autosubmit)
+    for patch in sorted(patch_list):
+        print "\n", patch
+        cmd = build_cmd(patch, opts.configs, opts.input, opts.output)
+        LR.submit(cmd, patch, autosubmit=opts.autosubmit, ct=60000, vmem='4G',
+                  from_slac=opts.fromslac)
