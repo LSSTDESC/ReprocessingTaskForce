@@ -130,7 +130,7 @@
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
-        <after process="assembleCoaddFilter.assembleCoaddfilter"/>
+        <after process="jointcalCoaddFilter.jointcalCoaddfilter"/>
       </depends>
     </process>
     <!--   launch jobs -->
@@ -156,7 +156,7 @@
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
-        <after process="detectCoaddSourcesFilter.detectCoaddSourcesfilter"/>
+        <after process="assembleCoaddFilter.assembleCoaddfilter"/>
       </depends>
     </process>
     <!--   launch jobs -->
@@ -182,7 +182,7 @@
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
-        <after process="mergeCoaddDetectionsFilter.mergeCoaddDetectionsfilter"/>
+        <after process="detectCoaddSourcesFilter.detectCoaddSourcesfilter"/>
       </depends>
     </process>
     <!--   launch jobs -->
@@ -208,7 +208,7 @@
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
-        <after process="measureCoaddSourcesFilter.measureCoaddSourcesfilter"/>
+        <after process="mergeCoaddDetectionsFilter.mergeCoaddDetectionsfilter"/>
       </depends>
     </process>
     <!--   launch jobs -->
@@ -249,7 +249,7 @@
     </task>
     <!--   Subtask to run jointcalCoadd -->
     <task name="jointcalCoaddFilter" type="LSST">
-      <process name="jointcalcoaddfilter" site="${JOBSITE}">
+      <process name="jointcalCoaddfilter" site="${JOBSITE}">
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
