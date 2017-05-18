@@ -49,3 +49,13 @@ def run_assembleCoadd():
             vars.put("CUR_SCRIPT", script)
             pipeline.createSubstream("assembleCoaddFilter", num, vars)
             num += 1
+
+
+def run_detectCoaddSources():
+    process = pipeline.getProcessInstance("setup_detectCoaddSources")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    for num, filt in enumerate(FILTERS):
+        script = workdir + "/07-detectCoaddSources/scripts/%s/patches_%s.sh" % (filt, filt)
+        vars.put("CUR_SCRIPT", script)
+        pipeline.createSubstream("detectCoaddSourcesFilter", num, vars)

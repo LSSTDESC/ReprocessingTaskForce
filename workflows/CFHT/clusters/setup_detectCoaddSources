@@ -1,0 +1,7 @@
+mkdir -p ${WORK_DIR}/07-detectCoaddSources
+cd ${WORK_DIR}/07-detectCoaddSources
+ln -sfn ${WORK_DIR} _parent
+cp -n $RTF/config/detectCoaddConfig.py .
+cp _parent/03-makeDiscreteSkyMap/patches* .
+run_jointcalCoadd.py -c jointcalCoaddConfig.py --fromslac
+pipelineSet WORK_DIR ${WORK_DIR}
