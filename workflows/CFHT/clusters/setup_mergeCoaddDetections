@@ -1,0 +1,8 @@
+mkdir -p ${WORK_DIR}/08-mergeCoaddDetections
+cd ${WORK_DIR}/08-mergeCoaddDetections
+ln -sfn ${WORK_DIR} _parent
+cp -n $RTF/config/mergeCoaddDetectionsConfig.py .
+cp _parent/03-makeDiscreteSkyMap/patches* .
+run_mergeCoaddDetections.py -c mergeCoaddDetectionsConfig.py --fromslac
+pipelineSet nscripts `ls scripts/*.sh 2>/dev/null | wc -l`
+pipelineSet WORK_DIR ${WORK_DIR}
