@@ -96,3 +96,17 @@ def run_mergeCoaddMeasurements():
         script = workdir + "/10-mergeCoaddMeasurements/scripts/patches_all.txt_%02d.sh" % num
         vars.put("CUR_SCRIPT", script)
         pipeline.createSubstream("mergeCoaddMeasurementsFilter", num, vars)
+
+
+def run_forcedPhotCcd():
+    process = pipeline.getProcessInstance("setup_forcedPhotCcd")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    num = 0
+    for filt in FILTERS:
+        nscript = vars.remove('n' + filt + 'scripts')
+        for i in range(1, int(nscript) + 1):
+            script = workdir + "/11-forcedPhotCcd/scripts/%s/visit_%03d.sh" % (filt, i)
+            vars.put("CUR_SCRIPT", script)
+            pipeline.createSubstream("forcedPhotCcdFilter", num, vars)
+            num += 1
