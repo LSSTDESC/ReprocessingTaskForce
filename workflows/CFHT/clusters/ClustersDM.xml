@@ -8,7 +8,7 @@
     <notation>A simple task for running the DM for reprocessing Clusters</notation>
     <variables>
       <!-- Job site and configuration-->
-      <var name="JOBSITE">IN2P3</var>
+      <var name="JOBSITE">LSST-IN2P3</var>
       <var name="MAXCPU">10000</var>
       <var name="MAXCPULONG">10000</var>
       <var name="BATCH_OPTIONS">-l os=cl7</var>
