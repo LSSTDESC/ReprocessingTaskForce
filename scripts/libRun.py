@@ -82,7 +82,7 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
             script.write("#$ %s\n" % otheroptions)
         script.write("#$ -j y\n")
         script.write("#$ -o %s\n" % log)
-        script.write("source ${SCRIPT_LOCATION}/DMsetup.sh\n")
+        script.write("source ${IN2P3_SCRIPT_LOCATION}/DMsetup.sh\n")
         script.write("cd " + cwd + "\n")
         script.write(cmd + "\n")
     script.close()
