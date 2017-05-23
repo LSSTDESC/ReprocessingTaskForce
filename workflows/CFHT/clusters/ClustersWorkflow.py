@@ -56,7 +56,7 @@ def run_detectCoaddSources():
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
     for num, filt in enumerate(FILTERS):
-        script = workdir + "/07-detectCoaddSources/scripts/%s/patches_%s.sh" % (filt, filt)
+        script = workdir + "/07-detectCoaddSources/scripts/%s/patches_%s_script.sh" % (filt, filt)
         vars.put("CUR_SCRIPT", script)
         pipeline.createSubstream("detectCoaddSourcesFilter", num, vars)
 
