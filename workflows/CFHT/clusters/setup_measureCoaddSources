@@ -1,4 +1,6 @@
 mkdir -p ${WORK_DIR}/09-measureCoaddSources
+cd ${WORK_DIR}/input
+ln -sfn /sps/lsst/data/refcats/htm/htm_baseline cal_ref_cat
 cd ${WORK_DIR}/09-measureCoaddSources
 ln -sfn ${WORK_DIR} _parent
 cp -n $RTF/config/measureCoaddSourcesConfig.py .
