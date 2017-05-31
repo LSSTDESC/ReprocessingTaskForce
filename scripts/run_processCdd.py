@@ -56,6 +56,7 @@ if __name__ == "__main__":
         print "INFO: %i visits loaded: " % len(visits), visits
 
         # How many jobs should we be running (and how many visit in each?)?
+        opts.mod = 1  # one job per visit to be faster
         njobs = LR.job_number(visits, opts.mod, opts.max)
 
         # Reorganize the visit list in consequence
