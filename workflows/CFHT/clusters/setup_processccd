@@ -2,7 +2,7 @@ mkdir -p ${WORK_DIR}/02-processccd
 mkdir -p ${WORK_DIR}/output
 cd ${WORK_DIR}/output
 ln -sfn /sps/lsst/data/refcats/htm/htm_baseline ref_cats
-ln -sfn ${WORK_DIR}/input _parent
+# ln -sfn ${WORK_DIR}/input _parent  # removed this line after talking to DM people on slack
 cd ${WORK_DIR}/02-processccd
 ln -sfn ${WORK_DIR} _parent
 cp -n $RTF/config/processCcdConfig* .
