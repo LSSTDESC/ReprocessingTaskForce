@@ -7,7 +7,7 @@ cd ${WORK_DIR}/02-processccd
 ln -sfn ${WORK_DIR} _parent
 cp -n $RTF/config/processCcdConfig* .
 build_visit_lists.py -i ${WORK_DIR}/input
-run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py --fromslac
+run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py --multicore --fromslac
 pipelineSet nuscripts `ls scripts/u/*.sh 2>/dev/null | wc -l`
 pipelineSet ngscripts `ls scripts/g/*.sh 2>/dev/null | wc -l`
 pipelineSet nrscripts `ls scripts/r/*.sh 2>/dev/null | wc -l`
