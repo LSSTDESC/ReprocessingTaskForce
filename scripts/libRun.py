@@ -68,7 +68,7 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
         script.write(qsub + "\n")
         script.write("#!/usr/local/bin/bash\n")
         script.write(" cd " + cwd + "\n")
-        script.write(" source _parent/setup.sh\n")
+        script.write(" source pardir/setup.sh\n")
         script.write(" " + cmd + "\n")
         script.write("EOF" + "\n")
     else:
@@ -134,8 +134,8 @@ def standard_options(usage=None, description=None, filters='ugriz'):
                       " '_f' in the name of the file. e.g.: processConfig.py,processConfig_u.py if you"
                       " want the 'u' filter to use a different configuration file. The default config"
                       " must be the first one.")
-    parser.add_option("-i", "--input", type="string", default="_parent/input", help="Input directory")
-    parser.add_option("-o", "--output", type="string", default="_parent/output",
+    parser.add_option("-i", "--input", type="string", default="pardir/input", help="Input directory")
+    parser.add_option("-o", "--output", type="string", default="pardir/output",
                       help="output directory")
     parser.add_option("-m", "--mod", type="int", default=4,
                       help="Nbr. of visits per job [%default]")

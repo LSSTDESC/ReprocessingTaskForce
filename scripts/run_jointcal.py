@@ -22,8 +22,8 @@ if __name__ == "__main__":
 
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
-    input = "_parent/output"
-    output = "_parent/output/coadd_dir"
+    input = "pardir/output"
+    output = "pardir/output/coadd_dir"
     config = "jointcalConfig.py"
 
     # Loop over filters

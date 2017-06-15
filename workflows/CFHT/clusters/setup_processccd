@@ -1,12 +1,12 @@
 mkdir -p ${WORK_DIR}/02-processccd
 cd ${WORK_DIR}/input
 ln -sfn /sps/lsst/data/refcats/htm/htm_baseline ref_cats
-# ln -sfn ${WORK_DIR}/input _parent  # removed this line after talking to DM people on slack
+# ln -sfn ${WORK_DIR}/input pardir  # removed this line after talking to DM people on slack
 cd ${WORK_DIR}/02-processccd
-ln -sfn ${WORK_DIR} _parent
+ln -sfn ${WORK_DIR} pardir
 cp -n $RTF/config/processCcdConfig* .
 build_visit_lists.py -i ${WORK_DIR}/input
-processCcd.py _parent/input --output _parent/output --configfile processCcdConfig.py
+processCcd.py pardir/input --output pardir/output --configfile processCcdConfig.py
 run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py --fromslac
 pipelineSet nuscripts `ls scripts/u/*.sh 2>/dev/null | wc -l`
 pipelineSet ngscripts `ls scripts/g/*.sh 2>/dev/null | wc -l`

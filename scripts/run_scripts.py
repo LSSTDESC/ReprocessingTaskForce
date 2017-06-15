@@ -45,18 +45,18 @@ def build_cmd(script_number, items, config, filt, **kwargs):
     # 1
     if script == 'processCcd':
         filename = "scripts/" + filt + "/" + items + ".list"        
-        cmd = "processCcd.py _parent/input --output _parent/output @" + \
+        cmd = "processCcd.py pardir/input --output pardir/output @" + \
               filename + " --configfile " + config + " --clobber-config"
     # 2
     elif script == 'makeCoaddTempExp':
         filename = filt+'.list'
-        cmd = "makeCoaddTempExp.py _parent/output --output _parent/output/coadd_dir " + items + " @" + filename + " --configfile " + config
+        cmd = "makeCoaddTempExp.py pardir/output --output pardir/output/coadd_dir " + items + " @" + filename + " --configfile " + config
     # 3
     elif script == 'assembleCoadd':
         # h_vmem=8G
         patchList, runList, configFile, filt
         prefix = makeFileName(patchList)
-        cmd = "assembleCoadd.py _parent/output/coadd_dir " + patchList + " @" + runList + " --configfile " + configFile + " --clobber-config"
+        cmd = "assembleCoadd.py pardir/output/coadd_dir " + patchList + " @" + runList + " --configfile " + configFile + " --clobber-config"
     # 4
     elif script == 'detectCoaddSources':
         print "WARNING: No implemented yet. Quit."
@@ -121,7 +121,7 @@ def submit(cmd, prefix, config, filt, autosubmit=False, ct=60000, vmem='4G'):
     script.write(qsub + "\n")
     script.write("#!/usr/local/bin/bash\n")
     script.write(" cd " + cwd + "\n")
-    script.write(" source _parent/setup.sh\n")
+    script.write(" source pardir/setup.sh\n")
     script.write(" " + cmd + "\n")
     script.write("EOF" + "\n")
     script.close()

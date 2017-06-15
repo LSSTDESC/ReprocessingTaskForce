@@ -29,7 +29,7 @@ source setup.sh
 cd 01-CalibratedData
 cadc_query.py -T %s -d .     # to check the available data  
 cadc_query.py -T %s -d . -D  # to download them
-cd _parent
+cd pardir
 
 ### Re-organize the data
 ingestImages.py input 01-CalibratedData/*.fz --mode link
@@ -38,47 +38,47 @@ ingestImages.py input 01-CalibratedData/*.fz --mode link
 
 cd 02-processCcd
 checkRaw.py # add the options
-build_visit_lists.py -i _parent/input
+build_visit_lists.py -i pardir/input
 run_processCdd.py -c processCcdConfig.py,processCcdConfig_u.py -a
 # and wait for the job to finish
 # check for failure and for bad astrometry measurements # to be replaced by a single script
 rerun_locked.py
 select_ccd.py -l log
-cd _parent
+cd pardir
 
 
 ### 03-makeDiscreteSkyMap
 
 source setup.sh # if not done already
 cd 03-makeDiscreteSkyMap
-# build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log,_parent/02-processCcd/rerun_std_astro/\*.log
-build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/\*/\*.log
+# build_visit_lists.py -i pardir/input -l pardir/02-processCcd/log/\*/\*.log,pardir/02-processCcd/rerun_std_astro/\*.log
+build_visit_lists.py -i pardir/input -l pardir/02-processCcd/log/\*/\*.log
 build_patch_lists.py
-cd _parent
+cd pardir
 
 ### 04-jointcal
 
 cd 04-jointcal
-build_visit_lists.py -i _parent/input -l _parent/02-processCcd/log/*/*.log
+build_visit_lists.py -i pardir/input -l pardir/02-processCcd/log/*/*.log
 run_jointcal.py -a
-cd _parent
+cd pardir
 
 
 ### 05-jointcalCoadd
 
 cd 05-jointcalCoadd
-build_visit_lists.py -i _parent/input/ -l _parent/02-processCcd/log/*/*.log --idopt selectId
-cp _parent/03-makeDiscreteSkyMap/patches* .
+build_visit_lists.py -i pardir/input/ -l pardir/02-processCcd/log/*/*.log --idopt selectId
+cp pardir/03-makeDiscreteSkyMap/patches* .
 run_jointcalCoadd.py -c jointcalCoaddConfig.py -a
-cd _parent
+cd pardir
 
 jointcalCoadd.py output --output output/coadd_dir @patch.list @filter.list --configfile jointcalCoaddConfig.py
 
 ### 06-assembleCoadd
 
 cd 06-assembleCoadd
-cp _parent/05-makeCoaddTempExp/*.list _parent/05-makeCoaddTempExp/*.txt .
-ln -s /sps/lsst/dev/nchotard/clusters/3C295 _parent
+cp pardir/05-makeCoaddTempExp/*.list pardir/05-makeCoaddTempExp/*.txt .
+ln -s /sps/lsst/dev/nchotard/clusters/3C295 pardir
 cp /sps/lsst/dev/lsstprod/clusters/MACSJ2243.3-0935/utils/assembleCoadd/assembleConfig.py .
 run_assembleCoadd.py -c assembleConfig.py
 
@@ -86,7 +86,7 @@ run_assembleCoadd.py -c assembleConfig.py
 ### 07-detectCoaddSources
 
 cp ../05-makeCoaddTempExp/*.txt .
-ln -s /sps/lsst/dev/nchotard/clusters/3C295 _parent
+ln -s /sps/lsst/dev/nchotard/clusters/3C295 pardir
 cp /sps/lsst/dev/lsstprod/clusters/MACSJ2243.3-0935/utils/detectCoaddSources/detectCoaddConfig.py .
 run_detectCoaddSources.py -c detectCoaddConfig.py -a
 
@@ -207,13 +207,13 @@ procedure including the config file and a readme.
         else:
             if not os.path.isdir(d):
                 os.mkdir(d)
-        if not os.path.exists(d + '/_parent'):
+        if not os.path.exists(d + '/pardir'):
             if d == 'output':
-                os.symlink(current_dir + "input", d + '/_parent')
+                os.symlink(current_dir + "input", d + '/pardir')
             elif d == 'input':
                 pass
             else:
-                os.symlink(current_dir, d + '/_parent')
+                os.symlink(current_dir, d + '/pardir')
         if not d.startswith('01'):
             os.mkdir(current_dir + d + '/log')
             os.mkdir(current_dir + d + '/scripts')

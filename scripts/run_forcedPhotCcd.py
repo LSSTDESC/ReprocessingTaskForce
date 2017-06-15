@@ -14,7 +14,7 @@ import libRun as LR
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
-def build_cmd(visit, config, filt, input='_parent/input', output='_parent/output'):
+def build_cmd(visit, config, filt, input='pardir/input', output='pardir/output'):
 
     # Create the command line
     cmd = "forcedPhotCcd.py %s --output %s " % (input, output) + \
@@ -37,8 +37,8 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
     opts.mod = 1
-    opts.input = "_parent/output/coadd_dir"
-    opts.output = "_parent/output/coadd_dir"
+    opts.input = "pardir/output/coadd_dir"
+    opts.output = "pardir/output/coadd_dir"
 
     # Loop over filters
     for filt in opts.filters:

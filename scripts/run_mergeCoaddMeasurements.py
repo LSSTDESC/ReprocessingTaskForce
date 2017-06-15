@@ -30,8 +30,8 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description)
 
     opts.mod = 10
-    opts.input = "_parent/output/coadd_dir"
-    opts.output = "_parent/output/coadd_dir"
+    opts.input = "pardir/output/coadd_dir"
+    opts.output = "pardir/output/coadd_dir"
     file_patch = "patches_all.txt"
     
     cmd = "split -l " + str(opts.mod) + " -d " + file_patch + " " + file_patch + "_"

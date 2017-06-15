@@ -4,7 +4,7 @@ import numpy as N
 import libRun as LR
 
 def build_cmd(patches, config, filt):
-    cmd = "makeCoaddTempExp.py _parent/output --output _parent/output/coadd_dir " + patches + " @" + \
+    cmd = "makeCoaddTempExp.py pardir/output --output pardir/output/coadd_dir " + patches + " @" + \
           filt + ".list" + " --configfile " + config
     print "\nCMD:", cmd
     return cmd

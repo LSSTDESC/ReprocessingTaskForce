@@ -1,7 +1,7 @@
 mkdir -p ${WORK_DIR}/07-detectCoaddSources
 cd ${WORK_DIR}/07-detectCoaddSources
-ln -sfn ${WORK_DIR} _parent
+ln -sfn ${WORK_DIR} pardir
 cp -n $RTF/config/detectCoaddConfig.py .
-cp _parent/03-makeDiscreteSkyMap/patches* .
+cp pardir/03-makeDiscreteSkyMap/patches* .
 run_detectCoaddSources.py -c detectCoaddConfig.py --fromslac
 pipelineSet WORK_DIR ${WORK_DIR}

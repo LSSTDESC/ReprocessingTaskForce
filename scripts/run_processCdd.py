@@ -14,7 +14,7 @@ import libRun as LR
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
-def build_cmd(visits, config, filt, input='_parent/input', output='_parent/output'):
+def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'):
 
     if not os.path.isdir("scripts/" + filt):
         os.makedirs("scripts/" + filt)
