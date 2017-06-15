@@ -4,7 +4,7 @@ config.isr.doBrighterFatter=False
 config.charImage.repair.cosmicray.nCrPixelMax=1000000
 
 # Useful to get to avoid deblending of satellite tracks
-config.calibrate.deblend.maxFootprintSize=2200
+config.calibrate.deblend.maxFootprintSize=2000 #2200
 
 # Use psfex instead of pca
 import lsst.meas.extensions.psfex.psfexPsfDeterminer
