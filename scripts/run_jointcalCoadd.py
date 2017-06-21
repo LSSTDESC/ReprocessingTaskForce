@@ -30,8 +30,8 @@ if __name__ == "__main__":
         # Get the list of patches
 
         # default options
-        opts.input = "pardir/output"
-        opts.output = "pardir/output"
+        opts.input = "pardir/output/joincal"
+        opts.output = "pardir/output/jointcalcoadd"
 
         # Build the command line and other things
         cmd = build_cmd("patches_" + filt + ".txt", config, filt, opts.input, opts.output)
