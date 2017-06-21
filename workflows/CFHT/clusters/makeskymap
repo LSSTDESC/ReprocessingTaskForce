@@ -4,4 +4,4 @@ cd ${WORK_DIR}/03-makeDiscreteSkyMap
 ln -sfn ${WORK_DIR} pardir
 
 build_visit_lists.py -i pardir/input -l pardir/02-processCcd/log/\*/\*.log
-build_patch_lists.py
+build_patch_lists.py --output pardir/output/skymap
