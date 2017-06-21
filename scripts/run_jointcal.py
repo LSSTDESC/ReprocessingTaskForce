@@ -23,12 +23,12 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
     input = "pardir/output"
-    output = "pardir/output/coadd_dir"
+    output = "pardir/output"
     config = "jointcalConfig.py"
 
     # Loop over filters
     for filt in opts.filters:
-        cmd = "jointcal.py %s --output %s @%s.list --configfile %s --clobber-config" % \
+        cmd = "jointcal.py %s --output %s @%s.list --configfile %s" % \
               (input, output, filt, config)
         # Only submit the job if asked
         prefix = "jointcal_%s" % filt

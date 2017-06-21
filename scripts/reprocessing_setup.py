@@ -72,7 +72,7 @@ cp pardir/03-makeDiscreteSkyMap/patches* .
 run_jointcalCoadd.py -c jointcalCoaddConfig.py -a
 cd pardir
 
-jointcalCoadd.py output --output output/coadd_dir @patch.list @filter.list --configfile jointcalCoaddConfig.py
+jointcalCoadd.py output --output output @patch.list @filter.list --configfile jointcalCoaddConfig.py
 
 ### 06-assembleCoadd
 

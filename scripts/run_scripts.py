@@ -50,13 +50,13 @@ def build_cmd(script_number, items, config, filt, **kwargs):
     # 2
     elif script == 'makeCoaddTempExp':
         filename = filt+'.list'
-        cmd = "makeCoaddTempExp.py pardir/output --output pardir/output/coadd_dir " + items + " @" + filename + " --configfile " + config
+        cmd = "makeCoaddTempExp.py pardir/output --output pardir/output " + items + " @" + filename + " --configfile " + config
     # 3
     elif script == 'assembleCoadd':
         # h_vmem=8G
         patchList, runList, configFile, filt
         prefix = makeFileName(patchList)
-        cmd = "assembleCoadd.py pardir/output/coadd_dir " + patchList + " @" + runList + " --configfile " + configFile + " --clobber-config"
+        cmd = "assembleCoadd.py pardir/output " + patchList + " @" + runList + " --configfile " + configFile + " --clobber-config"
     # 4
     elif script == 'detectCoaddSources':
         print "WARNING: No implemented yet. Quit."

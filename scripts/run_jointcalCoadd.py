@@ -30,8 +30,8 @@ if __name__ == "__main__":
         # Get the list of patches
 
         # default options
-        opts.input = "pardir/output/coadd_dir"
-        opts.output = "pardir/output/coadd_dir"
+        opts.input = "pardir/output"
+        opts.output = "pardir/output"
 
         # Build the command line and other things
         cmd = build_cmd("patches_" + filt + ".txt", config, filt, opts.input, opts.output)

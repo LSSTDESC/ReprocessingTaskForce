@@ -31,8 +31,8 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
     opts.mod = 4
-    opts.input = "pardir/output/coadd_dir"
-    opts.output = "pardir/output/coadd_dir"
+    opts.input = "pardir/output"
+    opts.output = "pardir/output"
 
     for filt in opts.filters:
         filePatch = "patches_" + filt + ".txt"
