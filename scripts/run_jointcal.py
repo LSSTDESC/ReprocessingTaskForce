@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
-    input = "pardir/output/coadd_dir"
+    input = "pardir/output"
     output = "pardir/output/jointcal"
     config = "jointcalConfig.py"
 
