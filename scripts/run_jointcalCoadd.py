@@ -30,7 +30,7 @@ if __name__ == "__main__":
         # Get the list of patches
 
         # default options
-        opts.input = "pardir/output/joincal"
+        opts.input = "pardir/output/jointcal"
         opts.output = "pardir/output/jointcalcoadd"
 
         # Build the command line and other things
