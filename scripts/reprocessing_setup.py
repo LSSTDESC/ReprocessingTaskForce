@@ -163,7 +163,7 @@ CONFIGS = ['02-processCcdConfig.py',
 # Where the config file templates are stored
 if os.getenv("RTF") is None:
     raise "ERROR: You must setup the ReprocessingTaskForce project first: 'source rtf_setup.sh'"
-CTEMPLATES = os.getenv("RTF") + "/config/"
+CTEMPLATES = os.getenv("RTF") + "/config/" + os.getenv("DM_CONFIG") + "/"
 
 # Reference catalgos
 REFCATS = "/sps/lsst/data/refcats/htm/htm_baseline"

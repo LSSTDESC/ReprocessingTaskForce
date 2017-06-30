@@ -1,7 +1,7 @@
 mkdir -p ${WORK_DIR}/06-assembleCoadd
 cd ${WORK_DIR}/06-assembleCoadd
 ln -sfn ${WORK_DIR} pardir
-cp -n $RTF/config/assembleCoaddConfig.py .
+cp -n $RTF/config/$DM_CONFIG/assembleCoaddConfig.py .
 cp pardir/05-jointcalCoadd/*.list pardir/05-jointcalCoadd/*.txt .
 run_assembleCoadd.py -c assembleCoaddConfig.py --fromslac
 pipelineSet nuscripts `ls scripts/u/*.sh 2>/dev/null | wc -l`
