@@ -25,6 +25,8 @@ if __name__ == "__main__":
 
     # overwrite the -m option to force it to be 1
     opts.mod = 5
+    opts.input = "pardir/output/jointcalcoadd"
+    opts.output = "pardir/output/assemblecoadd"
 
     # Loop over filters
     for filt in opts.filters:
@@ -49,8 +51,8 @@ if __name__ == "__main__":
                             config, filt, opts.input, opts.output)
 
             # Only submit the job if asked
-            LR.submit(cmd, "patches_%03d" % (i + 1), filt, autosubmit=opts.autosubmit, ct=1000, vmem='4G',
-                      from_slac=opts.fromslac)
+            LR.submit(cmd, "patches_%03d" % (i + 1), filt, autosubmit=opts.autosubmit,
+                      ct=1000, vmem='4G', from_slac=opts.fromslac)
 
             N.savetxt(open("scripts/%s/patches_%03d.list" % (filt, i + 1), 'w'), ps, fmt="%s")
 
