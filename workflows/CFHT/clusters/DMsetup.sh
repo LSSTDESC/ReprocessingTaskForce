@@ -4,10 +4,12 @@ export HOME=`pwd`
 # Setup for the stack
 source ${DM_SETUP}
 
-#source ${DM_DIR}/${DM_SETUP}
-#setup lsst_distrib
-#setup obs_cfht
-#setup pipe_tasks
-#setup galsim
-#setup meas_extensions_psfex
-#setup meas_modelfit
+if [[ $DM_SETUP == *"/sps/lsst/software/lsst_distrib/w_20"* ]]
+then
+    setup lsst_distrib
+    setup obs_cfht
+    setup pipe_tasks
+    setup galsim
+    setup meas_extensions_psfex
+    setup meas_modelfit
+fi
