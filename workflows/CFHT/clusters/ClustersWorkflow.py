@@ -31,10 +31,14 @@ def run_jointcalCoadd():
     process = pipeline.getProcessInstance("setup_jointcalCoadd")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    for num, filt in enumerate(FILTERS):
-        script = workdir + "/05-jointcalCoadd/scripts/%s/patches_%s_script.sh" % (filt, filt)
-        vars.put("CUR_SCRIPT", script)
-        pipeline.createSubstream("jointcalCoaddFilter", num, vars)
+    num = 0
+    for filt in FILTERS:
+        nscript = vars.remove('n' + filt + 'scripts')
+        for i in range(1, int(nscript) + 1):
+            script = workdir + "/05-jointcalCoadd/scripts/%s/patches_%03d.sh" % (filt, i)
+            vars.put("CUR_SCRIPT", script)
+            pipeline.createSubstream("jointcalCoaddFilter", num, vars)
+            num += 1
 
 
 def run_assembleCoadd():

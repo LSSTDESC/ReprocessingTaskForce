@@ -5,4 +5,9 @@ cp -n $RTF/config/$DM_CONFIG/jointcalCoaddConfig.py .
 build_visit_lists.py -i pardir/input -l pardir/02-processCcd/log/*/*.log --idopt selectId
 cp pardir/03-makeDiscreteSkyMap/patches* .
 run_jointcalCoadd.py -c jointcalCoaddConfig.py --fromslac
+pipelineSet nuscripts `ls scripts/u/*.sh 2>/dev/null | wc -l`
+pipelineSet ngscripts `ls scripts/g/*.sh 2>/dev/null | wc -l`
+pipelineSet nrscripts `ls scripts/r/*.sh 2>/dev/null | wc -l`
+pipelineSet niscripts `ls scripts/i/*.sh 2>/dev/null | wc -l`
+pipelineSet nzscripts `ls scripts/z/*.sh 2>/dev/null | wc -l`
 pipelineSet WORK_DIR ${WORK_DIR}
