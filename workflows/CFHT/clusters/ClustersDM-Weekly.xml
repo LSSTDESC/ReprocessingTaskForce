@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline xmlns="http://glast-ground.slac.stanford.edu/pipeline" 
+          xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
+          xs:schemaLocation="http://glast-ground.slac.stanford.edu/pipeline 
+			     http://srs.slac.stanford.edu/Pipeline-II/schemas/2.1/pipeline.xsd">
+  
+  <task name="ClustersDM-Weekly" type="LSST" version="1.0">
+    <notation>A simple task for running the DM for reprocessing Clusters</notation>
+    <variables>
+      <!-- Job site and configuration-->
+      <var name="JOBSITE">LSST-IN2P3</var>
+      <var name="MAXCPU">10000</var>
+      <var name="MAXCPULONG">10000</var>
+      <var name="BATCH_OPTIONS">-l sps=1,os=cl7</var>
+      <!-- Default location from which to setup DM -->
+      <var name="DM_RELEASE">w_2017_26</var>
+      <var name="DM_SETUP">/sps/lsst/software/lsst_distrib/${DM_RELEASE}/loadLSST.bash</var>
+      <var name="DM_CONFIG">${DM_RELEASE}</var>
+      <!-- Base directory where script files will be placed -->
+      <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/CFHT/clusters</var>
+      <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/${SCRIPT_LOCATION}</var>
+      <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/dev/lsstprod/${SCRIPT_LOCATION}</var>
+      <!-- Script names -->
+      <var name="SCRIPT_NAME">ClustersWorkflow.py</var>
+      <var name="BATCH_NAME">ClustersBatch.sh</var>
+      <!-- Base directory for input and output data -->
+      <var name="VISIT_DIR">/sps/lsst/data/clusters/MACSJ2243.3-0935/rawDownload</var>
+      <var name="OUTPUT_DATA_DIR">/sps/lsst/data/clusters/workflow/weeklies</var>
+    </variables>
+
+    <!-- ingest images -->
+    <process name="ingest" site="${JOBSITE}">
+      <notation>Ingest the input data serially</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+    </process>
+
+    <!-- processCcd -->
+    <!--   setup -->
+    <process name="setup_processccd" site="${JOBSITE}">
+      <notation>Setup for processCcd</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="ingest"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="processccd" site="${JOBSITE}">
+      <notation>Run process ccd for all filter and visits</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_processCcd()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_processccd"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>processFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- makeDiscreteSkyMap -->
+    <process name="makeskymap" site="${JOBSITE}">
+      <notation>Make the sky map</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="processFilter.processfilter"/>
+      </depends>
+    </process>
+
+    <!-- jointcal -->
+    <!--   setup -->
+    <process name="setup_jointcal" site="${JOBSITE}">
+      <notation>Setup for jointcal</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="makeskymap"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="jointcal" site="${JOBSITE}">
+      <notation>Run jointcal for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_jointcal()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_jointcal"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>jointcalFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- jointcalCoadd -->
+    <!--   setup -->
+    <process name="setup_jointcalCoadd" site="${JOBSITE}">
+      <notation>Setup for jointcalCoadd</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="jointcalFilter.jointcalfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="jointcalCoadd" site="${JOBSITE}">
+      <notation>Run jointcalCoadd for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_jointcalCoadd()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_jointcalCoadd"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>jointcalCoaddFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- assembleCoadd -->
+    <!--   setup -->
+    <process name="setup_assembleCoadd" site="${JOBSITE}">
+      <notation>Setup for assembleCoadd</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="jointcalCoaddFilter.jointcalCoaddfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="assembleCoadd" site="${JOBSITE}">
+      <notation>Run assembleCoadd for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_assembleCoadd()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_assembleCoadd"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>assembleCoaddFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- detectCoaddSources -->
+    <!--   setup -->
+    <process name="setup_detectCoaddSources" site="${JOBSITE}">
+      <notation>Setup for detectCoaddSources</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="assembleCoaddFilter.assembleCoaddfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="detectCoaddSources" site="${JOBSITE}">
+      <notation>Run detectCoaddSources for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_detectCoaddSources()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_detectCoaddSources"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>detectCoaddSourcesFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- mergeCoaddDetections -->
+    <!--   setup -->
+    <process name="setup_mergeCoaddDetections" site="${JOBSITE}">
+      <notation>Setup for mergeCoaddDetections</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="detectCoaddSourcesFilter.detectCoaddSourcesfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="mergeCoaddDetections" site="${JOBSITE}">
+      <notation>Run mergeCoaddDetections for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_mergeCoaddDetections()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_mergeCoaddDetections"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>mergeCoaddDetectionsFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- measureCoaddSources -->
+    <!--   setup -->
+    <process name="setup_measureCoaddSources" site="${JOBSITE}">
+      <notation>Setup for measureCoaddSources</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="mergeCoaddDetectionsFilter.mergeCoaddDetectionsfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="measureCoaddSources" site="${JOBSITE}">
+      <notation>Run measureCoaddSources for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_measureCoaddSources()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_measureCoaddSources"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>measureCoaddSourcesFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- mergeCoaddMeasurements -->
+    <!--   setup -->
+    <process name="setup_mergeCoaddMeasurements" site="${JOBSITE}">
+      <notation>Setup for mergeCoaddMeasurements</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="measureCoaddSourcesFilter.measureCoaddSourcesfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="mergeCoaddMeasurements" site="${JOBSITE}">
+      <notation>Run mergeCoaddMeasurements for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_mergeCoaddMeasurements()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_mergeCoaddMeasurements"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>mergeCoaddMeasurementsFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- forcedPhotCcd -->
+    <!--   setup -->
+    <process name="setup_forcedPhotCcd" site="${JOBSITE}">
+      <notation>Setup for forcedPhotCcd</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="mergeCoaddMeasurementsFilter.mergeCoaddMeasurementsfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="forcedPhotCcd" site="${JOBSITE}">
+      <notation>Run forcedPhotCcd for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_forcedPhotCcd()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_forcedPhotCcd"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>forcedPhotCcdFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    <!-- forcedPhotCoadd -->
+    <!--   setup -->
+    <process name="setup_forcedPhotCoadd" site="${JOBSITE}">
+      <notation>Setup for forcedPhotCoadd</notation>
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
+      <depends>
+        <after process="mergeCoaddMeasurementsFilter.mergeCoaddMeasurementsfilter"/>
+      </depends>
+    </process>
+    <!--   launch jobs -->
+    <process name="forcedPhotCoadd" site="${JOBSITE}">
+      <notation>Run forcedPhotCoadd for all filter</notation>
+      <script><![CDATA[
+      execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
+      run_forcedPhotCoadd()
+      ]]>
+      </script>
+      <depends>
+        <after process="setup_forcedPhotCoadd"/>
+      </depends>
+      <createsSubtasks>
+	<subtask>forcedPhotCoaddFilter</subtask>
+      </createsSubtasks>	
+    </process>
+
+    
+    <!--   Subtasks -->
+    <!--   Subtask to run processCcd -->
+    <task name="processFilter" type="LSST">
+      <process name="processfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+	<job batchOptions="${BATCH_OPTIONS} -q huge " executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run jointcal -->
+    <task name="jointcalFilter" type="LSST">
+      <process name="jointcalfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run jointcalCoadd -->
+    <task name="jointcalCoaddFilter" type="LSST">
+      <process name="jointcalCoaddfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run assembleCoadd -->
+    <task name="assembleCoaddFilter" type="LSST">
+      <process name="assembleCoaddfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run detectCoaddSources -->
+    <task name="detectCoaddSourcesFilter" type="LSST">
+      <process name="detectCoaddSourcesfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run mergeCoaddDetections -->
+    <task name="mergeCoaddDetectionsFilter" type="LSST">
+      <process name="mergeCoaddDetectionsfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run measureCoaddSources -->
+    <task name="measureCoaddSourcesFilter" type="LSST">
+      <process name="measureCoaddSourcesfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run mergeCoaddMeasurements -->
+    <task name="mergeCoaddMeasurementsFilter" type="LSST">
+      <process name="mergeCoaddMeasurementsfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run forcedPhotCcd -->
+    <task name="forcedPhotCcdFilter" type="LSST">
+      <process name="forcedPhotCcdfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run forcedPhotCoadd -->
+    <task name="forcedPhotCoaddFilter" type="LSST">
+      <process name="forcedPhotCoaddfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    
+  </task>
+</pipeline>
