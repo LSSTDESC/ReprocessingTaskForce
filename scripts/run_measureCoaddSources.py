@@ -30,8 +30,8 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
     opts.mod = 2
-    opts.input = "pardir/output"
-    opts.output = "pardir/output"
+    opts.input = "pardir/output/mergecoadddetections"
+    opts.output = "pardir/output/measureCoaddSources"
 
     for filt in opts.filters:
 
