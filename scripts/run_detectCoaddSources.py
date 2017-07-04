@@ -29,7 +29,7 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
     opts.input = "pardir/output/assemblecoadd"
-    opts.output = "pardir/output"
+    opts.output = "pardir/output/detectcoaddsources"
 
     # Loop over filters
     for filt in opts.filters:
