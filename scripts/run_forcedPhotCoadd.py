@@ -31,8 +31,8 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 
     opts.mod = 4
-    opts.input = "pardir/output"
-    opts.output = "pardir/output"
+    opts.input = "pardir/output/mergecoaddmeasurements"
+    opts.output = "pardir/output/forcedphotcoadd"
 
     for filt in opts.filters:
         filePatch = "patches_" + filt + ".txt"
