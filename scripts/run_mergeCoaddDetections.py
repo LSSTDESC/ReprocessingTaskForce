@@ -30,7 +30,7 @@ if __name__ == "__main__":
     opts, args = LR.standard_options(usage=usage, description=description)
 
     # overwrite some options
-    opts.mod = 20
+    opts.mod = 2
     opts.input = "pardir/output"
     opts.output = "pardir/output"
     file_patch = "patches_all.txt"
