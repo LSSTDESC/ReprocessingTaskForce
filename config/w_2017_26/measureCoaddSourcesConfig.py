@@ -36,3 +36,6 @@ config.match.refObjLoader.filterMap={
     'z': 'Z',
     'y': 'Z',
 }
+
+# Maximum linear dimension for footprints before they are ignored as large; non-positive means no threshold applied
+config.deblend.maxFootprintSize=2000  # same as for processCcd
