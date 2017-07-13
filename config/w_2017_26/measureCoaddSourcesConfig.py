@@ -22,3 +22,20 @@ config.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox", "modelf
 config.measurement.slots.modelFlux = "modelfit_CModel"
 
 config.doApCorr=True
+
+# Name of the ingested reference dataset                                                                                                                                                                                                      
+config.match.refObjLoader.ref_dataset_name='sdss'
+
+# Mapping of camera filter name: reference catalog filter name; each reference filter must exist                                                                                                                                              
+config.match.refObjLoader.filterMap={
+    'u': 'U',
+    'g': 'G',
+    'r': 'R',
+    'i': 'I',
+    'i2': 'I',
+    'z': 'Z',
+    'y': 'Z',
+}
+
+# Maximum linear dimension for footprints before they are ignored as large; non-positive means no threshold applied
+config.deblend.maxFootprintSize=2000  # same as for processCcd

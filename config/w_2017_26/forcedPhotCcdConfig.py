@@ -17,6 +17,6 @@ config.measurement.slots.shape = "ext_shapeHSM_HsmSourceMoments"
 
 config.doApCorr=True
 
-config.measurement.plugins['base_PixelFlags'].masksFpAnywhere.append('CLIPPED')
-config.measurement.plugins['base_PixelFlags'].masksFpCenter.append('BRIGHT_OBJECT')
-config.measurement.plugins['base_PixelFlags'].masksFpAnywhere.append('BRIGHT_OBJECT')
+#config.measurement.plugins['base_PixelFlags'].masksFpAnywhere.append('CLIPPED')
+#config.measurement.plugins['base_PixelFlags'].masksFpCenter.append('BRIGHT_OBJECT')
+#config.measurement.plugins['base_PixelFlags'].masksFpAnywhere.append('BRIGHT_OBJECT')
