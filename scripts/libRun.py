@@ -7,6 +7,8 @@ Tools to run cluster analysis
 =============================
 """
 
+
+from __future__ import print_function
 import os
 import re
 import time
@@ -47,7 +49,7 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
     if not os.path.isdir(dirLog):
         os.makedirs(dirLog)
     log = dirLog + "/" + prefix + ".log"
-    print "LOG:", log
+    print("LOG:", log)
     options = "sps=1"
     if ct is not None:
         options += ",ct=%i" % ct
@@ -87,7 +89,7 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
         script.write(cmd + "\n")
     script.close()
     os.system("chmod +x " + scriptname)
-    print "SCRIPT:", cwd + "/" + scriptname
+    print("SCRIPT:", cwd + "/" + scriptname)
     if autosubmit and not from_slac:
         os.system("./"+scriptname)
         time.sleep(0.2)
@@ -100,20 +102,20 @@ def job_number(items, max_item, max_job):
     assert max_job > 1, "max_job must be > 0"
     njobs = int(np.ceil(float(len(items))/max_item))
     if njobs > max_job:
-        print "WARNING: number of jobs exceed the maximum. More items will be put in each job."
+        print("WARNING: number of jobs exceed the maximum. More items will be put in each job.")
         njobs = max_job
     return njobs
 
 def organize_items(items, njobs):
     items = np.array_split(sorted(items), njobs)
-    print "INFO: Items sub-divided as followed in %i jobs:" % njobs
+    print("INFO: Items sub-divided as followed in %i jobs:" % njobs)
     for i, it in enumerate(items):
         if i == 5:
-            print " - ..."
+            print(" - ...")
         elif i > 5:
             continue
         else:
-            print " -", "_".join(np.array(it, dtype='string'))
+            print(" -", "_".join(np.array(it, dtype='string')))
     return items
 
 def select_config(configs, filt):
@@ -158,12 +160,12 @@ def standard_options(usage=None, description=None, filters='ugriz'):
     keepf = ''
     for f in opts.filters:
         if f not in filters:
-            print "WARNING: %s isn't in the official list of filters (%s)" % (f, filters)
+            print("WARNING: %s isn't in the official list of filters (%s)" % (f, filters))
         else:
             keepf += f
     if not len(keepf):
         raise IOError("No input filters")
-    print "INFO: We will run of the following filter(s)", keepf
+    print("INFO: We will run of the following filter(s)", keepf)
     opts.filters = keepf
 
     return opts, args
