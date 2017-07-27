@@ -56,7 +56,7 @@ if __name__ == "__main__":
         config = LR.select_config(opts.configs, filt)
 
         # Get the list of visits
-        visits = [v.split('=')[1] for v in N.loadtxt(filt+".list", dtype='string', unpack=True)[1]]
+        visits = [v.split('=')[1] for v in N.loadtxt(filt+".list", dtype='str', unpack=True)[1]]
         print("INFO: %i visits loaded: " % len(visits), visits)
 
         # How many jobs should we be running (and how many visit in each?)?
