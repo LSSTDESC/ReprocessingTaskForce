@@ -69,7 +69,7 @@ if __name__ == "__main__":
     print("OUTPUT:", out)
     if 'corners' not in out:
         raise ValueError(out)
-    corners = eval(out.split('corners ')[-1].split(' (RA')[0])
+    corners = eval(str(out).split('corners ')[-1].split(' (RA')[0])
 
     cmd = 'reportPatches.py %s --config raDecRange="%f, %f, %f, %f" --id tract=0 patch=0,0 filter=%s > patches.txt' % (opts.output, corners[1][0], corners[1][1], corners[3][0], corners[3][1], opts.filters[0])
     print("RUNNING:", cmd)
