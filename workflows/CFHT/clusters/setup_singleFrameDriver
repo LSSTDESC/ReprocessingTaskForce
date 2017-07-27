@@ -5,7 +5,7 @@ cd ${WORK_DIR}/02-singleFrameDriver
 ln -sfn ${WORK_DIR} pardir
 cp -n $RTF/config/$DM_CONFIG/singleFrameDriver* .
 build_visit_lists.py -i ${WORK_DIR}/input
-singleFrameDriver.py pardir/input --output pardir/output --configfile singleFrameDriver.py --cores=8
+singleFrameDriver.py pardir/input --output pardir/output --configfile singleFrameDriverConfig.py --cores=8
 run_singleFrameDriver.py -c singleFrameDriverConfig.py,singleFrameDriverConfig_u.py --fromslac --multicore
 pipelineSet nuscripts `ls scripts/u/*.sh 2>/dev/null | wc -l`
 pipelineSet ngscripts `ls scripts/g/*.sh 2>/dev/null | wc -l`
