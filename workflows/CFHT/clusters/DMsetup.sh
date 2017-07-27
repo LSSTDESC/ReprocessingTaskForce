@@ -12,4 +12,5 @@ then
     setup galsim
     setup meas_extensions_psfex
     setup meas_modelfit
+    setup pipe_drivers
 fi

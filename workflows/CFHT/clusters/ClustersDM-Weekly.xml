@@ -73,7 +73,7 @@
     </process>
     <!--   launch jobs -->
     <process name="singleFrameDriver" site="${JOBSITE}">
-      <notation>Run process ccd for all filter and visits</notation>
+      <notation>Run singleFrameDriver for all filter and visits</notation>
       <script><![CDATA[
       execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
       run_singleFrameDriver()
@@ -93,7 +93,7 @@
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
-        <after process="processFilter.processfilter"/>
+        <after process="singleFrameDriverFilter.singleFrameDriverfilter"/>
       </depends>
     </process>
 
