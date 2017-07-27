@@ -115,7 +115,7 @@ def organize_items(items, njobs):
         elif i > 5:
             continue
         else:
-            print(" -", "_".join(np.array(it, dtype='string')))
+            print(" -", "_".join(np.array(it, dtype='str')))
     return items
 
 def select_config(configs, filt):
