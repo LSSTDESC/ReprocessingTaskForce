@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 
+
+from __future__ import print_function
 import numpy as N
 import libRun as LR
+
 
 def build_cmd(patches, config, filt, input, output):
     cmd = "assembleCoadd.py %s --output %s " % (input, output) + \
           patches + " @" + filt + ".list" + " --configfile " + config + " --clobber-config"
     print "\nCMD:", cmd
     return cmd
+
 
 if __name__ == "__main__":
 
@@ -34,8 +38,8 @@ if __name__ == "__main__":
         config = LR.select_config(opts.configs, filt)
 
         # Get the list of patches
-        patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='string')]
-        print "INFO: %i patches loaded: " % len(patches)
+        patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='str')]
+        print("INFO: %i patches loaded: " % len(patches))
 
         # How many jobs should we be running (and how many visit in each?)?
         njobs = LR.job_number(patches, opts.mod, opts.max)
@@ -57,4 +61,4 @@ if __name__ == "__main__":
             N.savetxt(open("scripts/%s/patches_%03d.list" % (filt, i + 1), 'w'), ps, fmt="%s")
 
     if not opts.autosubmit:
-        print "\nINFO: Use option --autosubmit to submit the jobs"
+        print("\nINFO: Use option --autosubmit to submit the jobs")

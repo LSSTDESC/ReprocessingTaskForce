@@ -7,10 +7,14 @@ Run processCdd.py for a list of visits
 ======================================
 """
 
+
+from __future__ import print_function
 import libRun as LR
+
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
+
 
 if __name__ == "__main__":
 
@@ -38,4 +42,4 @@ if __name__ == "__main__":
                   from_slac=opts.fromslac)
 
     if not opts.autosubmit:
-        print "\nINFO: Use option --autosubmit to submit the jobs"
+        print("\nINFO: Use option --autosubmit to submit the jobs")

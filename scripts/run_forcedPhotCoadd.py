@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+
+from __future__ import print_function
 import os
 import glob
 import libRun as LR
@@ -15,6 +17,7 @@ def build_cmd(patch, configFile, filt, input, output):
     cmd = "forcedPhotCoadd.py %s --output %s"  % (input, output) + \
           " @scripts/" + filt + "/" + patch + " --configfile " + configFile
     return cmd
+
 
 if __name__ == "__main__":
 
@@ -41,7 +44,7 @@ if __name__ == "__main__":
         os.system(cmd)
 
         patchList = glob.glob(filePatch + "_*")
-        print "\nWorning on filter %s: %i patches (jobs)" % (filt, len(patchList))
+        print("\nWorning on filter %s: %i patches (jobs)" % (filt, len(patchList)))
         for patch in sorted(patchList):
             cmd = build_cmd(patch, opts.configs, filt, opts.input, opts.output)
             LR.submit(cmd, patch, filt, autosubmit=opts.autosubmit, from_slac=opts.fromslac)

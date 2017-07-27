@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
+
+from __future__ import print_function
 import os
 import glob
 import libRun as LR
+
 
 def build_cmd(patch, configFile, input, output):
 
@@ -16,6 +19,7 @@ def build_cmd(patch, configFile, input, output):
           " @scripts/" + patch + " --configfile " + configFile
 
     return cmd
+
 
 if __name__ == "__main__":
 
@@ -40,7 +44,7 @@ if __name__ == "__main__":
     patch_list = sorted(glob.glob(file_patch + "_*"))
 
     for patch in sorted(patch_list):
-        print "\n", patch
+        print("\n", patch)
         # Only submit the job if asked
         cmd = build_cmd(patch, opts.configs, opts.input, opts.output)
         LR.submit(cmd, patch, autosubmit=opts.autosubmit, ct=10000, vmem='4G',

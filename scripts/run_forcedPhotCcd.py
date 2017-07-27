@@ -7,12 +7,16 @@ Run forcedPhotCcd.py for a list of visits
 ======================================
 """
 
+
+from __future__ import print_function
 import os
 import numpy as N
 import libRun as LR
 
+
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
+
 
 def build_cmd(visit, config, filt, input='pardir/input', output='pardir/output'):
 
@@ -21,6 +25,7 @@ def build_cmd(visit, config, filt, input='pardir/input', output='pardir/output')
           "@scripts/%s/%s.txt" % (filt, visit) + " --configfile " + config
 
     return cmd
+
 
 if __name__ == "__main__":
 
@@ -47,8 +52,8 @@ if __name__ == "__main__":
             os.makedirs("scripts/" + filt)
 
         # Get the list of visits
-        visits = N.loadtxt(filt+".list", dtype='string')
-        print "\nINFO: %i visits loaded for %s: " % (len(visits), filt)
+        visits = N.loadtxt(filt+".list", dtype='str')
+        print("\nINFO: %i visits loaded for %s: " % (len(visits), filt))
 
         # Loop over the visit sub lists
         for i, vs in enumerate(visits):
@@ -67,4 +72,4 @@ if __name__ == "__main__":
                       from_slac=opts.fromslac)
 
     if not opts.autosubmit:
-        print "\nINFO: Use option --autosubmit to submit the jobs"
+        print("\nINFO: Use option --autosubmit to submit the jobs")

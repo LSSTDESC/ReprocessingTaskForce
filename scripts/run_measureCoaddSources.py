@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+
+from __future__ import print_function
 import os
 import glob
 import libRun as LR
@@ -15,6 +17,7 @@ def build_cmd(patch, configFile, filt, input, output):
     cmd = "measureCoaddSources.py %s --output %s" % (input, output) + \
           " @scripts/" + filt + "/" + patch + " --configfile " + configFile + " --clobber-versions"
     return cmd
+
 
 if __name__ == "__main__":
 

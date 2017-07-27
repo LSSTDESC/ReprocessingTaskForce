@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+
+from __future__ import print_function
 import os
 import time
 import glob
 import libRun as LR
+
 
 def build_cmd(patch, configFile, filt, input, output):
     if not os.path.isdir("scripts/" + filt):
@@ -46,4 +49,4 @@ if __name__ == "__main__":
                   ct=5000, vmem='4G', from_slac=opts.fromslac)
 
     if not opts.autosubmit:
-        print "\nINFO: Use option --autosubmit to submit the jobs"
+        print("\nINFO: Use option --autosubmit to submit the jobs")
