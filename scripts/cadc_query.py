@@ -16,6 +16,7 @@ from astropy.io import votable
 from astropy.table import Table
 from datetime import datetime
 import requests
+from __future__ import print_function
 
 
 def cfht_megacam_tap_query(ra_deg=180.0, dec_deg=0.0, radius=0.01666666):
@@ -83,17 +84,17 @@ if __name__ == '__main__':
     opts, args = parser.parse_args()
 
     if opts.target is not None:
-        print "INFO: Target is", opts.target
+        print("INFO: Target is", opts.target)
         obj = Ned.query_object(opts.target)
         ras, decs = [obj['RA(deg)'].item()], [obj['DEC(deg)'].item()]
         objs = [opts.target]
     elif opts.paper is not None:
-        print "INFO: look for all target in paper: %s" % opts.paper
+        print("INFO: look for all target in paper: %s" % opts.paper)
         objects = Ned.query_refcode(opts.paper) # for WTGI : 2014MNRAS.439....2V
         ras = objects['RA(deg)']
         decs = objects['DEC(deg)']
         objs = [obj.replace(" ", "") for obj in objects['Object Name']]
-        print "INFO: %i targets found" % len(objs)
+        print("INFO: %i targets found" % len(objs))
     elif opts.ra is None or opts.dec is None:
         raise IOError("You must give a target name (--target) or its coordinates (--ra, --dec)")
 
@@ -101,13 +102,13 @@ if __name__ == '__main__':
         table = cfht_megacam_tap_query(ra, dec, opts.radius)
         assert isinstance(table, Table)
         if not len(table):
-            print "WARNING: No data for\n", obj
+            print("WARNING: No data for\n", obj)
             continue
-        print "INFO: Target info"
-        print " - Name: ", obj
-        print " - RA (deg):", ra
-        print " - DEC (deg):", dec
-        print "INFO: Found %i files" % len(table)
+        print("INFO: Target info")
+        print(" - Name: ", obj)
+        print(" - RA (deg):", ra)
+        print(" - DEC (deg):", dec)
+        print("INFO: Found %i files" % len(table))
         webpath = 'http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/data/pub/CFHT/'
 
         urls = [webpath+pid for pid in table['ProductID']]
@@ -125,19 +126,19 @@ if __name__ == '__main__':
         for pid in urls[::-1]:
             outfile.write("%s\n" % pid)
         outfile.close()
-        print "INFO: list of files saved in %s/%s" % (obj, opts.output)
+        print("INFO: list of files saved in %s/%s" % (obj, opts.output))
         if not opts.download:
-            print "Run the follwing command to download them:"
-            print "\n   wget --content-disposition -N -i %s\n" % opts.output
+            print("Run the follwing command to download them:")
+            print("\n   wget --content-disposition -N -i %s\n" % opts.output)
         else:
             try:
                 import wget
                 wget = wget.download
             except:
-                print "WARNING: Install the 'wget' package (will use the wget system for now)"
+                print("WARNING: Install the 'wget' package (will use the wget system for now)")
                 wget = lambda url: os.system("wget -N %s" % url)
             for url in urls:
-                print "\nDownloading", url
+                print("\nDownloading", url)
                 wget(url)
                 os.rename(url.split('/')[-1], url.split('/')[-1] + '.fits.fz')
         if opts.dir not in [None, '.', './']:

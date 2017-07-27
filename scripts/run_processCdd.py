@@ -10,9 +10,12 @@ Run processCdd.py for a list of visits
 import os
 import numpy as N
 import libRun as LR
+from __future__ import print_function
+
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
+
 
 def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'):
 
@@ -28,10 +31,11 @@ def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'
           filename + " --configfile " + config + " --clobber-config"
     if opts.multicore:
         cmd += " -j 8 --timeout 999999999"
-    print "\nCMD: ", cmd
+    print("\nCMD: ", cmd)
 
     return cmd
 
+    
 if __name__ == "__main__":
 
     filters = "ugriz"
@@ -53,7 +57,7 @@ if __name__ == "__main__":
 
         # Get the list of visits
         visits = [v.split('=')[1] for v in N.loadtxt(filt+".list", dtype='string', unpack=True)[1]]
-        print "INFO: %i visits loaded: " % len(visits), visits
+        print("INFO: %i visits loaded: " % len(visits), visits)
 
         # How many jobs should we be running (and how many visit in each?)?
         opts.mod = 1  # one job per visit to be faster
@@ -85,4 +89,4 @@ if __name__ == "__main__":
                       from_slac=opts.fromslac)
 
     if not opts.autosubmit:
-        print "\nINFO: Use option --autosubmit to submit the jobs"
+        print("\nINFO: Use option --autosubmit to submit the jobs")

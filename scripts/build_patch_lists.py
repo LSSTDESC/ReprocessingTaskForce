@@ -10,6 +10,7 @@ Build the list of patches
 import os
 import subprocess
 from optparse import OptionParser
+from __future__ import print_function
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
@@ -48,38 +49,38 @@ if __name__ == "__main__":
     filters = "ugriz"
 
     if not os.path.exists(opts.config):
-        print "WARNING: The given (or default) configuration file does not exists."
-        print "INFO: Building a new configuration file"
+        print("WARNING: The given (or default) configuration file does not exists.")
+        print("INFO: Building a new configuration file")
         build_config(opts.config)
 
     # Create a file containing the list of all visits
     cmd = "cat [%s].list > all.list" % "\|".join(opts.filters)
     os.system(cmd)
 
-    print "INFO: Running all commands for all visits"
+    print("INFO: Running all commands for all visits")
     # makeDiscreteSkyMap command
     cmd = "makeDiscreteSkyMap.py %s --output %s @all.list --configfile %s" % \
           (opts.input, opts.output, opts.config)
-    print "RUNNING:", cmd
+    print("RUNNING:", cmd)
     out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
     corners = eval(out.split('corners ')[-1].split(' (RA')[0])
-    print out
+    print(out)
     
     cmd = 'reportPatches.py %s --config raDecRange="%f, %f, %f, %f" --id tract=0 patch=0,0 filter=%s > patches.txt' % (opts.output, corners[1][0], corners[1][1], corners[3][0], corners[3][1], opts.filters[0])
-    print "RUNNING:", cmd
+    print("RUNNING:", cmd)
     subprocess.call(cmd, shell=True)
         
     # Check the input filter
     for filt in opts.filters:
         if filt not in filters:
-            print "Unknown filter: " + filt
+            print("Unknown filter: " + filt)
             continue
         
         cmd = "sed -e 's/^/--id filter=%s /' patches.txt > patches_%s.txt" % (filt, filt)
-        print "\nRUNNING:", cmd
+        print("\nRUNNING:", cmd)
         subprocess.call(cmd, shell=True)
 
     cmd = "sed -e 's/^/--id filter=%s /' patches.txt > patches_all.txt" % ("^".join(opts.filters))
-    print "\nRUNNING:", cmd
+    print("\nRUNNING:", cmd)
     subprocess.call(cmd, shell=True)
-    print "INFO: End of run"
+    print("INFO: End of run")

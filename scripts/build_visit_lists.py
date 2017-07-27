@@ -10,6 +10,7 @@ Build the list of visit for a given cluster
 import os
 import glob
 from optparse import OptionParser
+from __future__ import print_function
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
@@ -32,7 +33,7 @@ def read_log(log):
                 'scatter': ll[14], 'scatter_sgm': ll[16], 'unit': ll[17]}
             d[sd['visit']][sd['ccd']].update(ast)
             if float(ast['scatter']) == 0:
-                print "WARNING: WSC scatter is 0 for visit %s, ccd %s" % (sd['visit'], sd['ccd'])
+                print("WARNING: WSC scatter is 0 for visit %s, ccd %s" % (sd['visit'], sd['ccd']))
         elif l.startswith("processCcd.calibrate.astrometry: Astrometric scatter"):
             ll=l.split()
             ast={'matches': ll[8], 'scatter': ll[3], 'unit': ll[4], 'rejected': ll[10]}
@@ -41,7 +42,7 @@ def read_log(log):
             complete_log = True
     f.close()
     if not complete_log:
-        print "WARNING: The following log is not complete:", log
+        print("WARNING: The following log is not complete:", log)
         RERUN.append(". %s" % log.replace("log/", "scripts/").replace('.log', '.sh'))
     return d
 
@@ -49,7 +50,7 @@ def get_logs(logs):
     loglist = []
     for l in logs.split(','):
         loglist.extend(glob.glob(l))
-    print "INFO: %i logs loaded" % len(loglist)
+    print("INFO: %i logs loaded" % len(loglist))
     d = {}
     for i, log in enumerate(loglist):
         ld = read_log(log)
@@ -101,12 +102,12 @@ if __name__ == "__main__":
     if len(fits) == 0:
         raise IOError("No fits file found while lokking for %s/raw/*/*/*/*/*.fz" % options.input)
     else:
-        print "INFO: %i visists found" % len(fits)
+        print("INFO: %i visists found" % len(fits))
     filters = set([f.split('/')[-2] for f in fits])
     visits = [f.split('/')[-1].split('p.fits.fz')[0] for f in fits]
     f_visits = {f: [v for i, v in enumerate(visits) if '/'+f+'/' in fits[i]]
                 for f in filters}
-    print "INFO: %i filters found" % len(f_visits)
+    print("INFO: %i filters found" % len(f_visits))
 
     # Do we select CCD based on the astrometric scatter?
     if options.logs is not None:
@@ -124,16 +125,16 @@ if __name__ == "__main__":
                     if 'scatter' in d[f][v][ccd]:
                         scatter = float(d[f][v][ccd]['scatter'])
                         if scatter < min_scatter or scatter > max_scatter:
-                            print "Scatter < %.2f or > %.2f for " % (min_scatter, max_scatter), \
-                                f, v, ccd, scatter
+                            print("Scatter < %.2f or > %.2f for " % (min_scatter, max_scatter), \
+                                f, v, ccd, scatter)
                             rejected[f][v].append(int(ccd))
                     else:
-                        print "No astrometric scatter (processCcd crashed) for", f, v, ccd
+                        print("No astrometric scatter (processCcd crashed) for", f, v, ccd)
                         rejected[f][v].append(int(ccd))
                         ii += 1
-            print sum([len(rejected[f][v]) for v in rejected[f]]), \
+            print(sum([len(rejected[f][v]) for v in rejected[f]]), \
                 "/ %i CCDs rejected for filter %s (actually %i ccds)\n" % \
-                (sum([36*len(d[f])]), f, sum([len(d[f][v]) for v in d[f]]))
+                (sum([36*len(d[f])]), f, sum([len(d[f][v]) for v in d[f]])))
     else:
         rejected = None
 
@@ -159,4 +160,4 @@ if __name__ == "__main__":
             else:
                 ff.write("--%s visit=%s\n" % (options.idopt, v))
         ff.close()
-        print " - %s: %i visits -> %s" %(f, len(f_visits[f]), vf)
+        print(" - %s: %i visits -> %s" %(f, len(f_visits[f]), vf))
