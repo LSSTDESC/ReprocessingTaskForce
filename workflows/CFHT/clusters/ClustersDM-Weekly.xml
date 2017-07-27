@@ -34,11 +34,37 @@
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
     </process>
+    
+    <!-- <!-\- processCcd -\-> -->
+    <!-- <!-\-   setup -\-> -->
+    <!-- <process name="setup_processccd" site="${JOBSITE}"> -->
+    <!--   <notation>Setup for processCcd</notation> -->
+    <!--   <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" -->
+    <!-- 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/> -->
+    <!--   <depends> -->
+    <!--     <after process="ingest"/> -->
+    <!--   </depends> -->
+    <!-- </process> -->
+    <!-- <!-\-   launch jobs -\-> -->
+    <!-- <process name="processccd" site="${JOBSITE}"> -->
+    <!--   <notation>Run process ccd for all filter and visits</notation> -->
+    <!--   <script><![CDATA[ -->
+    <!--   execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME)) -->
+    <!--   run_processCcd() -->
+    <!--   ]]> -->
+    <!--   </script> -->
+    <!--   <depends> -->
+    <!--     <after process="setup_processccd"/> -->
+    <!--   </depends> -->
+    <!--   <createsSubtasks> -->
+    <!-- 	<subtask>processFilter</subtask> -->
+    <!--   </createsSubtasks>	 -->
+    <!--  </process> -->
 
-    <!-- processCcd -->
+    <!-- Singleframedriver -->
     <!--   setup -->
-    <process name="setup_processccd" site="${JOBSITE}">
-      <notation>Setup for processCcd</notation>
+    <process name="setup_singleFrameDriver" site="${JOBSITE}">
+      <notation>Setup for singleFrameDriver</notation>
       <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
@@ -46,15 +72,15 @@
       </depends>
     </process>
     <!--   launch jobs -->
-    <process name="processccd" site="${JOBSITE}">
+    <process name="singleFrameDriver" site="${JOBSITE}">
       <notation>Run process ccd for all filter and visits</notation>
       <script><![CDATA[
       execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME))
-      run_processCcd()
+      run_singleFrameDriver()
       ]]>
       </script>
       <depends>
-        <after process="setup_processccd"/>
+        <after process="setup_singleFrameDriver"/>
       </depends>
       <createsSubtasks>
 	<subtask>processFilter</subtask>
@@ -314,6 +340,15 @@
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
 	<job batchOptions="${BATCH_OPTIONS} -q huge " executable="${CUR_SCRIPT}"/>
+      </process>                
+    </task>
+    <!--   Subtask to run singleFrameDriver -->
+    <task name="singleFrameDriverFilter" type="LSST">
+      <process name="singleFrameDriverfilter" site="${JOBSITE}">
+	<variables>
+	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
+	</variables>
+	<job batchOptions="${BATCH_OPTIONS} -q mc_huge -pe multicores 8" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run jointcal -->

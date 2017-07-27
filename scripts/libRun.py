@@ -69,6 +69,8 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
     if not from_slac:
         script.write(qsub + "\n")
         script.write("#!/usr/local/bin/bash\n")
+        if "singleFrameDriver.py" in cmd:
+            script.write("export OMP_NUM_THREADS=1")
         script.write(" cd " + cwd + "\n")
         script.write(" source pardir/setup.sh\n")
         script.write(" " + cmd + "\n")
@@ -84,6 +86,8 @@ def submit(cmd, prefix, filt=None, autosubmit=False, ct=60000, vmem='4G',
             script.write("#$ %s\n" % otheroptions)
         script.write("#$ -j y\n")
         script.write("#$ -o %s\n" % log)
+        if "singleFrameDriver.py" in cmd:
+            script.write("export OMP_NUM_THREADS=1")
         script.write("source ${IN2P3_SCRIPT_LOCATION}/DMsetup.sh\n")
         script.write("cd " + cwd + "\n")
         script.write(cmd + "\n")

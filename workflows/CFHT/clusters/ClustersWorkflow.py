@@ -17,6 +17,20 @@ def run_processCcd():
             num += 1
 
 
+def run_singleFrameDriver():
+    process = pipeline.getProcessInstance("setup_singleFrameDriver")
+    vars = HashMap(process.getVariables())
+    workdir = vars.remove("WORK_DIR")
+    num = 0
+    for filt in FILTERS:
+        nscript = vars.remove('n' + filt + 'scripts')
+        for i in range(1, int(nscript) + 1):
+            script = workdir + "/02-singleFrameDriver/scripts/%s/visit_%03d_script.sh" % (filt, i)
+            vars.put("CUR_SCRIPT", script)
+            pipeline.createSubstream("singleFrameDriverFilter", num, vars)
+            num += 1
+
+
 def run_jointcal():
     process = pipeline.getProcessInstance("setup_jointcal")
     vars = HashMap(process.getVariables())
