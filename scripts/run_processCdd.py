@@ -7,10 +7,10 @@ Run processCdd.py for a list of visits
 ======================================
 """
 
+from __future__ import print_function
 import os
 import numpy as N
 import libRun as LR
-from __future__ import print_function
 
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'

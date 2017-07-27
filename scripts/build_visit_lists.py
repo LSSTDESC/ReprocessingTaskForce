@@ -7,10 +7,12 @@ Build the list of visit for a given cluster
 ===========================================
 """
 
+
+from __future__ import print_function
 import os
 import glob
 from optparse import OptionParser
-from __future__ import print_function
+
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'

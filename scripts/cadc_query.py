@@ -7,6 +7,8 @@ Tools to run cluster analysis
 =============================
 """
 
+
+from __future__ import print_function
 import os
 import warnings
 from cStringIO import StringIO
@@ -16,7 +18,6 @@ from astropy.io import votable
 from astropy.table import Table
 from datetime import datetime
 import requests
-from __future__ import print_function
 
 
 def cfht_megacam_tap_query(ra_deg=180.0, dec_deg=0.0, radius=0.01666666):

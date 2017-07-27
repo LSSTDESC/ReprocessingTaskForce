@@ -7,13 +7,16 @@ Build the list of patches
 =========================
 """
 
+
+from __future__ import print_function
 import os
 import subprocess
 from optparse import OptionParser
-from __future__ import print_function
+
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
+
 
 def build_config(config):
     """
