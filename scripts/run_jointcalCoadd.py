@@ -35,7 +35,7 @@ if __name__ == "__main__":
         opts.output = "pardir/output/jointcalcoadd"
 
         # Get the list of patches
-        patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='str')]
+        patches = [" ".join(p) for p in N.loadtxt(open("patches_" + filt + ".txt"), dtype='str')]
         print("INFO: %i patches loaded: " % len(patches), "e.g.", patches[0])
 
         # How many jobs should we be running (and how many visit in each?)?
