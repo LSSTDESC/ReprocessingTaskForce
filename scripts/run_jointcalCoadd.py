@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
         # Get the list of patches
         patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='str')]
-        print("INFO: %i patches loaded: " % len(patches))
+        print("INFO: %i patches loaded: " % len(patches), "e.g.", patches[0])
 
         # How many jobs should we be running (and how many visit in each?)?
         njobs = LR.job_number(patches, opts.mod, opts.max)
