@@ -111,7 +111,7 @@ def job_number(items, max_item, max_job):
     return njobs
 
 def organize_items(items, njobs):
-    items = np.array_split(sorted(items), njobs)
+    items = [a.tolist() for a in np.array_split(sorted(items), njobs)]
     print("INFO: Items sub-divided as followed in %i jobs:" % njobs)
     for i, it in enumerate(items):
         if i == 5:
@@ -123,10 +123,10 @@ def organize_items(items, njobs):
     return items
 
 def select_config(configs, filt):
-    if "_"+filt+".py" in configs:                
+    if "_" + filt + ".py" in configs:                
         config = [c for c in configs.split(',') if "_"+filt in c][0]
     else:
-        config = configs.split(',')[0] # default configuration file must be the first of the list  
+        config = configs.split(',')[0]  # default configuration file must be the first of the list  
     return config
 
 def standard_options(usage=None, description=None, filters='ugriz'):
