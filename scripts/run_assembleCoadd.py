@@ -38,7 +38,8 @@ if __name__ == "__main__":
         config = LR.select_config(opts.configs, filt)
 
         # Get the list of patches
-        patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt", dtype='str')]
+        patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt",
+                                                  dtype='bytes').astype('str')]
         print("INFO: %i patches loaded: " % len(patches))
 
         # How many jobs should we be running (and how many visit in each?)?
