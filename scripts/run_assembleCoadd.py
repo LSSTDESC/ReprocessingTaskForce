@@ -58,7 +58,8 @@ if __name__ == "__main__":
             LR.submit(cmd, "patches_%03d" % (i + 1), filt, autosubmit=opts.autosubmit,
                       ct=1000, vmem='4G', from_slac=opts.fromslac)
 
-            N.savetxt(open("scripts/%s/patches_%03d.list" % (filt, i + 1), 'w'), ps, fmt="%s")
+            N.savetxt("scripts/%s/patches_%03d.list" % (filt, i + 1),
+                      N.array(ps, dtype='str').tolist(), fmt="%s")
 
     if not opts.autosubmit:
         print("\nINFO: Use option --autosubmit to submit the jobs")

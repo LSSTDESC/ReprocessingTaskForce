@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
             vs = " ".join(vs)
             prefix = "visit_%03d" % (i + 1)
-            N.savetxt(open("scripts/%s/%s" % (filt, prefix + ".txt"), 'w'), [vs], fmt="%s")
+            N.savetxt("scripts/%s/%s" % (filt, prefix + ".txt"), [str(vs)], fmt="%s")
 
             # Build the command line and other things
             cmd = build_cmd(prefix, opts.configs, filt, opts.input, opts.output)

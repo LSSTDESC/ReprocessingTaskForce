@@ -56,7 +56,7 @@ if __name__ == "__main__":
             LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit, queue=opts.queue,
                       ct=6000, vmem=opts.vmem, system=opts.system, from_slac=opts.fromslac)
 
-            N.savetxt(open("scripts/%s/patches_%03d.list" % (filt, i + 1), 'w'),
+            N.savetxt("scripts/%s/patches_%03d.list" % (filt, i + 1),
                       N.array(ps, dtype='str').tolist(), fmt="%s")
 
     if not opts.autosubmit:
