@@ -22,7 +22,7 @@ def build_cmd(visit, config, filt, input='pardir/input', output='pardir/output')
 
     # Create the command line
     cmd = "forcedPhotCcd.py %s --output %s " % (input, output) + \
-          "@scripts/%s/%s.txt" % (filt, visit) + " --configfile " + config
+          "@scripts/%s/%s.txt" % (filt, visit) + " --configfile " + config + " --doraise"
 
     return cmd
 
@@ -33,10 +33,10 @@ if __name__ == "__main__":
 
     usage = """%prog [option]"""
 
-    description = """This script will run processCcd for a given list of filters and visits. The 
-    default if to use f.list files (where 'f' is a filter in ugriz), and launch processCcd in 
+    description = """This script will run forcedPhotCcd for a given list of filters and visits. The 
+    default if to use f.list files (where 'f' is a filter in ugriz), and launch forcedPhotCcd in 
     several batch jobs. You thus need to be running it at CC-IN2P3 to make it work. To run all 
-    filters, you can do something like %prog -f ugriz -m 1 -c processConfig.py,processConfig_u.py -a
+    filters, you can do something like %prog -f ugriz -m 1 -c forcedPhotCcdConfig.py -a
     """
 
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)

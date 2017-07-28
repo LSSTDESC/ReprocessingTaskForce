@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """
-.. _run_processCdd:
+.. _run_singleFrameDriver:
 
-Run processCdd.py for a list of visits
+Run singleFrameDriver.py for a list of visits
 ======================================
 """
 
@@ -28,7 +28,7 @@ def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'
 
     # Create the command line
     cmd = "singleFrameDriver.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config"
+          filename + " --configfile " + config + " --clobber-config --doraise"
     if opts.multicore:
         cmd += " --cores=8"
     print("\nCMD: ", cmd)
@@ -42,10 +42,10 @@ if __name__ == "__main__":
 
     usage = """%prog [option]"""
 
-    description = """This script will run processCcd for a given list of filters and visits. The 
-    default if to use f.list files (where 'f' is a filter in ugriz), and launch processCcd in 
+    description = """This script will run singleFrameDriver for a given list of filters and visits. The 
+    default if to use f.list files (where 'f' is a filter in ugriz), and launch singleFrameDriver in 
     several batch jobs. You thus need to be running it at CC-IN2P3 to make it work. To run all 
-    filters, you can do something like %prog -f ugriz -m 1 -c processConfig.py,processConfig_u.py -a
+    filters, you can do something like %prog -f ugriz -m 1 -c singleFrameDriverConfig.py -a
     """
 
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         # Reorganize the visit list in consequence
         visits = LR.organize_items(visits, njobs)
 
-        # specific options for processCcd
+        # specific options for singleFrameDriver
         opts.ct = 259200
         opts.vmem = "32G"
         opts.queue = "huge"

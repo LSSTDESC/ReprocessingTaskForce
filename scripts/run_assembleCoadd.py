@@ -8,7 +8,7 @@ import libRun as LR
 
 def build_cmd(patches, config, filt, input, output):
     cmd = "assembleCoadd.py %s --output %s " % (input, output) + \
-          patches + " @" + filt + ".list" + " --configfile " + config + " --clobber-config"
+          patches + " @" + filt + ".list" + " --configfile " + config + " --clobber-config --doraise"
     print("\nCMD:", cmd)
     return cmd
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     description = """This script will run makeCoaddTempExp for a given list of filters and patches.
     The  default if to use f.list files (where 'f' is a filter in ugriz) and patches_f.txt, 
-    and launch processCcd in several batch jobs. You thus need to be running it at CC-IN2P3 to make 
+    and launch assembleCoadd in several batch jobs. You thus need to be running it at CC-IN2P3 to make 
     it work. To run all  filters, you can do something like 
     %prog -f ugriz -m 1 -c makeCoaddTempExpConfig.py -a"""
 

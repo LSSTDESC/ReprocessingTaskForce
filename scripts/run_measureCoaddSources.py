@@ -15,7 +15,8 @@ def build_cmd(patch, configFile, filt, input, output):
     os.system(cmd)
 
     cmd = "measureCoaddSources.py %s --output %s" % (input, output) + \
-          " @scripts/" + filt + "/" + patch + " --configfile " + configFile + " --clobber-versions"
+          " @scripts/" + filt + "/" + patch + " --configfile " + configFile + \
+          " --clobber-versions --doraise"
     return cmd
 
 
@@ -28,7 +29,7 @@ if __name__ == "__main__":
     description = """This script will run measureCoaddSources for a given list of filters and visits. 
     The default if to use f.list files (where 'f' is a filter in ugriz), and launch it in 
     several batch jobs. You thus need to be running it at CC-IN2P3 to make it work. To run all 
-    filters, you can do something like %prog -f ugriz -m 1 -c processConfig.py,processConfig_u.py -a"""
+    filters, you can do something like %prog -f ugriz -m 1 -c measureCoaddSourcesConfig.py -a"""
 
     opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
 

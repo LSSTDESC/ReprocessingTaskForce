@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """
-.. _run_processCdd:
+.. _run_jointcal:
 
-Run processCdd.py for a list of visits
+Run jointcal.py for a list of visits
 ======================================
 """
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # Loop over filters
     for filt in opts.filters:
-        cmd = "jointcal.py %s --output %s @%s.list --configfile %s" % \
+        cmd = "jointcal.py %s --output %s @%s.list --configfile %s --doraise" % \
               (input, output, filt, config)
         # Only submit the job if asked
         prefix = "jointcal_%s" % filt
