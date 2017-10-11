@@ -13,7 +13,7 @@
       <var name="MAXCPULONG">10000</var>
       <var name="BATCH_OPTIONS">-l sps=1,os=cl7</var>
       <!-- Default location from which to setup DM -->
-      <var name="DM_RELEASE">w_2017_31</var>
+      <var name="DM_RELEASE">w_2017_40</var>
       <var name="DM_SETUP">/sps/lsst/software/lsst_distrib/${DM_RELEASE}/loadLSST.bash</var>
       <var name="DM_CONFIG">${DM_RELEASE}</var>
       <!-- Base directory where script files will be placed -->
