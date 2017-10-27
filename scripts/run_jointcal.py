@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # Loop over filters
     for filt in opts.filters:
-        cmd = "jointcal.py %s --output %s @%s.list --configfile %s --doraise" % \
+        cmd = "jointcal.py %s --output %s @%s.list --configfile %s" % \
               (input, output, filt, config)
         # Only submit the job if asked
         prefix = "jointcal_%s" % filt

@@ -4,7 +4,7 @@
           xs:schemaLocation="http://glast-ground.slac.stanford.edu/pipeline 
 			     http://srs.slac.stanford.edu/Pipeline-II/schemas/2.1/pipeline.xsd">
   
-  <task name="ClustersDM-Weekly" type="LSST" version="1.11">
+  <task name="ClustersDM-Weekly" type="LSST" version="1.12">
     <notation>A simple task for running the DM for reprocessing Clusters</notation>
     <variables>
       <!-- Job site and configuration-->
@@ -357,7 +357,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run jointcalCoadd -->
@@ -366,7 +366,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run assembleCoadd -->
