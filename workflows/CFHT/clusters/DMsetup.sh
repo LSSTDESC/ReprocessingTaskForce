@@ -4,7 +4,7 @@ export HOME=`pwd`
 # Setup for the stack
 source ${DM_SETUP}
 
-if [[ $DM_SETUP == *"/sps/lsst/software/lsst_distrib/w_20"* ]]
+if [[ $DM_SETUP == *"/sps/lsst/software/lsst_distrib/"* ]]
 then
     setup lsst_distrib
     setup obs_cfht
