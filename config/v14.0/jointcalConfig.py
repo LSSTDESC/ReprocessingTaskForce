@@ -37,6 +37,6 @@ config.photometryRefObjLoader.filterMap = {
 
 # Minimum allowed signal-to-noise ratio for sources used for matching
 # (in the flux specified by sourceFluxType); <= 0 for no limit
-# config.sourceSelector['astrometry'].minSnr = 10.0
+config.sourceSelector['astrometry'].minSnr = 40.0  # default is 10
 
 
