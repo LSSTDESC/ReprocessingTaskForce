@@ -71,16 +71,17 @@ if __name__ == "__main__":
         raise ValueError(out)
     corners = eval(out.split('corners ')[-1].split(' (RA')[0])
 
-    cmd = 'reportPatches.py %s --config raDecRange="%f, %f, %f, %f" --id tract=0 patch=0,0 filter=%s > patches.txt' % (opts.output, corners[1][0], corners[1][1], corners[3][0], corners[3][1], opts.filters[0])
+    cmd = 'reportPatches.py %s --config raDecRange="%f, %f, %f, %f" --id tract=0 patch=0,0 filter=%s | grep "^tract" > patches.txt' % \
+          (opts.output, corners[1][0], corners[1][1], corners[3][0], corners[3][1], opts.filters[0])
     print("RUNNING:", cmd)
     subprocess.call(cmd, shell=True)
-        
+
     # Check the input filter
     for filt in opts.filters:
         if filt not in filters:
             print("Unknown filter: " + filt)
             continue
-        
+
         cmd = "sed -e 's/^/--id filter=%s /' patches.txt > patches_%s.txt" % (filt, filt)
         print("\nRUNNING:", cmd)
         subprocess.call(cmd, shell=True)
