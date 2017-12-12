@@ -29,8 +29,10 @@ if __name__ == "__main__":
 
     # overwrite the -m option to force it to be 1
     opts.mod = 5
-    opts.input = "pardir/output/jointcalcoadd"
-    opts.output = "pardir/output/assemblecoadd"
+    #opts.input = "pardir/output/jointcalcoadd"
+    #opts.output = "pardir/output/assemblecoadd"
+    opts.input = "pardir/output"
+    opts.output = "pardir/output"
 
     # Loop over filters
     for filt in opts.filters:
