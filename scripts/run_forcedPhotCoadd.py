@@ -15,8 +15,7 @@ def build_cmd(patch, configFile, filt, input, output):
     os.system(cmd)
 
     cmd = "forcedPhotCoadd.py %s --output %s"  % (input, output) + \
-          " @scripts/" + filt + "/" + patch + " --configfile " + configFile + \
-          " --doraise"
+          " @scripts/" + filt + "/" + patch + " --configfile " + configFile
     return cmd
 
 
