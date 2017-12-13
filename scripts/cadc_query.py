@@ -11,7 +11,7 @@ Tools to run cluster analysis
 from __future__ import print_function
 import os
 import warnings
-from cStringIO import StringIO
+from io import StringIO
 from optparse import OptionParser
 from astroquery.ned import Ned
 from astropy.io import votable
