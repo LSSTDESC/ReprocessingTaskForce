@@ -11,7 +11,7 @@ Tools to run cluster analysis
 from __future__ import print_function
 import os
 import warnings
-from io import StringIO
+from io import BytesIO
 from optparse import OptionParser
 from astroquery.ned import Ned
 from astropy.io import votable
@@ -58,9 +58,8 @@ def cfht_megacam_tap_query(ra_deg=180.0, dec_deg=0.0, radius=0.01666666):
     lurl = "http://www.cadc.hia.nrc.gc.ca/tap/sync"
 
     warnings.simplefilter('ignore')
-    ff = StringIO(requests.get(lurl, params=data).content)
-    ff.seek(0)
-    return votable.parse(ff).get_first_table().to_table()
+    answer = BytesIO(requests.get(lurl, params=data).content)
+    return votable.parse(answer).get_first_table().to_table()
 
 
 if __name__ == '__main__':
