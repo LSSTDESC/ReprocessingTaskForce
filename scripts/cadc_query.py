@@ -99,7 +99,7 @@ if __name__ == '__main__':
     elif opts.ra is None or opts.dec is None:
         raise IOError("You must give a target name (--target) or its coordinates (--ra, --dec)")
 
-    for obj, ra, dec in zip(objs, ras, decs)[:4]:
+    for obj, ra, dec in zip(objs, ras, decs):
         table = cfht_megacam_tap_query(ra, dec, opts.radius)
         assert isinstance(table, Table)
         if not len(table):
