@@ -66,12 +66,14 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-l", "--logdir", type="string", help="Log directory")
     parser.add_option("-f", "--filters", type="string",
-                      help="Filter set [%default]", default="ugriz")
+                      help="Filter set [%default]")
     parser.add_option("-r", "--scatter_range", type="string",
                       help="The scatter range to keep [%default]", default="0.02,0.1")
     opts, args = parser.parse_args()
 
     min_scatter, max_scatter = map(float, opts.scatter_range.split(','))
+
+    opts.filters = opts.filters.split(",")
 
     # Read the logs, get the data
     d = {f: get_logs(opts.logdir, f) for f in opts.filters}

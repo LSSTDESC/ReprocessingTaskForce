@@ -39,7 +39,7 @@ if __name__ == "__main__":
     description = """This script will find the patches for all filters"""
     
     parser = OptionParser(description=description, usage=usage)
-    parser.add_option("-f", "--filters", type="string", default="ugriz",
+    parser.add_option("-f", "--filters", type="string",
                       help="Filter(s) [%default]. Can also be a ist of filter ('ugriz')")
     parser.add_option("-c", "--config", type="string", default="makeDiscreteSkyMapConfig.py",
                       help="If not given or present in the local dir, a standard one will be created.")
@@ -49,13 +49,13 @@ if __name__ == "__main__":
                       help='output directory [%default]')
     opts, args = parser.parse_args()
 
-    filters = "ugriz"
-
     if not os.path.exists(opts.config):
         print("WARNING: The given (or default) configuration file does not exists.")
         print("INFO: Building a new configuration file")
         build_config(opts.config)
 
+    opts.filters = opts.filters.split(",")
+        
     # Create a file containing the list of all visits
     cmd = "cat [%s].list > all.list" % "\|".join(opts.filters)
     os.system(cmd)
@@ -78,10 +78,6 @@ if __name__ == "__main__":
 
     # Check the input filter
     for filt in opts.filters:
-        if filt not in filters:
-            print("Unknown filter: " + filt)
-            continue
-
         cmd = "sed -e 's/^/--id filter=%s /' patches.txt > patches_%s.txt" % (filt, filt)
         print("\nRUNNING:", cmd)
         subprocess.call(cmd, shell=True)
