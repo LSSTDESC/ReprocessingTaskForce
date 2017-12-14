@@ -1,13 +1,11 @@
 from java.util import HashMap
 
 
-FILTERS = ['u', 'g', 'r', 'i', 'z']
-
 def run_processCcd():
     process = pipeline.getProcessInstance("setup_processccd")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
@@ -22,7 +20,7 @@ def run_singleFrameDriver():
     process = pipeline.getProcessInstance("setup_singleFrameDriver")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
@@ -37,7 +35,7 @@ def run_jointcal():
     process = pipeline.getProcessInstance("setup_jointcal")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     for num, filt in enumerate(filters):
         script = workdir + "/04-jointcal/scripts/%s/jointcal_%s.sh" % (filt, filt)
         vars.put("CUR_SCRIPT", script)
@@ -48,7 +46,7 @@ def run_jointcalCoadd():
     process = pipeline.getProcessInstance("setup_jointcalCoadd")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
@@ -63,7 +61,7 @@ def run_assembleCoadd():
     process = pipeline.getProcessInstance("setup_assembleCoadd")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
@@ -78,7 +76,7 @@ def run_detectCoaddSources():
     process = pipeline.getProcessInstance("setup_detectCoaddSources")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     for num, filt in enumerate(filters):
         script = workdir + "/07-detectCoaddSources/scripts/%s/patches_%s.sh" % (filt, filt)
         vars.put("CUR_SCRIPT", script)
@@ -90,7 +88,7 @@ def run_mergeCoaddDetections():
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
     nscript = vars.remove('nscripts')
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     for num in range(int(nscript)):
         script = workdir + "/08-mergeCoaddDetections/scripts/patches_all.txt_%02d.sh" % num
         vars.put("CUR_SCRIPT", script)
@@ -101,7 +99,7 @@ def run_measureCoaddSources():
     process = pipeline.getProcessInstance("setup_measureCoaddSources")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
@@ -118,7 +116,6 @@ def run_mergeCoaddMeasurements():
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
     nscript = vars.remove('nscripts')
-    filters = vars.remove("FILTERS")
     for num in range(int(nscript)):
         script = workdir + "/10-mergeCoaddMeasurements/scripts/patches_all.txt_%02d.sh" % num
         vars.put("CUR_SCRIPT", script)
@@ -129,7 +126,7 @@ def run_forcedPhotCcd():
     process = pipeline.getProcessInstance("setup_forcedPhotCcd")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
@@ -144,7 +141,7 @@ def run_forcedPhotCoadd():
     process = pipeline.getProcessInstance("setup_forcedPhotCoadd")
     vars = HashMap(process.getVariables())
     workdir = vars.remove("WORK_DIR")
-    filters = vars.remove("FILTERS")
+    filters = vars.remove("FILTERS").split(',')
     num = 0
     for filt in filters:
         nscript = vars.remove('n' + filt + 'scripts')
