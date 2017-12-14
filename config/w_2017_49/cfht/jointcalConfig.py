@@ -15,8 +15,16 @@ config.astrometryRefObjLoader.filterMap = {
     'y':'y',
 }
 
+# Type of model to fit to astrometry
+# Allowed values:
+# 	simplePoly	One polynomial per ccd
+# 	constrainedPoly	One polynomial per ccd, and one polynomial per visit
+# 	None	Field is optional
+# 
+config.astrometryModel='simplePoly'  # for the record (default value)
+
 # Select external catalogs for Photometry
-config.doPhotometry = True  # comment out to run the photometric calibration
+config.doPhotometry = False  # True  # comment out to run the photometric calibration
 config.photometryRefObjLoader.retarget(LoadIndexedReferenceObjectsTask)
 config.photometryRefObjLoader.ref_dataset_name='sdss'
 config.photometryRefObjLoader.filterMap = {

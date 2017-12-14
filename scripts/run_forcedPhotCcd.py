@@ -29,8 +29,6 @@ def build_cmd(visit, config, filt, input='pardir/input', output='pardir/output')
 
 if __name__ == "__main__":
 
-    filters = "ugriz"
-
     usage = """%prog [option]"""
 
     description = """This script will run forcedPhotCcd for a given list of filters and visits. The 
@@ -39,11 +37,9 @@ if __name__ == "__main__":
     filters, you can do something like %prog -f ugriz -m 1 -c forcedPhotCcdConfig.py -a
     """
 
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
     opts.mod = 1
-    #opts.input = "pardir/output/mergecoaddmeasurements"
-    #opts.output = "pardir/output/forcedphotccd"
     opts.input = "pardir/output"
     opts.output = "pardir/output"
 

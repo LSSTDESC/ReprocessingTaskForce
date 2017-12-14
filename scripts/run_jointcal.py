@@ -18,16 +18,12 @@ __version__ = '$Revision: 1.0 $'
 
 if __name__ == "__main__":
 
-    filters = "ugriz"
-
     usage = """%prog [option]"""
 
     description = """Run jointcal for a given list of filters"""
 
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
-    #input = "pardir/output/skymap"
-    #output = "pardir/output/jointcal"
     input = "pardir/output"
     output = "pardir/output"
     config = "jointcalConfig.py"

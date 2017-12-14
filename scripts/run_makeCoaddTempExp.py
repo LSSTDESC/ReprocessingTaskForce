@@ -11,8 +11,6 @@ def build_cmd(patches, config, filt):
 
 if __name__ == "__main__":
 
-    filters = "ugriz"
-    
     usage = """%prog [option]"""
     
     description = """This script will run makeCoaddTempExp for a given list of filters and patches. 
@@ -21,7 +19,7 @@ if __name__ == "__main__":
     it work. To run all  filters, you can do something like 
     %prog -f ugriz -m 1 -c makeCoaddTempExpConfig.py -a"""
 
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
     # overwrite the -m option to force it to be 1
     opts.mod = 1

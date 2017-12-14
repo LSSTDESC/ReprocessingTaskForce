@@ -38,8 +38,6 @@ def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'
     
 if __name__ == "__main__":
 
-    filters = "ugriz"
-
     usage = """%prog [option]"""
 
     description = """This script will run processCcd for a given list of filters and visits. The 
@@ -48,7 +46,7 @@ if __name__ == "__main__":
     filters, you can do something like %prog -f ugriz -m 1 -c processConfig.py,processConfig_u.py -a
     """
 
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
     # Loop over filters
     for filt in opts.filters:

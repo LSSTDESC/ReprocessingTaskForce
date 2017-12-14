@@ -129,11 +129,11 @@ def select_config(configs, filt):
         config = configs.split(',')[0]  # default configuration file must be the first of the list  
     return config
 
-def standard_options(usage=None, description=None, filters='ugriz'):
+def standard_options(usage=None, description=None):
 
     parser = OptionParser(description=description, usage=usage)
-    parser.add_option("-f", "--filters", type="string", default="ugriz",
-                      help="Filter(s) [%default]. Can also be a ist of filter ('ugriz')")
+    parser.add_option("-f", "--filters", type="string", default=None,
+                      help="Filter(s) [%default]. Can also be a list of filter (comma separated)")
     parser.add_option("-c", "--configs", type="string", default="processConfig.py",
                       help="Configuration file [%default]. Several files (and filters with option -f) "
                       "can be given if a filter needs its own config file. In that case, include"
@@ -161,16 +161,10 @@ def standard_options(usage=None, description=None, filters='ugriz'):
                       help="Run job from slac workflow interface")
     opts, args = parser.parse_args()
 
-    keepf = ''
-    for f in opts.filters:
-        if f not in filters:
-            print("WARNING: %s isn't in the official list of filters (%s)" % (f, filters))
-        else:
-            keepf += f
-    if not len(keepf):
+    if opts.filters is None:
         raise IOError("No input filters")
-    print("INFO: We will run of the following filter(s)", keepf)
-    opts.filters = keepf
+    opts.filters = opts.filters.split(",")
+    print("INFO: We will run of the following filter(s)", opts.filters)
 
     return opts, args
-        
+

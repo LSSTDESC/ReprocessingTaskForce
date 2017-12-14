@@ -19,8 +19,6 @@ def build_cmd(patch, configFile, filt, input, output):
 
 if __name__ == "__main__":
 
-    filters = "ugriz"
-
     usage = """%prog [option]"""
 
     description = """This script will run detectCoadSources for a given list of filters and patches. 
@@ -29,10 +27,8 @@ if __name__ == "__main__":
     to make it work. To run all  filters, you can do something like 
     %prog -f ugriz -m 1 -c detectCoaddSources.py -a"""
 
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
-    #opts.input = "pardir/output/assemblecoadd"
-    #opts.output = "pardir/output/detectcoaddsources"
     opts.input = "pardir/output"
     opts.output = "pardir/output"
 

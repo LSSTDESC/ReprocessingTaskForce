@@ -151,8 +151,6 @@ def organize_items(items, njobs):
         
 if __name__ == "__main__":
 
-    filters = "ugriz"
-    
     usage = """%prog [option]\n"""
     usage += """\n To run all filters, you can do something like"""
     usage += """\n%prog -s script_number -f ugriz -m 1 -c processConfig.py,processConfig_u.py -a\n Possible scripts_number are:"""

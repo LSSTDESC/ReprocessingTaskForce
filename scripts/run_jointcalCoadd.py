@@ -14,13 +14,11 @@ def build_cmd(patches, config, filt, input, output):
 
 if __name__ == "__main__":
 
-    filters = "ugriz"
-
     usage = """%prog [option]"""
 
     description = """Run jointcalCoadd.py for a given list of filters and patches."""
 
-    opts, args = LR.standard_options(usage=usage, description=description, filters=filters)
+    opts, args = LR.standard_options(usage=usage, description=description)
 
     # overwrite the -m option to force it to be 5
     opts.mod = 5
