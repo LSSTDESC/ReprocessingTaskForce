@@ -6,7 +6,7 @@ ln -sfn ${WORK_DIR} pardir
 cp -n $RTF/config/$DM_CONFIG/singleFrameDriver* .
 build_visit_lists.py -i ${WORK_DIR}/input
 singleFrameDriver.py pardir/input --output pardir/output --configfile singleFrameDriverConfig.py --cores=8
-run_singleFrameDriver.py --fromslac --multicore -f ${FILTERS} -c `ls build_p*.py | paste -sd ","`
+run_singleFrameDriver.py -c `ls *Config*.py | paste -sd ","` --fromslac --multicore -f ${FILTERS}
 for FILT in $(echo ${FILTERS} | tr "," "\n")
 do
 	pipelineSet n${FILT}scripts `ls scripts/${FILT}/*.sh 2>/dev/null | wc -l`
