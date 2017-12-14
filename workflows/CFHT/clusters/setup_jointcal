@@ -5,3 +5,4 @@ cp -n $RTF/config/$DM_CONFIG/jointcalConfig.py .
 build_visit_lists.py -i pardir/input -l pardir/02-*/log/*/*.log
 run_jointcal.py --fromslac -f ${FILTERS}
 pipelineSet WORK_DIR ${WORK_DIR}
+pipelineSet FILTERS ${FILTERS}

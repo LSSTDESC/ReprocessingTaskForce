@@ -5,3 +5,4 @@ cp -n $RTF/config/$DM_CONFIG/detectCoaddConfig.py .
 cp pardir/03-makeDiscreteSkyMap/patches* .
 run_detectCoaddSources.py -c detectCoaddConfig.py --fromslac -f ${FILTERS}
 pipelineSet WORK_DIR ${WORK_DIR}
+pipelineSet FILTERS ${FILTERS}

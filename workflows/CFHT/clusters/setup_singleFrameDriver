@@ -12,3 +12,4 @@ do
 	pipelineSet n${FILT}scripts `ls scripts/${FILT}/*.sh 2>/dev/null | wc -l`
 done
 pipelineSet WORK_DIR ${WORK_DIR}
+pipelineSet FILTERS ${FILTERS}
