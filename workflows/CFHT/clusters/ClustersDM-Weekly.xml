@@ -4,7 +4,7 @@
           xs:schemaLocation="http://glast-ground.slac.stanford.edu/pipeline 
 			     http://srs.slac.stanford.edu/Pipeline-II/schemas/2.1/pipeline.xsd">
   
-  <task name="ClustersDM-Weekly" type="LSST" version="1.17">
+  <task name="ClustersDM-Weekly" type="LSST" version="1.18">
     <notation>A simple task for running the DM for reprocessing Clusters</notation>
     <variables>
       <!-- Job site and configuration-->
@@ -22,7 +22,7 @@
     <!-- ingest images -->
     <process name="ingest" site="${JOBSITE}">
       <notation>Ingest the input data serially</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
     </process>
     
@@ -30,7 +30,7 @@
     <!-- <!-\-   setup -\-> -->
     <!-- <process name="setup_processccd" site="${JOBSITE}"> -->
     <!--   <notation>Setup for processCcd</notation> -->
-    <!--   <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" -->
+    <!--   <job batchOptions="${BATCH_OPTIONS}" -->
     <!-- 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/> -->
     <!--   <depends> -->
     <!--     <after process="ingest"/> -->
@@ -56,7 +56,7 @@
     <!--   setup -->
     <process name="setup_singleFrameDriver" site="${JOBSITE}">
       <notation>Setup for singleFrameDriver</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="ingest"/>
@@ -81,7 +81,7 @@
     <!-- makeDiscreteSkyMap -->
     <process name="makeskymap" site="${JOBSITE}">
       <notation>Make the sky map</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="singleFrameDriverFilter.singleFrameDriverfilter"/>
@@ -92,7 +92,7 @@
     <!--   setup -->
     <process name="setup_jointcal" site="${JOBSITE}">
       <notation>Setup for jointcal</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="makeskymap"/>
@@ -118,7 +118,7 @@
     <!--   setup -->
     <process name="setup_jointcalCoadd" site="${JOBSITE}">
       <notation>Setup for jointcalCoadd</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="jointcalFilter.jointcalfilter"/>
@@ -144,7 +144,7 @@
     <!--   setup -->
     <process name="setup_assembleCoadd" site="${JOBSITE}">
       <notation>Setup for assembleCoadd</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="jointcalCoaddFilter.jointcalCoaddfilter"/>
@@ -170,7 +170,7 @@
     <!--   setup -->
     <process name="setup_detectCoaddSources" site="${JOBSITE}">
       <notation>Setup for detectCoaddSources</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="assembleCoaddFilter.assembleCoaddfilter"/>
@@ -196,7 +196,7 @@
     <!--   setup -->
     <process name="setup_mergeCoaddDetections" site="${JOBSITE}">
       <notation>Setup for mergeCoaddDetections</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="detectCoaddSourcesFilter.detectCoaddSourcesfilter"/>
@@ -222,7 +222,7 @@
     <!--   setup -->
     <process name="setup_measureCoaddSources" site="${JOBSITE}">
       <notation>Setup for measureCoaddSources</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="mergeCoaddDetectionsFilter.mergeCoaddDetectionsfilter"/>
@@ -248,7 +248,7 @@
     <!--   setup -->
     <process name="setup_mergeCoaddMeasurements" site="${JOBSITE}">
       <notation>Setup for mergeCoaddMeasurements</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="measureCoaddSourcesFilter.measureCoaddSourcesfilter"/>
@@ -274,7 +274,7 @@
     <!--   setup -->
     <process name="setup_forcedPhotCcd" site="${JOBSITE}">
       <notation>Setup for forcedPhotCcd</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="mergeCoaddMeasurementsFilter.mergeCoaddMeasurementsfilter"/>
@@ -300,7 +300,7 @@
     <!--   setup -->
     <process name="setup_forcedPhotCoadd" site="${JOBSITE}">
       <notation>Setup for forcedPhotCoadd</notation>
-      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
+      <job batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="mergeCoaddMeasurementsFilter.mergeCoaddMeasurementsfilter"/>
