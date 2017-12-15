@@ -3,6 +3,9 @@
 ulimit -c ${CORE_LIMIT:-1000} # Limit core dump
 set -e # exit on error
 
+# Get the local configuration
+source ${LOCAL_CONFIG}
+
 # Set up a unique work directory for this pipeline stream
 stream=$(echo $PIPELINE_STREAMPATH | cut -f1 -d.)
 export WORK_DIR=${OUTPUT_DATA_DIR}/work/${stream}
