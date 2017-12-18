@@ -139,7 +139,7 @@ if __name__ == '__main__':
                 print("WARNING: Install the 'wget' package (will use the wget system for now)")
                 wget = lambda url: os.system("wget -nc %s" % url)
             for url in urls:
-                if os.path.exist(url.split('/')[-1] + '.fits.fz')):
+                if os.path.exist(url.split('/')[-1] + '.fits.fz'):
                     continue
                 print("\nDownloading", url)
                 wget(url)
