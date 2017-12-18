@@ -136,10 +136,12 @@ if __name__ == '__main__':
                 wget = wget.download
             except:
                 print("WARNING: Install the 'wget' package (will use the wget system for now)")
-                wget = lambda url: os.system("wget -N %s" % url)
+                wget = lambda url: os.system("wget -nc %s" % url)
             for url in urls:
                 print("\nDownloading", url)
                 wget(url)
                 os.rename(url.split('/')[-1], url.split('/')[-1] + '.fits.fz')
         if opts.dir not in [None, '.', './']:
             os.chdir("..")
+        if opts.dir == obj:
+            opts.dir = None
