@@ -1,6 +1,6 @@
 # Make sur the work directory exists
-mkdir -p ${WORK_DIR}/03-makeDiscreteSkyMap
-cd ${WORK_DIR}/03-makeDiscreteSkyMap
+mkdir -p ${WORK_DIR}/03-makeSkyMap
+cd ${WORK_DIR}/03-makeSkyMap
 ln -sfn ${WORK_DIR} pardir
 
 build_visit_lists.py -i pardir/input -l pardir/02-*/log/\*/\*.log

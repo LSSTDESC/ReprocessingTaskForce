@@ -9,6 +9,8 @@
     <variables>
       <!-- Job site and configuration-->
       <var name="JOBSITE">LSST-IN2P3</var>
+      <var name="MAXCPU">10000</var>
+      <var name="MAXCPULONG">10000</var>
       <var name="BATCH_OPTIONS">-l sps=1,os=cl7,xrootd=0</var>
       <!-- Base directory where script files will be placed -->
       <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/CFHT/clusters</var>
@@ -22,41 +24,15 @@
     <!-- ingest images -->
     <process name="ingest" site="${JOBSITE}">
       <notation>Ingest the input data serially</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
     </process>
     
-    <!-- <!-\- processCcd -\-> -->
-    <!-- <!-\-   setup -\-> -->
-    <!-- <process name="setup_processccd" site="${JOBSITE}"> -->
-    <!--   <notation>Setup for processCcd</notation> -->
-    <!--   <job batchOptions="${BATCH_OPTIONS}" -->
-    <!-- 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/> -->
-    <!--   <depends> -->
-    <!--     <after process="ingest"/> -->
-    <!--   </depends> -->
-    <!-- </process> -->
-    <!-- <!-\-   launch jobs -\-> -->
-    <!-- <process name="processccd" site="${JOBSITE}"> -->
-    <!--   <notation>Run process ccd for all filter and visits</notation> -->
-    <!--   <script><![CDATA[ -->
-    <!--   execfile("%s/%s" % (SLAC_SCRIPT_LOCATION, SCRIPT_NAME)) -->
-    <!--   run_processCcd() -->
-    <!--   ]]> -->
-    <!--   </script> -->
-    <!--   <depends> -->
-    <!--     <after process="setup_processccd"/> -->
-    <!--   </depends> -->
-    <!--   <createsSubtasks> -->
-    <!-- 	<subtask>processFilter</subtask> -->
-    <!--   </createsSubtasks>	 -->
-    <!--  </process> -->
-
     <!-- Singleframedriver -->
     <!--   setup -->
     <process name="setup_singleFrameDriver" site="${JOBSITE}">
       <notation>Setup for singleFrameDriver</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="ingest"/>
@@ -78,10 +54,10 @@
       </createsSubtasks>	
     </process>
 
-    <!-- makeDiscreteSkyMap -->
+    <!-- makeSkyMap -->
     <process name="makeskymap" site="${JOBSITE}">
       <notation>Make the sky map</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="singleFrameDriverFilter.singleFrameDriverfilter"/>
@@ -92,7 +68,7 @@
     <!--   setup -->
     <process name="setup_jointcal" site="${JOBSITE}">
       <notation>Setup for jointcal</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="makeskymap"/>
@@ -118,7 +94,7 @@
     <!--   setup -->
     <process name="setup_jointcalCoadd" site="${JOBSITE}">
       <notation>Setup for jointcalCoadd</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="jointcalFilter.jointcalfilter"/>
@@ -144,7 +120,7 @@
     <!--   setup -->
     <process name="setup_assembleCoadd" site="${JOBSITE}">
       <notation>Setup for assembleCoadd</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="jointcalCoaddFilter.jointcalCoaddfilter"/>
@@ -170,7 +146,7 @@
     <!--   setup -->
     <process name="setup_detectCoaddSources" site="${JOBSITE}">
       <notation>Setup for detectCoaddSources</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="assembleCoaddFilter.assembleCoaddfilter"/>
@@ -196,7 +172,7 @@
     <!--   setup -->
     <process name="setup_mergeCoaddDetections" site="${JOBSITE}">
       <notation>Setup for mergeCoaddDetections</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="detectCoaddSourcesFilter.detectCoaddSourcesfilter"/>
@@ -222,7 +198,7 @@
     <!--   setup -->
     <process name="setup_measureCoaddSources" site="${JOBSITE}">
       <notation>Setup for measureCoaddSources</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="mergeCoaddDetectionsFilter.mergeCoaddDetectionsfilter"/>
@@ -248,7 +224,7 @@
     <!--   setup -->
     <process name="setup_mergeCoaddMeasurements" site="${JOBSITE}">
       <notation>Setup for mergeCoaddMeasurements</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="measureCoaddSourcesFilter.measureCoaddSourcesfilter"/>
@@ -274,7 +250,7 @@
     <!--   setup -->
     <process name="setup_forcedPhotCcd" site="${JOBSITE}">
       <notation>Setup for forcedPhotCcd</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="mergeCoaddMeasurementsFilter.mergeCoaddMeasurementsfilter"/>
@@ -300,7 +276,7 @@
     <!--   setup -->
     <process name="setup_forcedPhotCoadd" site="${JOBSITE}">
       <notation>Setup for forcedPhotCoadd</notation>
-      <job batchOptions="${BATCH_OPTIONS}"
+      <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}"
 	   executable="${IN2P3_SCRIPT_LOCATION}/${BATCH_NAME}"/>
       <depends>
         <after process="mergeCoaddMeasurementsFilter.mergeCoaddMeasurementsfilter"/>
@@ -324,22 +300,13 @@
 
     
     <!--   Subtasks -->
-    <!-- <!-\-   Subtask to run processCcd -\-> -->
-    <!-- <task name="processFilter" type="LSST"> -->
-    <!--   <process name="processfilter" site="${JOBSITE}"> -->
-    <!-- 	<variables> -->
-    <!-- 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var> -->
-    <!-- 	</variables> -->
-    <!-- 	<job batchOptions="${BATCH_OPTIONS} -q huge " executable="${CUR_SCRIPT}"/> -->
-    <!--   </process>                 -->
-    <!-- </task> -->
-    <!--   Subtask to run singleFrameDriver -->
+    <!-- <!-\-   Subtask to run singleFrameDriver -\-> -->
     <task name="singleFrameDriverFilter" type="LSST">
       <process name="singleFrameDriverfilter" site="${JOBSITE}">
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-	<job batchOptions="${BATCH_OPTIONS} -q mc_huge -pe multicores 8" executable="${CUR_SCRIPT}"/>
+	<job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS} -q mc_huge -pe multicores 8" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run jointcal -->
@@ -348,7 +315,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run jointcalCoadd -->
@@ -357,7 +324,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run assembleCoadd -->
@@ -366,7 +333,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS} -q huge" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run detectCoaddSources -->
@@ -375,7 +342,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run mergeCoaddDetections -->
@@ -384,7 +351,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run measureCoaddSources -->
@@ -393,7 +360,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run mergeCoaddMeasurements -->
@@ -402,7 +369,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run forcedPhotCcd -->
@@ -411,7 +378,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     <!--   Subtask to run forcedPhotCoadd -->
@@ -420,7 +387,7 @@
 	<variables>
 	  <var name="streamID">${format(pipeline.stream, "%01d")}</var>
 	</variables>
-        <job batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
+        <job maxCPU="${MAXCPU}" batchOptions="${BATCH_OPTIONS}" executable="${CUR_SCRIPT}"/>
       </process>                
     </task>
     

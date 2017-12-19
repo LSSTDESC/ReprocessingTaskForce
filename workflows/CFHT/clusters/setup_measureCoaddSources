@@ -4,7 +4,7 @@ ln -sfn /sps/lsst/data/refcats/htm/htm_baseline cal_ref_cat
 cd ${WORK_DIR}/09-measureCoaddSources
 ln -sfn ${WORK_DIR} pardir
 cp -n $RTF/config/$DM_CONFIG/measureCoaddSourcesConfig.py .
-cp pardir/03-makeDiscreteSkyMap/patches* .
+cp pardir/03-makeSkyMap/patches* .
 run_measureCoaddSources.py -c measureCoaddSourcesConfig.py --fromslac -f ${FILTERS}
 for FILT in $(echo ${FILTERS} | tr "," "\n")
 do
