@@ -18,26 +18,11 @@ __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
 __version__ = '$Revision: 1.0 $'
 
 
-def build_config(config):
-    """
-    Build the needed configuration file to run makeSkyMap.py
-    """
-    f = open(config, 'w')
-    f.write("""config.skyMap.projection='TAN'
-
-# dimensions of inner region of patches (x,y pixels)
-config.skyMap.patchInnerDimensions=[4000, 4000]
-    
-# nominal pixel scale (arcsec/pixel) 
-config.skyMap.pixelScale=0.185""")
-    f.close()
-
 if __name__ == "__main__":
-    
+
     usage = """%prog [option]"""
-    
     description = """This script will find the patches for all filters"""
-    
+
     parser = OptionParser(description=description, usage=usage)
     parser.add_option("-f", "--filters", type="string",
                       help="Filter(s) [%default]. Can also be a ist of filter ('ugriz')")
@@ -50,9 +35,7 @@ if __name__ == "__main__":
     opts, args = parser.parse_args()
 
     if not os.path.exists(opts.config):
-        print("WARNING: The given (or default) configuration file does not exists.")
-        print("INFO: Building a new configuration file")
-        build_config(opts.config)
+        raise "WARNING: The given (or default) configuration file does not exists."
 
     opts.filters = opts.filters.split(",")
 
