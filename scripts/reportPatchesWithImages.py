@@ -111,7 +111,7 @@ if __name__ == "__main__":
     description = """Report tracts and patches continaing images"""
 
     parser = OptionParser(description=description, usage=usage)
-    parser.add_option("-v", "--visits", type="string",
+    parser.add_option("-v", "--visits", type="str",
                       help="Optional list of visits (file or coma separated list)")
     opts, args = parser.parse_args()
 
