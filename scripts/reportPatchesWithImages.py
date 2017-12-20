@@ -111,14 +111,14 @@ if __name__ == "__main__":
     description = """Report tracts and patches continaing images"""
 
     parser = OptionParser(description=description, usage=usage)
-    parser.add_option("-v", "--visits", type="str",
+    parser.add_option("-v", "--visits", type="string",
                       help="Optional list of visits (file or coma separated list)")
     opts, args = parser.parse_args()
 
     # Is there a list of visit given by the use?
     if opts.visits is not None:
         if os.path.exists(opts.visits):
-            opts.visits = np.loadtxt(opts.visits, dtype='string', unpack=True)
+            opts.visits = np.loadtxt(opts.visits, dtype='str', unpack=True)
             if len(opts.visits) != 1:
                 opts.visits = [vis.split('=')[1]
                                for vis in opts.visits[['visit' in arr[0]
