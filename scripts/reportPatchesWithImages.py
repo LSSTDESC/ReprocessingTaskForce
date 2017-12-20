@@ -118,7 +118,11 @@ if __name__ == "__main__":
     # Is there a list of visit given by the use?
     if opts.visits is not None:
         if os.path.exists(opts.visits):
-            opts.visits = np.loadtxt(opts.visits)
+            opts.visits = np.loadtxt(opts.visits, dtype='string', unpack=True)
+            if len(opts.visits) != 1:
+                opts.visits = [vis.split('=')[1]
+                               for vis in opts.visits[['visit' in arr[0]
+                                                       for arr in opts.visits]][0]]
         else:
             opts.visits = opts.visits.split(',')
 
