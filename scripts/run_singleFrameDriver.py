@@ -28,7 +28,7 @@ def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'
 
     # Create the command line
     cmd = "singleFrameDriver.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config --doraise"
+          filename + " --configfile " + config
     if opts.multicore:
         cmd += " --cores=8"
     print("\nCMD: ", cmd)

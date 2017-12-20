@@ -22,7 +22,7 @@ def build_cmd(visit, config, filt, input='pardir/input', output='pardir/output')
 
     # Create the command line
     cmd = "forcedPhotCcd.py %s --output %s " % (input, output) + \
-          "@scripts/%s/%s.txt" % (filt, visit) + " --configfile " + config + " --doraise"
+          "@scripts/%s/%s.txt" % (filt, visit) + " --configfile " + config
 
     return cmd
 

@@ -13,7 +13,7 @@ def build_cmd(patch, configFile, filt, input, output):
         os.makedirs("scripts/" + filt)
 
     cmd = "detectCoaddSources.py %s --output %s " % (input, output) + \
-          patch + " --configfile " + configFile + " --doraise"
+          patch + " --configfile " + configFile
     return cmd
 
 

@@ -46,7 +46,7 @@ def build_cmd(script_number, items, config, filt, **kwargs):
     if script == 'processCcd':
         filename = "scripts/" + filt + "/" + items + ".list"        
         cmd = "processCcd.py pardir/input --output pardir/output @" + \
-              filename + " --configfile " + config + " --clobber-config"
+              filename + " --configfile " + config
     # 2
     elif script == 'makeCoaddTempExp':
         filename = filt+'.list'
@@ -56,7 +56,7 @@ def build_cmd(script_number, items, config, filt, **kwargs):
         # h_vmem=8G
         patchList, runList, configFile, filt
         prefix = makeFileName(patchList)
-        cmd = "assembleCoadd.py pardir/output " + patchList + " @" + runList + " --configfile " + configFile + " --clobber-config"
+        cmd = "assembleCoadd.py pardir/output " + patchList + " @" + runList + " --configfile " + configFile
     # 4
     elif script == 'detectCoaddSources':
         print "WARNING: No implemented yet. Quit."

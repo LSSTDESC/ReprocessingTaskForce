@@ -16,7 +16,7 @@ def build_cmd(patch, configFile, input, output):
     os.system(cmd)
 
     cmd = "mergeCoaddDetections.py %s --output %s"  % (input, output) + \
-          " @scripts/" + patch + " --configfile " + configFile + " --doraise"
+          " @scripts/" + patch + " --configfile " + configFile
 
     return cmd
 

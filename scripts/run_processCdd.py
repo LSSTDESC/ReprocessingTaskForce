@@ -28,7 +28,7 @@ def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'
 
     # Create the command line
     cmd = "processCcd.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config --doraise"
+          filename + " --configfile " + config
     if opts.multicore:
         cmd += " -j 8 --timeout 999999999"
     print("\nCMD: ", cmd)
