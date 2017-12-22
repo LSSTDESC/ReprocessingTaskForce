@@ -10,6 +10,7 @@ Run jointcal.py for a list of visits
 
 from __future__ import print_function
 import libRun as LR
+import numpy as np
 
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
@@ -28,10 +29,20 @@ if __name__ == "__main__":
     output = "pardir/output"
     config = "jointcalConfig.py"
 
+    patches = np.loadtxt('patches.txt', dtype='str', unpack=True)
+    tracts = [s.split('=')[1] for s in set(patches[0])]
     # Loop over filters
     for filt in opts.filters:
-        cmd = "jointcal.py %s --output %s @%s.list --configfile %s" % \
-              (input, output, filt, config)
+        for tract in tracts:
+            lfile = open('%s.list' % filt, 'r')
+            lines = lfile.readlines()
+            lfile.close()
+            newfile = open('%s_%s.list' % (filt, str(tract)), 'w')
+            for line in lines:
+                newfile.write(line.replace('--id ', '--id tract=%s ' % str(tract)))
+            newfile.close()
+            cmd = "jointcal.py %s --output %s @%s_%s.list --configfile %s\n" % \
+                  (input, output, filt, str(tract), config)
         # Only submit the job if asked
         prefix = "jointcal_%s" % filt
         LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit,
