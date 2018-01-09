@@ -78,16 +78,16 @@ jointcalCoadd.py output --output output @patch.list @filter.list --configfile jo
 
 cd 06-assembleCoadd
 cp pardir/05-makeCoaddTempExp/*.list pardir/05-makeCoaddTempExp/*.txt .
-ln -s /sps/lsst/dev/nchotard/clusters/3C295 pardir
-cp /sps/lsst/dev/lsstprod/clusters/MACSJ2243.3-0935/utils/assembleCoadd/assembleConfig.py .
+ln -s /sps/lsst/users/nchotard/clusters/3C295 pardir
+cp /sps/lsst/users/lsstprod/clusters/MACSJ2243.3-0935/utils/assembleCoadd/assembleConfig.py .
 run_assembleCoadd.py -c assembleConfig.py
 
 
 ### 07-detectCoaddSources
 
 cp ../05-makeCoaddTempExp/*.txt .
-ln -s /sps/lsst/dev/nchotard/clusters/3C295 pardir
-cp /sps/lsst/dev/lsstprod/clusters/MACSJ2243.3-0935/utils/detectCoaddSources/detectCoaddConfig.py .
+ln -s /sps/lsst/users/nchotard/clusters/3C295 pardir
+cp /sps/lsst/users/lsstprod/clusters/MACSJ2243.3-0935/utils/detectCoaddSources/detectCoaddConfig.py .
 run_detectCoaddSources.py -c detectCoaddConfig.py -a
 
 

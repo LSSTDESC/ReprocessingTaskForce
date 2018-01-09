@@ -16,12 +16,12 @@
       <!-- <var name="DM_RELEASE">w_2017_25</var> -->
       <!-- <var name="DM_DIR">/sps/lsst/software/lsst_distrib/${DM_RELEASE}</var> -->
       <!-- <var name="DM_SETUP">loadLSST.bash</var> -->
-      <var name="DM_SETUP">/sps/lsst/dev/lsstprod/clusters/setup_workflow.sh</var>
+      <var name="DM_SETUP">/sps/lsst/users/lsstprod/clusters/setup_workflow.sh</var>
       <var name="DM_CONFIG">lsstprod_clusters</var>
       <!-- Base directory where script files will be placed -->
       <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/CFHT/clusters</var>
       <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/${SCRIPT_LOCATION}</var>
-      <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/dev/lsstprod/${SCRIPT_LOCATION}</var>
+      <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/users/lsstprod/${SCRIPT_LOCATION}</var>
       <!-- Script names -->
       <var name="SCRIPT_NAME">ClustersWorkflow.py</var>
       <var name="BATCH_NAME">ClustersBatch.sh</var>

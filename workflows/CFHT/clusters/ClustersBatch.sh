@@ -18,7 +18,7 @@ export IN_DIR=${IN_DIR:-${WORK_DIR}/input}
 source ${IN2P3_SCRIPT_LOCATION}/DMsetup.sh
 
 # Setup reprocessing scripts
-cd /sps/lsst/dev/lsstprod/ReprocessingTaskForce
+cd /sps/lsst/users/lsstprod/ReprocessingTaskForce
 source rtf_setup.sh
 cd -
 
