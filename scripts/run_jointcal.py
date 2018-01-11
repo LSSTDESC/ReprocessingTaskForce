@@ -33,6 +33,7 @@ if __name__ == "__main__":
     tracts = [s.split('=')[1] for s in set(patches[0])]
     # Loop over filters
     for filt in opts.filters:
+        cmd = ""
         for tract in tracts:
             lfile = open('%s.list' % filt, 'r')
             lines = lfile.readlines()
@@ -41,8 +42,8 @@ if __name__ == "__main__":
             for line in lines:
                 newfile.write(line.replace('--id ', '--id tract=%s ' % str(tract)))
             newfile.close()
-            cmd = "jointcal.py %s --output %s @%s_%s.list --configfile %s\n" % \
-                  (input, output, filt, str(tract), config)
+            cmd += "jointcal.py %s --output %s @%s_%s.list --configfile %s\n" % \
+                   (input, output, filt, str(tract), config)
         # Only submit the job if asked
         prefix = "jointcal_%s" % filt
         LR.submit(cmd, prefix, filt, autosubmit=opts.autosubmit,
