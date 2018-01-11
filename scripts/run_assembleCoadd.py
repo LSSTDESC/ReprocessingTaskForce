@@ -8,7 +8,8 @@ import libRun as LR
 
 def build_cmd(patches, config, filt, input, output):
     cmd = "assembleCoadd.py %s --output %s " % (input, output) + \
-          patches + " @" + filt + ".list" + " --configfile " + config
+          patches + " @" + filt + ".list" + " --configfile " + config + \
+          " --clobber-config"
     print("\nCMD:", cmd)
     return cmd
 
