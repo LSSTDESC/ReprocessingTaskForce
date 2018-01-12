@@ -14,5 +14,5 @@ then
     setup pipe_drivers
     cd /sps/lsst/users/nchotard/obs_cfht
     eups declare -r . obs_cfht tractbugfix
-    setup obs_cfht -t tractbugfix
+    setup obs_cfht tractbugfix
 fi
