@@ -12,5 +12,8 @@ then
     setup meas_extensions_psfex
     setup meas_modelfit
     setup pipe_drivers
+    cd /sps/lsst/users/nchotard/obs_cfht
+    eups declare -r . obs_cfht tractbugfix
     setup obs_cfht tractbugfix
+    cd -
 fi
