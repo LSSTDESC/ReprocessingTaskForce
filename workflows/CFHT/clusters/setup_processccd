@@ -1,6 +1,6 @@
 mkdir -p ${WORK_DIR}/02-processccd
 cd ${WORK_DIR}/input
-ln -sfn /sps/lsst/data/refcats/htm/htm_baseline ref_cats
+ln -sfn /sps/lsst/datasets/refcats/htm/htm_baseline ref_cats
 # ln -sfn ${WORK_DIR}/input pardir  # removed this line after talking to DM people on slack
 cd ${WORK_DIR}/02-processccd
 ln -sfn ${WORK_DIR} pardir

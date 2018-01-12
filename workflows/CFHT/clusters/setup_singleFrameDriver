@@ -1,6 +1,6 @@
 mkdir -p ${WORK_DIR}/02-singleFrameDriver
 cd ${WORK_DIR}/input
-ln -sfn /sps/lsst/data/refcats/htm/htm_baseline ref_cats
+ln -sfn /sps/lsst/datasets/refcats/htm/htm_baseline ref_cats
 cd ${WORK_DIR}/02-singleFrameDriver
 ln -sfn ${WORK_DIR} pardir
 cp -n $RTF/config/$DM_CONFIG/singleFrameDriver* .
