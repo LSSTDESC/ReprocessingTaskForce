@@ -41,8 +41,10 @@ config.processCcd.calibrate.astromRefObjLoader.filterMap = {
     'u':'g',
     'g':'g',
     'r':'r',
+    'r2':'r',
     'i':'i',
     'i2':'i',
+    'i3':'i',
     'z':'z',
     'y':'y',
 }
@@ -60,8 +62,10 @@ config.processCcd.calibrate.photoRefObjLoader.filterMap = {
     'u': 'U',
     'g': 'G',
     'r': 'R',
+    'r2': 'R',
     'i': 'I',
     'i2': 'I',
+    'i3': 'I',
     'z': 'Z',
     'y': 'Z',
 }
@@ -83,6 +87,18 @@ config.processCcd.calibrate.photoCal.colorterms.data['e2v'].data['i2'].c1=0.003
 config.processCcd.calibrate.photoCal.colorterms.data['e2v'].data['i2'].c0=0.0
 config.processCcd.calibrate.photoCal.colorterms.data['e2v'].data['i2'].primary='i'
 config.processCcd.calibrate.photoCal.colorterms.data['e2v'].data['i2'].secondary='r'
+config.calibrate.photoCal.colorterms.data['e2v'].data['i3']=lsst.pipe.tasks.colorterms.Colorterm()
+config.calibrate.photoCal.colorterms.data['e2v'].data['i3'].c2=0.0
+config.calibrate.photoCal.colorterms.data['e2v'].data['i3'].c1=0.003
+config.calibrate.photoCal.colorterms.data['e2v'].data['i3'].c0=0.0
+config.calibrate.photoCal.colorterms.data['e2v'].data['i3'].primary='i'
+config.calibrate.photoCal.colorterms.data['e2v'].data['i3'].secondary='r'
+config.calibrate.photoCal.colorterms.data['e2v'].data['r2']=lsst.pipe.tasks.colorterms.Colorterm()
+config.calibrate.photoCal.colorterms.data['e2v'].data['r2'].c2=0.0
+config.calibrate.photoCal.colorterms.data['e2v'].data['r2'].c1=0.024
+config.calibrate.photoCal.colorterms.data['e2v'].data['r2'].c0=0.0
+config.calibrate.photoCal.colorterms.data['e2v'].data['r2'].primary='r'
+config.calibrate.photoCal.colorterms.data['e2v'].data['r2'].secondary='g'
 
 # use Chebyshev background estimation
 config.processCcd.charImage.background.useApprox=True

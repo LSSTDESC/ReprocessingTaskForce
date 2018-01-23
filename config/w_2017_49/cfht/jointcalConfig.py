@@ -9,8 +9,10 @@ config.astrometryRefObjLoader.filterMap = {
     'u':'g',
     'g':'g',
     'r':'r',
+    'r2':'r',
     'i':'i',
     'i2': 'i',
+    'i3': 'i',
     'z':'z',
     'y':'y',
 }
@@ -31,8 +33,10 @@ config.photometryRefObjLoader.filterMap = {
     'u': 'U',
     'g': 'G',
     'r': 'R',
+    'r2': 'R',
     'i': 'I',
     'i2': 'I',
+    'i3': 'I',
     'z': 'Z',
     'y': 'Z',
 }

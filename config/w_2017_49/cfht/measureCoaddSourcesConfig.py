@@ -31,8 +31,10 @@ config.match.refObjLoader.filterMap={
     'u': 'U',
     'g': 'G',
     'r': 'R',
+    'r2': 'R',
     'i': 'I',
     'i2': 'I',
+    'i3': 'I',
     'z': 'Z',
     'y': 'Z',
 }
