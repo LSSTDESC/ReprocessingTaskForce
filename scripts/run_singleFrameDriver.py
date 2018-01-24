@@ -23,26 +23,31 @@ def build_cmd(visits, config, filt, input='pardir/input', output='pardir/output'
         os.makedirs("scripts/" + filt)
 
     # Create and save a sub list of visit
-    filename = "scripts/" + filt + "/" + "_".join(visits) + ".list"
-    N.savetxt(filename, ["--id visit=%s ccd=0..35" % visit for visit in visits], fmt="%s")
+    filename1 = "scripts/" + filt + "/" + "_".join(visits) + "_1.list"
+    filename2 = "scripts/" + filt + "/" + "_".join(visits) + "_2.list"
+    N.savetxt(filename1, ["--id visit=%s ccd=0..15" % visit for visit in visits], fmt="%s")
+    N.savetxt(filename2, ["--id visit=%s ccd=16..35" % visit for visit in visits], fmt="%s")
 
     # Create the command line
-    cmd = "singleFrameDriver.py %s --output %s @" % (input, output) + \
-          filename + " --configfile " + config + " --clobber-config"
-    if opts.multicore:
-        cmd += " --cores=8"
+    cmd = ""
+    for filename in [filename1, filename2]:
+        cmd += "singleFrameDriver.py %s --output %s @" % (input, output) + \
+               filename + " --configfile " + config + " --clobber-config"
+        if opts.multicore:
+            cmd += " --cores=8"
+        cmd += " \n"
     print("\nCMD: ", cmd)
 
     return cmd
 
-    
+
 if __name__ == "__main__":
 
     usage = """%prog [option]"""
 
-    description = """This script will run singleFrameDriver for a given list of filters and visits. The 
-    default if to use f.list files (where 'f' is a filter in ugriz), and launch singleFrameDriver in 
-    several batch jobs. You thus need to be running it at CC-IN2P3 to make it work. To run all 
+    description = """This script will run singleFrameDriver for a given list of filters and visits.
+    The default if to use f.list files (where 'f' is a filter in ugriz), and launch singleFrameDriver
+    in several batch jobs. You thus need to be running it at CC-IN2P3 to make it work. To run all 
     filters, you can do something like %prog -f ugriz -m 1 -c singleFrameDriverConfig.py -a
     """
 
