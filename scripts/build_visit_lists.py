@@ -124,20 +124,9 @@ if __name__ == "__main__":
 
     # Print some info
     print("The total number of visits is", sum([len(visits[filt]) for filt in visits]))
-    print("The number of visits per filter are", sum([len(visits[filt]) for filt in visits]))
+    print("The number of visits per filter are:")
     for filt in sorted(visits):
         print(" - %s: %i" % (filt, len(visits[filt])))
-
-    #fits = glob.glob(options.input+'raw/*/*/*/*/*.fz')
-    #if len(fits) == 0:
-    #    raise IOError("No fits file found while lokking for %s/raw/*/*/*/*/*.fz" % options.input)
-    #else:
-    #    print("INFO: %i visists found" % len(fits))
-    #filters = set([f.split('/')[-2] for f in fits])
-    #visits = [f.split('/')[-1].split('p.fits.fz')[0] for f in fits]
-    #f_visits = {f: [v for i, v in enumerate(visits) if '/'+f+'/' in fits[i]]
-    #            for f in filters}
-    #print("INFO: %i filters found" % len(f_visits))
 
     # Do we select CCD based on the astrometric scatter?
     if options.logs is not None:
@@ -176,8 +165,9 @@ if __name__ == "__main__":
             exclude[v.split('=')[1]] = ccds.split('=')[1].split('^')
 
     # Write and save the list, including the ccd selection if needed
+    print("Wrinting visit list in separated files for each filter")        
     for f in visits:
-        vf = "%s.list" % f  # (f if f != 'i2' else 'i')
+        vf = "%s.list" % f
         ff = open(vf, 'w')
         for v in visits[f]:
             if rejected is not None:
