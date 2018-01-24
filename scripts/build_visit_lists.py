@@ -12,6 +12,7 @@ from __future__ import print_function
 import os
 import glob
 from optparse import OptionParser
+import lsst.daf.persistence as dafPersist
 
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
@@ -99,17 +100,44 @@ if __name__ == "__main__":
         options.input += '/'
     if options.idopt not in ['selectId', 'id']:
         raise IOError("Option idopt must be 'selectid' or 'id'")
-    
-    fits = glob.glob(options.input+'raw/*/*/*/*/*.fz')
-    if len(fits) == 0:
-        raise IOError("No fits file found while lokking for %s/raw/*/*/*/*/*.fz" % options.input)
-    else:
-        print("INFO: %i visists found" % len(fits))
-    filters = set([f.split('/')[-2] for f in fits])
-    visits = [f.split('/')[-1].split('p.fits.fz')[0] for f in fits]
-    f_visits = {f: [v for i, v in enumerate(visits) if '/'+f+'/' in fits[i]]
-                for f in filters}
-    print("INFO: %i filters found" % len(f_visits))
+
+    # Load the butler for this input directory
+    butler = dafPersist.Butler(option.input)
+
+    # The catalog we want correspond to the raw data
+    catalog = 'raw'
+
+    # Get all keys available in a dataId dictionary for this catalog
+    keys = butler.getKeys(catalog)
+
+    # Construct fthe dataIds dictionnary for all available data
+    metadata = butler.queryMetadata(catalog, format=sorted(keys.keys()))
+    dataids = [dict(zip(sorted(keys.keys()), list(v) if not isinstance(v, list) else v))
+               for v in metadata]
+
+    # Get the list of available filters
+    filters = set([dataid['filter'] for dataid in dataids])
+
+    # Dictionnary of visits per filter
+    visits = {filt: list(set([dataid['visit'] for dataid in dataids if dataid['filter'] == filt]))
+              for filt in filters}
+
+    # Print some info
+    print("The total number of visits is", sum([len(visits[filt]) for filt in visits]))
+    print("The number of visits per filter are", sum([len(visits[filt]) for filt in visits]))
+    for filt in sorted(visits):
+        print(" - %s: %i" % (filt, len(visits[filt])))
+
+    #fits = glob.glob(options.input+'raw/*/*/*/*/*.fz')
+    #if len(fits) == 0:
+    #    raise IOError("No fits file found while lokking for %s/raw/*/*/*/*/*.fz" % options.input)
+    #else:
+    #    print("INFO: %i visists found" % len(fits))
+    #filters = set([f.split('/')[-2] for f in fits])
+    #visits = [f.split('/')[-1].split('p.fits.fz')[0] for f in fits]
+    #f_visits = {f: [v for i, v in enumerate(visits) if '/'+f+'/' in fits[i]]
+    #            for f in filters}
+    #print("INFO: %i filters found" % len(f_visits))
 
     # Do we select CCD based on the astrometric scatter?
     if options.logs is not None:
@@ -120,7 +148,7 @@ if __name__ == "__main__":
         for v in logs:
             f = logs[v][logs[v].keys()[0]]['filter']
             d[f][v] = logs[v]
-        rejected = {f: {int(v): [] for v in f_visits[f]} for f in filters}
+        rejected = {f: {int(v): [] for v in visits[f]} for f in filters}
         for f in filters:
             for v in sorted(d[f]):
                 for ccd in sorted(d[f][v]):
@@ -141,17 +169,17 @@ if __name__ == "__main__":
         rejected = None
 
     # Do we have an input exlcude list?
-    exclude = {v: [] for f in f_visits for v in f_visits[f]}
+    exclude = {v: [] for f in visits for v in visits[f]}
     if options.exclude is not None:
         el = N.loadtxt(options.exclude, dtype='str', unpack=True)
         for v, ccds in zip(el[0], el[1]):
             exclude[v.split('=')[1]] = ccds.split('=')[1].split('^')
 
     # Write and save the list, including the ccd selection if needed
-    for f in f_visits:
-        vf = "%s.list" % (f if f != 'i2' else 'i')
+    for f in visits:
+        vf = "%s.list" % f  # (f if f != 'i2' else 'i')
         ff = open(vf, 'w')
-        for v in f_visits[f]:
+        for v in visits[f]:
             if rejected is not None:
                 ccd = "^".join(str(i) for i in range(36) if i not in rejected[f][int(v)]
                                and str(i) not in exclude[v])
