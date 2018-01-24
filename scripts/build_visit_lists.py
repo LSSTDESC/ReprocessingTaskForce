@@ -190,4 +190,4 @@ if __name__ == "__main__":
             else:
                 ff.write("--%s visit=%s\n" % (options.idopt, v))
         ff.close()
-        print(" - %s: %i visits -> %s" %(f, len(f_visits[f]), vf))
+        print(" - %s: %i visits -> %s" %(f, len(visits[f]), vf))
