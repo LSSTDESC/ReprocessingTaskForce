@@ -102,7 +102,7 @@ if __name__ == "__main__":
         raise IOError("Option idopt must be 'selectid' or 'id'")
 
     # Load the butler for this input directory
-    butler = dafPersist.Butler(option.input)
+    butler = dafPersist.Butler(options.input)
 
     # The catalog we want correspond to the raw data
     catalog = 'raw'
