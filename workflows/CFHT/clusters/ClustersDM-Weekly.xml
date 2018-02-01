@@ -16,6 +16,7 @@
       <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/CFHT/clusters</var>
       <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/${SCRIPT_LOCATION}</var>
       <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/users/lsstprod/${SCRIPT_LOCATION}</var>
+      <var name="logRoot">/sps/lsst/users/descprod/Pipeline2/Logs"</var>
       <!-- Script names -->
       <var name="SCRIPT_NAME">ClustersWorkflow.py</var>
       <var name="BATCH_NAME">ClustersBatch.sh</var>
