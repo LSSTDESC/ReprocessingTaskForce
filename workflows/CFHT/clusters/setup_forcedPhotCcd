@@ -1,8 +1,8 @@
 mkdir -p ${WORK_DIR}/11-forcedPhotCcd
 cd ${WORK_DIR}/11-forcedPhotCcd
 ln -sfn ${WORK_DIR} pardir
-cp -n $RTF/config/$DM_CONFIG/forcedPhotCcdConfig.py .
-cp -n pardir/02-*/*.list .
+cp $RTF/config/$DM_CONFIG/forcedPhotCcdConfig.py .
+cp pardir/02-*/*.list .
 run_forcedPhotCcd.py -c forcedPhotCcdConfig.py --fromslac -f ${FILTERS}
 for FILT in $(echo ${FILTERS} | tr "," "\n")
 do

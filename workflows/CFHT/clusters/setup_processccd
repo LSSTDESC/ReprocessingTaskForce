@@ -4,7 +4,7 @@ ln -sfn /sps/lsst/datasets/refcats/htm_baseline ref_cats
 # ln -sfn ${WORK_DIR}/input pardir  # removed this line after talking to DM people on slack
 cd ${WORK_DIR}/02-processccd
 ln -sfn ${WORK_DIR} pardir
-cp -n $RTF/config/$DM_CONFIG/processCcdConfig* .
+cp $RTF/config/$DM_CONFIG/processCcdConfig* .
 build_visit_lists.py -i ${WORK_DIR}/input
 processCcd.py pardir/input --output pardir/output --configfile processCcdConfig.py
 run_processCdd.py -c `ls *Config*.py | paste -sd ","` --fromslac -f ${FILTERS}
