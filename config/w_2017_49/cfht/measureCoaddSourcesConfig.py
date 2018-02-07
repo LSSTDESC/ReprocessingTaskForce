@@ -16,9 +16,13 @@ config.measurement.slots.shape = "ext_shapeHSM_HsmSourceMoments"
 
 import lsst.meas.modelfit
 import lsst.shapelet
+import lsst.meas.extensions.convolved # noqa: Load flux.convolved algorithm
 #import lsst.meas.extensions.photometryKron
 #    root.algorithms.names |= ["flux.kron"]
-config.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox", "modelfit_CModel"]
+config.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox",
+                                     "modelfit_CModel",
+                                     "ext_convolved_ConvolvedFlux"]
+config.measurement.plugins["ext_convolved_ConvolvedFlux"].seeing.append(8.0)
 config.measurement.slots.modelFlux = "modelfit_CModel"
 
 config.doApCorr=True

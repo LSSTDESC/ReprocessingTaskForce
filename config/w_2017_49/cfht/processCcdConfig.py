@@ -15,7 +15,10 @@ config.charImage.measurePsf.psfDeterminer.name='psfex'
 
 # Run CModel
 import lsst.meas.modelfit
-config.charImage.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox", "modelfit_CModel"]
+import lsst.meas.extensions.convolved  # noqa: Load flux.convolved algorithm
+config.charImage.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox",
+                                               "modelfit_CModel",
+                                               "ext_convolved_ConvolvedFlux"]
 
 # Run astrometry using the new htm reference catalog format
 # The following retargets are necessary until the new scheme becomes standard
@@ -110,3 +113,10 @@ config.charImage.detection.background.binSize = 128
 config.charImage.detection.background.undersampleStyle='REDUCE_INTERP_ORDER'
 config.charImage.detection.background.binSize = 128
 config.charImage.detection.background.undersampleStyle = 'REDUCE_INTERP_ORDER'
+
+
+# Convolved fluxes can fail for small target seeing if the observation seeing is larger
+if "ext_convolved_ConvolvedFlux" in config.charImage.measurement.plugins:
+    config.charImage.measurement.plugins["ext_convolved_ConvolvedFlux"].seeing.append(8.0)
+    names = config.charImage.measurement.plugins["ext_convolved_ConvolvedFlux"].getAllResultNames()
+    config.charImage.measureApCorr.allowFailure += names
