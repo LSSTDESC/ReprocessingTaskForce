@@ -57,6 +57,10 @@ if __name__ == "__main__":
     for filt in opts.filters:
 
         config = LR.select_config(opts.configs, filt)
+        # Are there visits to load
+        if not os.path.exists(filt+".list"):
+            print("WARNING: No file (no visit) for filter", filt)
+            continue
 
         # Get the list of visits
         visits = [visit.split('=')[1].strip("'")
