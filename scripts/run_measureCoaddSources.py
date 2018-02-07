@@ -36,6 +36,11 @@ if __name__ == "__main__":
 
     for filt in opts.filters:
 
+        # Are there visits to load
+        if not os.path.exists("patches_" + filt + ".txt"):
+            print("WARNING: No file (no visit) for filter", filt)
+            continue
+            
         filePatch = "patches_" + filt + ".txt"
 
         cmd = "split -l " + str(opts.mod) + " -d " + filePatch + " " + filePatch + "_"

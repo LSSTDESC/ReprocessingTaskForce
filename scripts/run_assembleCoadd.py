@@ -36,6 +36,11 @@ if __name__ == "__main__":
 
         config = LR.select_config(opts.configs, filt)
 
+        # Are there visits to load
+        if not os.path.exists("patches_" + filt + ".txt"):
+            print("WARNING: No file (no visit) for filter", filt)
+            continue
+
         # Get the list of patches
         patches = [" ".join(p) for p in N.loadtxt("patches_" + filt + ".txt",
                                                   dtype='bytes').astype('str')]

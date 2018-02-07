@@ -35,6 +35,10 @@ if __name__ == "__main__":
     for filt in opts.filters:
         cmd = ""
         for tract in tracts:
+            # Are there visits to load
+            if not os.path.exists('%s.list' % filt)
+                print("WARNING: No file (no visit) for filter", filt)
+                continue
             lfile = open('%s.list' % filt, 'r')
             lines = lfile.readlines()
             lfile.close()

@@ -28,6 +28,11 @@ if __name__ == "__main__":
 
         config = LR.select_config(opts.configs, filt)
 
+        # Are there visits to load
+        if not os.path.exists("patches_" + filt + ".txt"):
+            print("WARNING: No file (no visit) for filter", filt)
+            continue
+
         # default options
         #opts.input = "pardir/output/jointcal"
         #opts.output = "pardir/output/jointcalcoadd"

@@ -37,6 +37,11 @@ if __name__ == "__main__":
 
         config = LR.select_config(opts.configs, filt)
 
+        # Are there visits to load
+        if not os.path.exists("patches_" + filt + ".txt"):
+            print("WARNING: No file (no visit) for filter", filt)
+            continue
+
         # Build the command line and other things
         cmd = build_cmd("@patches_%s.txt" % filt, config,
                         filt, opts.input, opts.output)
