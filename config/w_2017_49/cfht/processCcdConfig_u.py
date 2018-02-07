@@ -3,8 +3,8 @@ config.isr.doBrighterFatter=False
 
 config.charImage.repair.cosmicray.nCrPixelMax=1000000
 
-# Useul to get to avoid deblending of satellite tracks
-config.calibrate.deblend.maxFootprintSize=2000 # 2200
+# Useful to get to avoid deblending of satellite tracks
+config.calibrate.deblend.maxFootprintSize=2000  # 2200
 
 # Use psfex instead of pca
 import lsst.meas.extensions.psfex.psfexPsfDeterminer
@@ -15,7 +15,10 @@ config.charImage.detection.includeThresholdMultiplier=1.0
 
 # Run CModel
 import lsst.meas.modelfit
-config.charImage.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox", "modelfit_CModel"]
+import lsst.meas.extensions.convolved  # noqa: Load flux.convolved algorithm
+config.charImage.measurement.plugins.names |= ["modelfit_DoubleShapeletPsfApprox",
+                                               "modelfit_CModel",
+                                               "ext_convolved_ConvolvedFlux"]
 
 # Run astrometry using the new htm reference catalog format
 # The following retargets are necessary until the new scheme becomes standard
@@ -43,8 +46,8 @@ config.calibrate.astromRefObjLoader.filterMap = {
     'r':'r',
     'r2':'r',
     'i':'i',
-    'i2':'i',
-    'i3':'i',
+    'i2': 'i',
+    'i3': 'i',
     'z':'z',
     'y':'y',
 }
@@ -110,3 +113,10 @@ config.charImage.detection.background.binSize = 128
 config.charImage.detection.background.undersampleStyle='REDUCE_INTERP_ORDER'
 config.charImage.detection.background.binSize = 128
 config.charImage.detection.background.undersampleStyle = 'REDUCE_INTERP_ORDER'
+
+
+# Convolved fluxes can fail for small target seeing if the observation seeing is larger
+if "ext_convolved_ConvolvedFlux" in config.charImage.measurement.plugins:
+    config.charImage.measurement.plugins["ext_convolved_ConvolvedFlux"].seeing.append(8.0)
+    names = config.charImage.measurement.plugins["ext_convolved_ConvolvedFlux"].getAllResultNames()
+    config.charImage.measureApCorr.allowFailure += names
