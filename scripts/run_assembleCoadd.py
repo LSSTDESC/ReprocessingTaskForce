@@ -4,7 +4,7 @@
 from __future__ import print_function
 import numpy as N
 import libRun as LR
-
+import os
 
 def build_cmd(patches, config, filt, input, output):
     cmd = "assembleCoadd.py %s --output %s " % (input, output) + \

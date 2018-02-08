@@ -2,6 +2,8 @@
 
 import numpy as N
 import libRun as LR
+import os
+
 
 def build_cmd(patches, config, filt):
     cmd = "makeCoaddTempExp.py pardir/output --output pardir/output " + patches + " @" + \

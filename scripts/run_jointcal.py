@@ -11,6 +11,7 @@ Run jointcal.py for a list of visits
 from __future__ import print_function
 import libRun as LR
 import numpy as np
+import os
 
 
 __author__ = 'Nicolas Chotard <nchotard@in2p3.fr>'
