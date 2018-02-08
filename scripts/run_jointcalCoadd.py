@@ -35,8 +35,6 @@ if __name__ == "__main__":
             continue
 
         # default options
-        #opts.input = "pardir/output/jointcal"
-        #opts.output = "pardir/output/jointcalcoadd"
         opts.input = "pardir/output"
         opts.output = "pardir/output"
 
