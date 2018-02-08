@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     # Check the input filter
     for filt in opts.filters:
-        if not os.path.exists('%s.filt' % filt):
+        if not os.path.exists('%s.list' % filt):
             print("WARNING: No data for filter", filt)
             continue
         cmd = "sed -e 's/^/--id filter=%s /' patches.txt > patches_%s.txt" % (filt, filt)
