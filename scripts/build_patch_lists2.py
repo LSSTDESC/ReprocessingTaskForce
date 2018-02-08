@@ -37,7 +37,7 @@ if __name__ == "__main__":
     if not os.path.exists(opts.config):
         raise "WARNING: The given (or default) configuration file does not exists."
 
-    opts.filters = [filt for filt in opts.filters.split(",") if os.path.exists('%s.filt' % filt)]
+    opts.filters = [filt for filt in opts.filters.split(",") if os.path.exists('%s.list' % filt)]
 
     # Create a file containing the list of all visits
     cmd = "cat [%s].list > all.list" % "\|".join(opts.filters)
