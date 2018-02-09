@@ -6,7 +6,7 @@ cp pardir/03-makeSkyMap/patches* .
 run_detectCoaddSources.py -c detectCoaddConfig.py --fromslac -f ${FILTERS}
 
 function join { local IFS="$1"; shift; echo "$*"; }
-filts = $(join , `ls scripts/`)
+filts=$(join , `ls scripts/`)
 pipelineSet FILTERS ${filts}
 
 pipelineSet WORK_DIR ${WORK_DIR}
