@@ -45,6 +45,9 @@ if __name__ == "__main__":
 
     # Loop over filters
     for filt in opts.filters:
+        if not os.path.exists("%s.list" % filt):
+            print("WARNING: No visit for filter %s, skip it" % filt)
+            continue
 
         if not os.path.isdir("scripts/" + filt):
             os.makedirs("scripts/" + filt)
