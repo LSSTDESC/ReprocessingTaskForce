@@ -34,12 +34,12 @@ if __name__ == "__main__":
     tracts = [s.split('=')[1] for s in set(patches[0])]
     # Loop over filters
     for filt in opts.filters:
+        # Are there visits to load
+        if not os.path.exists('%s.list' % filt):
+            print("WARNING: No file (no visit) for filter", filt)
+            continue
         cmd = ""
         for tract in tracts:
-            # Are there visits to load
-            if not os.path.exists('%s.list' % filt):
-                print("WARNING: No file (no visit) for filter", filt)
-                continue
             lfile = open('%s.list' % filt, 'r')
             lines = lfile.readlines()
             lfile.close()
