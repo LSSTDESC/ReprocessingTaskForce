@@ -13,7 +13,7 @@
       <var name="MAXCPULONG">10000</var>
       <var name="BATCH_OPTIONS">-l sps=1,os=cl7,xrootd=0</var>
       <!-- Base directory where script files will be placed -->
-      <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/CFHT/DC2</var>
+      <var name="SCRIPT_LOCATION">ReprocessingTaskForce/workflows/DC2</var>
       <var name="SLAC_SCRIPT_LOCATION">/u/ki/boutigny/ki19/${SCRIPT_LOCATION}</var>
       <var name="IN2P3_SCRIPT_LOCATION">/sps/lsst/users/lsstprod/${SCRIPT_LOCATION}</var>
       <var name="logRoot">/sps/lsst/users/descprod/Pipeline2/Logs</var>
