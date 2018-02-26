@@ -3,4 +3,5 @@ mkdir -p ${IN_DIR}
 # If the output directory does not contain a mapper file, create one
 cp ${RTF}/config/$DM_CONFIG/_mapper ${IN_DIR}/
 # Ready to go!
+export OMP_NUM_THREADS=1
 ingestDriver.py ${IN_DIR} ${VISIT_DIR}/*.fz --cores 8 --mode link --output ${IN_DIR}
