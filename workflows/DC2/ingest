@@ -4,4 +4,4 @@ mkdir -p ${IN_DIR}
 cp ${RTF}/config/$DM_CONFIG/_mapper ${IN_DIR}/
 # Ready to go!
 export OMP_NUM_THREADS=1
-ingestDriver.py ${IN_DIR} ${VISIT_DIR}/*.gz --cores 8 --mode link --output ${IN_DIR}
+ingestDriver.py ${IN_DIR} ${VISIT_DIR}/*.gz --cores 16 --mode link --output ${IN_DIR}
