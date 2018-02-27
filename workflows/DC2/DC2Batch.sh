@@ -7,7 +7,7 @@ source ${LOCAL_CONFIG}
 source ${IN2P3_SCRIPT_LOCATION}/DMsetup.sh
 
 ulimit -c ${CORE_LIMIT:-1000} # Limit core dump
-set -e # exit on error
+# set -e # exit on error
 
 # Set up a unique work directory for this pipeline stream
 stream=$(echo $PIPELINE_STREAMPATH | cut -f1 -d.)
@@ -25,4 +25,5 @@ cd -
 # Launch the script
 export SCRIPT=${IN2P3_SCRIPT_LOCATION}/${PIPELINE_PROCESS:-$1}
 
-set -xe; export SHELLOPTS; source ${SCRIPT}
+# set -xe; export SHELLOPTS;
+source ${SCRIPT}
